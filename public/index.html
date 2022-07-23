@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <script type="text/javascript">
+      window._AMapSecurityConfig = {
+        securityJsCode: '6781e41f143e0a9676f125d76225959d'
+      }
+    </script>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=P7SBZ-GSWKR-M7SW7-WEVPD-V7KIK-U5FSJ"></script>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
