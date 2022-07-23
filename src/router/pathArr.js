@@ -1,1 +1,1 @@
-export default ['/home', '/time', '/video', '/page', '/history', '/error', '/notice', '/user', '/equipment', '/log']
+export default ['/home', '/equipment', '/video', '/electricity', '/door', '/parking', '/energy', '/stairs', '/invasion', '/fire', '/record', '/user', '/authorit']

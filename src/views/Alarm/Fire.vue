@@ -1,15 +1,15 @@
 <template>
-  <div class="time">
+  <div class="error">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>数据中心</el-breadcrumb-item>
-      <el-breadcrumb-item>历史数据</el-breadcrumb-item>
+      <el-breadcrumb-item>报警数据</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row :gutter="16">
       <el-col :span="20">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <div style="width: auto">
+            <div>
               <el-cascader v-model="cascaderValue" size="small " :options="options" :props="{ expandTrigger: 'hover' }"></el-cascader>
               <el-date-picker
                 style="margin: 0 10px"
@@ -26,22 +26,13 @@
               <el-button type="primary" size="mini" icon="el-icon-search">查询</el-button>
               <el-button type="danger" size="mini" icon="el-icon-delete-solid">删除</el-button>
             </div>
-            <div style="width: auto" id="iconBut">
-              <i class="el-icon-s-order iActive" title="表格"></i>
-              <i class="el-icon-s-marketing" title="图表"></i>
-              <i class="el-icon-map-location" title="轨迹"></i>
+            <div>
+              <el-button type="primary" size="mini" icon="el-icon-menu">批量报警处理</el-button>
             </div>
           </div>
-          <div id="box" class="box">
-            <div>
-              <div style="display: block" v-for="o in 4" :key="o" class="text item">
-                {{ '列表内容 ' + o }}
-              </div>
-            </div>
-            <div>图表</div>
-            <div>
-              <map-box :h="500"></map-box>
-            </div>
+
+          <div style="display: block" v-for="o in 4" :key="o" class="text item">
+            {{ '列表内容 ' + o }}
           </div>
         </el-card>
       </el-col>
@@ -54,7 +45,7 @@
 
 <script>
 export default {
-  name: 'BlankElEcBimRealisticHistory',
+  name: 'BlankElEcBimRealisticFire',
 
   data() {
     return {
@@ -362,37 +353,14 @@ export default {
     }
   },
 
-  mounted() {
-    this.init()
-  },
+  mounted() {},
 
-  methods: {
-    init() {
-      const f = document.querySelectorAll('#iconBut>i')
-      const s = document.querySelectorAll('#box>div')
-      this.toggle(f, s)
-    },
-    toggle(f, s) {
-      s[0].style.display = 'block'
-      f.forEach((item, i) => {
-        item.addEventListener('click', () => {
-          f.forEach((items) => {
-            items.classList.remove('iActive')
-          })
-          s.forEach((items) => {
-            items.style.display = 'none'
-          })
-          item.classList.add('iActive')
-          s[i].style.display = 'block'
-        })
-      })
-    }
-  }
+  methods: {}
 }
 </script>
 
 <style lang="less" scoped>
-.time {
+.error {
   width: 100%;
   height: 100%;
 }
@@ -412,37 +380,9 @@ export default {
   font-size: 14px !important;
   font-family: '微软雅黑' !important;
 }
-/deep/.el-card__body{
-  height: 88% !important;
-}
 .clearfix {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  div:nth-of-type(2) {
-    i {
-      cursor: pointer;
-      font-size: 20px;
-      color: #999;
-      border: 1px solid #bbb;
-      &:nth-of-type(2) {
-        margin: 0 3px;
-      }
-    }
-  }
-}
-.iActive {
-  color: #9df3c4 !important;
-  border-color: #9df3c4 !important;
-}
-
-.box {
-  width: 100%;
-  height: 100%;
-  & > div {
-    width: 100%;
-    height: 100%;
-    display: none;
-  }
 }
 </style>

@@ -1,0 +1,212 @@
+{
+  "id": "3541661",
+  "name": "life",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "507908",
+      "name": "设备管理",
+      "font_class": "shebeiguanli",
+      "unicode": "e7d5",
+      "unicode_decimal": 59349
+    },
+    {
+      "icon_id": "1210570",
+      "name": "设备管理",
+      "font_class": "shebeiguanli1",
+      "unicode": "e684",
+      "unicode_decimal": 59012
+    },
+    {
+      "icon_id": "2269862",
+      "name": "设备管理",
+      "font_class": "shebeiguanli2",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "6211110",
+      "name": "1-6设备",
+      "font_class": "-shebei",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "8225386",
+      "name": "系统权限",
+      "font_class": "xitongquanxian",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "8802668",
+      "name": "权限",
+      "font_class": "quanxian",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "11760381",
+      "name": "特殊事件报警_fill",
+      "font_class": "special-event-alarm_fill",
+      "unicode": "e72c",
+      "unicode_decimal": 59180
+    },
+    {
+      "icon_id": "11761168",
+      "name": "风险报警_fill",
+      "font_class": "risk-alarm_fill",
+      "unicode": "e72e",
+      "unicode_decimal": 59182
+    },
+    {
+      "icon_id": "18164959",
+      "name": "报警,警报,报警灯,危险",
+      "font_class": "alarm-full",
+      "unicode": "e871",
+      "unicode_decimal": 59505
+    },
+    {
+      "icon_id": "18310444",
+      "name": "报警",
+      "font_class": "baojing01",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "905537",
+      "name": "云智能",
+      "font_class": "yunzhineng",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "1410705",
+      "name": "18停车场",
+      "font_class": "tingchechang",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "2459186",
+      "name": "火灾监测",
+      "font_class": "fire-monitoring",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "4813175",
+      "name": "主机入侵防御",
+      "font_class": "zhujiruqinfangyu",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "4813181",
+      "name": "主机入侵",
+      "font_class": "zhujiruqin",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "7045020",
+      "name": "电梯",
+      "font_class": "dianti",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "8039600",
+      "name": "电",
+      "font_class": "dian",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "8206781",
+      "name": "能源应用中心",
+      "font_class": "nyyyzx",
+      "unicode": "e762",
+      "unicode_decimal": 59234
+    },
+    {
+      "icon_id": "11372772",
+      "name": "闪电",
+      "font_class": "shandian",
+      "unicode": "e8c5",
+      "unicode_decimal": 59589
+    },
+    {
+      "icon_id": "11761260",
+      "name": "智能楼宇",
+      "font_class": "zhinenglouyu",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "19585498",
+      "name": "视频监控",
+      "font_class": "shipinjiankong",
+      "unicode": "e99d",
+      "unicode_decimal": 59805
+    },
+    {
+      "icon_id": "19640748",
+      "name": "火灾报警",
+      "font_class": "huozaibaojing",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "21053657",
+      "name": "门禁读卡器",
+      "font_class": "menjindukaqi",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    },
+    {
+      "icon_id": "21053662",
+      "name": "门禁",
+      "font_class": "menjin",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    },
+    {
+      "icon_id": "21053666",
+      "name": "入侵系统",
+      "font_class": "ruqinxitong",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "22129985",
+      "name": "绿色能源",
+      "font_class": "zu2557",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "22130029",
+      "name": "再生能源",
+      "font_class": "zu2327",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "23474455",
+      "name": "停车场",
+      "font_class": "a-ziyuan14",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "25225403",
+      "name": "楼宇",
+      "font_class": "louyu",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    }
+  ]
+}

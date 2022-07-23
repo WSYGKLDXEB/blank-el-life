@@ -24,22 +24,22 @@
             :default-active="$route.path"
             :collapse="ifFold"
             class="el-menu-vertical-demo"
-            background-color="#fff"
+            background-color="var(--color-default)"
             text-color="#333"
-            active-text-color="#62d2a2"
+            active-text-color="var(--color-theme)"
           >
-            <el-menu-item :index="asideData[0].path">
-              <i :class="'el-icon-' + asideData[0].icon"></i>
-              <span>{{ asideData[0].label }}</span>
+            <el-menu-item :index="item.path" v-for="(item, i) in levelNav(1)" :key="i">
+              <i :class="item.icon"></i>
+              <span>{{ item.label }}</span>
             </el-menu-item>
-            <el-submenu :index="item.name" v-show="i !== 0" v-for="(item, i) in asideData" :key="i">
+            <el-submenu :index="item.name" v-for="(item, i) in levelNav(2)" :key="i">
               <template slot="title">
-                <i :class="'el-icon-' + item.icon"></i>
+                <i :class="[item.icon]"></i>
                 <span>{{ item.label }}</span>
               </template>
               <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="subItem.path">
                 <template slot="title">
-                  <i class="el-icon-arrow-right"></i>
+                  <i :class="subItem.icon"></i>
                   <span>{{ subItem.label }}</span>
                 </template>
               </el-menu-item>
@@ -67,82 +67,99 @@ export default {
           path: '/home',
           name: 'home',
           label: '首页',
-          icon: 's-home'
+          icon: 'el-icon-s-home'
         },
         {
-          path: '/monitor',
-          name: 'monitor',
-          label: '在线监控',
-          icon: 'video-camera',
+          name: 'Building',
+          label: '楼宇智控',
+          icon: 'iconfont icon-louyu',
           children: [
             {
-              path: '/time',
-              name: 'time',
-              label: '实时数据',
-              icon: 'help'
+              path: '/equipment',
+              name: 'equipment',
+              label: '设备平面',
+              icon: 'iconfont icon-shebeiguanli2'
             },
             {
               path: '/video',
               name: 'video',
               label: '视频监控',
-              icon: 'help'
+              icon: 'iconfont icon-shipinjiankong'
             },
             {
-              path: '/page',
-              name: 'page',
-              label: '继电器控制',
-              icon: 'help'
+              path: '/electricity',
+              name: 'electricity',
+              label: '高压配电',
+              icon: 'iconfont icon-dian'
+            },
+            {
+              path: '/door',
+              name: 'door',
+              label: '门禁管理',
+              icon: 'iconfont icon-menjin'
+            },
+            {
+              path: '/energy',
+              name: 'energy',
+              label: '能源管理',
+              icon: 'iconfont icon-zu2327'
+            },
+
+            {
+              path: '/stairs',
+              name: 'stairs',
+              label: '梯控管理',
+              icon: 'iconfont icon-dianti'
+            },
+            {
+              path: '/parking',
+              name: 'parking',
+              label: '停车管理',
+              icon: 'iconfont icon-tingchechang'
             }
           ]
         },
         {
-          path: '/data',
-          name: 'data',
-          label: '数据中心',
-          icon: 's-data',
+          name: 'alarm',
+          label: '报警中心',
+          icon: 'iconfont icon-risk-alarm_fill',
           children: [
             {
-              path: '/history',
-              name: 'history',
-              label: '历史数据',
-              icon: 's-order'
+              path: '/record',
+              name: 'record',
+              label: '报警记录',
+              icon: 'el-icon-s-data'
             },
             {
-              path: '/error',
-              name: 'error',
-              label: '报警数据',
-              icon: 'error'
+              path: '/invasion',
+              name: 'invasion',
+              label: '入侵报警',
+              icon: 'iconfont icon-zhujiruqin'
             },
             {
-              path: '/notice',
-              name: 'notice',
-              label: '通知记录',
-              icon: 'warning'
+              path: '/fire',
+              name: 'fire',
+              label: '火灾报警',
+              icon: 'iconfont icon-fire-monitoring'
             }
           ]
         },
         {
           label: '系统管理',
           name: 'tools',
-          icon: 's-tools',
+          icon: 'el-icon-s-tools',
           children: [
             {
               path: '/user',
               name: 'user',
-              label: '账号管理',
-              icon: 'help'
+              label: '用户管理',
+              icon: 'el-icon-user-solid'
             },
             {
-              path: '/equipment',
-              name: 'equipment',
-              label: '设备管理',
-              icon: 'help'
-            },
-            {
-              path: '/log',
-              name: 'log',
-              label: '日志',
-              icon: 'help'
+              path: '/authorit',
+              name: 'authorit',
+              label: '权限分配',
+              icon: 'iconfont icon-xitongquanxian'
             }
           ]
         }
@@ -150,9 +167,23 @@ export default {
       ifFold: false
     }
   },
-
-  mounted() {},
-
+  mounted() {
+    console.log(this.levelNav(2))
+  },
+  computed: {
+    // 获取层级菜单项
+    levelNav() {
+      return (i) => {
+        let j
+        if (i === 1) {
+          j = this.asideData.filter((item) => !item.children)
+        } else if (i === 2) {
+          j = this.asideData.filter((item) => item.children)
+        }
+        return j
+      }
+    }
+  },
   methods: {
     setFold() {
       this.ifFold = !this.ifFold
@@ -205,7 +236,7 @@ export default {
   width: 14px;
   height: 50px;
   line-height: 50px;
-  background-color: #9df3c4;
+  background-color: var(--theme);
   border-radius: 0 6px 6px 0;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.15);
   transition: all 0.1s;
@@ -235,32 +266,32 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #9df3c4;
+  background-color: var(--theme);
 }
 .el-menu {
   border-right: none;
   height: 100%;
 }
 /deep/.is-active {
-  // border-left: 2px solid #62d2a2;
+  // border-left: 2px solid var(--color-theme);
   & > div {
     padding-left: 18px !important;
-    border-left: 2px solid #62d2a2;
+    border-left: 2px solid var(--color-theme);
     i:first-of-type {
-      color: #62d2a2 !important;
+      color: var(--color-theme) !important;
     }
     span {
-      color: #62d2a2 !important;
+      color: var(--color-theme) !important;
     }
   }
 }
 // /deep/.el-menu-item .is-active {
 //   padding-left: 18px !important;
-//   border-left: 2px solid #62d2a2;
+//   border-left: 2px solid var(--color-theme);
 // }
 /deep/.is-opened li:hover {
   padding-left: 38px !important;
-  border-left: #9df3c4 2px solid !important;
+  border-left: var(--theme) 2px solid !important;
   transition: all 0.3s;
 }
 
@@ -272,7 +303,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   h1 {
-    color: #fff;
+    color: var(--color-default);
     opacity: 0.6;
     font-family: '宋体';
   }

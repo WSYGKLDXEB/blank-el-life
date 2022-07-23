@@ -1,17 +1,17 @@
 <template>
-  <div class="logo">
+  <div class="login">
     <el-card class="box-card">
-      <el-form ref="logoForm" :model="logoData" :rules="rules" label-width="54px">
+      <el-form ref="loginForm" :model="loginData" :rules="rules" label-width="54px">
         <el-form-item label="用户" size="small " prop="user">
-          <el-input clearable type="text" v-model.trim="logoData.user"></el-input>
+          <el-input clearable type="text" v-model.trim="loginData.user" @keyup.enter.native="$refs.pass.focus"></el-input>
         </el-form-item>
         <el-form-item label="密码" size="small " prop="paw">
-          <el-input clearable show-password type="password" v-model.trim="logoData.paw"></el-input>
+          <el-input clearable show-password type="password" ref="pass" v-model.trim="loginData.paw" @keyup.enter.native="$refs.ver.focus"></el-input>
         </el-form-item>
         <el-form-item label="验证码" size="small " prop="verify">
           <el-row type="flex" justify="space-between" align="middle">
             <el-col :span="10">
-              <el-input clearable type="text" v-model.trim="logoData.verify" @keyup.enter="logo"></el-input>
+              <el-input clearable ref="ver" type="text" v-model.trim="loginData.verify" @keyup.enter.native="login"></el-input>
             </el-col>
             <el-col :span="12">
               <el-tooltip class="item" :enterable="false" effect="dark" content="点击刷新" placement="bottom">
@@ -21,8 +21,8 @@
           </el-row>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="logo">登录</el-button>
-          <el-button type="info" size="small " @click="$refs.logoForm.resetFields()">重置</el-button>
+          <el-button type="primary" size="small" @click="login">登录</el-button>
+          <el-button type="info" size="small " @click="$refs.loginForm.resetFields()">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -31,12 +31,12 @@
 
 <script>
 export default {
-  name: 'BlankElEcBimRealisticLogo',
+  name: 'BlankElEcBimRealisticlogin',
 
   data() {
     return {
       verify: '123',
-      logoData: {
+      loginData: {
         user: '',
         paw: '',
         verify: ''
@@ -139,22 +139,22 @@ export default {
       console.log(yz)
     },
     // 登录
-    logo() {
-      this.$refs.logoForm.validate((valid) => {
+    login() {
+      this.$refs.loginForm.validate((valid) => {
         console.log(valid)
         if (!valid) return
-        console.log(this.logoData)
-        if (this.logoData.verify.toLowerCase() === this.verify.toLowerCase()) {
-          if (this.logoData.user === 'blank' && this.logoData.paw === '666666') {
+        console.log(this.loginData)
+        if (this.loginData.verify.toLowerCase() === this.verify.toLowerCase()) {
+          if (this.loginData.user === 'blank' && this.loginData.paw === '666666') {
             sessionStorage.setItem('token', 'XXX-XXXX-XXXX')
             this.$router.push('/layout')
           } else {
-            this.$refs.logoForm.resetFields()
+            this.$refs.loginForm.resetFields()
             return this.$message.error('用户或者密码错误！')
           }
         } else {
           this.verifyChange()
-          this.logoData.verify = ''
+          this.loginData.verify = ''
           return this.$message.error('验证码错误！')
         }
       })
@@ -174,7 +174,7 @@ export default {
   // height: 100vh;
   // z-index: -1;
 }
-.logo {
+.login {
   position: relative;
   width: 100vw;
   height: 100vh;

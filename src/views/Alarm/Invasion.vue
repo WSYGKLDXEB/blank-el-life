@@ -1,34 +1,47 @@
 <template>
-  <div class="notice">
+  <div class="time">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>数据中心</el-breadcrumb-item>
-      <el-breadcrumb-item>通知记录</el-breadcrumb-item>
+      <el-breadcrumb-item>历史数据</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row :gutter="16">
       <el-col :span="20">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <el-cascader style="margin-right: 10px" v-model="cascaderValue" size="small " :options="options" :props="{ expandTrigger: 'hover' }"></el-cascader>
-            <el-cascader v-model="cascaderValue1" size="small " :options="options1" :props="{ expandTrigger: 'hover' }"></el-cascader>
-            <el-date-picker
-              style="margin: 0 10px"
-              v-model="datePickerValue"
-              size="small"
-              type="datetimerange"
-              :picker-options="pickerOptions"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              align="right"
-            >
-            </el-date-picker>
-            <el-button type="primary" size="mini" icon="el-icon-search">查询</el-button>
-            <el-button type="danger" size="mini" icon="el-icon-delete-solid">删除</el-button>
+            <div style="width: auto">
+              <el-cascader v-model="cascaderValue" size="small " :options="options" :props="{ expandTrigger: 'hover' }"></el-cascader>
+              <el-date-picker
+                style="margin: 0 10px"
+                v-model="datePickerValue"
+                size="small"
+                type="datetimerange"
+                :picker-options="pickerOptions"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                align="right"
+              >
+              </el-date-picker>
+              <el-button type="primary" size="mini" icon="el-icon-search">查询</el-button>
+              <el-button type="danger" size="mini" icon="el-icon-delete-solid">删除</el-button>
+            </div>
+            <div style="width: auto" id="iconBut">
+              <i class="el-icon-s-order iActive" title="表格"></i>
+              <i class="el-icon-s-marketing" title="图表"></i>
+              <i class="el-icon-map-location" title="轨迹"></i>
+            </div>
           </div>
-
-          <div style="display: block" v-for="o in 4" :key="o" class="text item">
-            {{ '列表内容 ' + o }}
+          <div id="box" class="box">
+            <div>
+              <div style="display: block" v-for="o in 4" :key="o" class="text item">
+                {{ '列表内容 ' + o }}
+              </div>
+            </div>
+            <div>图表</div>
+            <div>
+              <map-box :h="500"></map-box>
+            </div>
           </div>
         </el-card>
       </el-col>
@@ -41,7 +54,7 @@
 
 <script>
 export default {
-  name: 'BlankElEcBimRealisticNotice',
+  name: 'BlankElEcBimRealisticInvasion',
 
   data() {
     return {
@@ -344,42 +357,42 @@ export default {
           ]
         }
       ],
-      options1: [
-        {
-          value: 'quanbu',
-          label: '全部'
-        },
-        {
-          value: 'duanxin',
-          label: '短信通知'
-        },
-        {
-          value: 'yuyin',
-          label: '语音通知'
-        },
-        {
-          value: 'youjian',
-          label: '邮件通知'
-        },
-        {
-          value: 'weixin',
-          label: '微信通知'
-        }
-      ],
       datePickerValue: '',
-      cascaderValue: '',
-      cascaderValue1: 'quanbu'
+      cascaderValue: ''
     }
   },
 
-  mounted() {},
+  mounted() {
+    this.init()
+  },
 
-  methods: {}
+  methods: {
+    init() {
+      const f = document.querySelectorAll('#iconBut>i')
+      const s = document.querySelectorAll('#box>div')
+      this.toggle(f, s)
+    },
+    toggle(f, s) {
+      s[0].style.display = 'block'
+      f.forEach((item, i) => {
+        item.addEventListener('click', () => {
+          f.forEach((items) => {
+            items.classList.remove('iActive')
+          })
+          s.forEach((items) => {
+            items.style.display = 'none'
+          })
+          item.classList.add('iActive')
+          s[i].style.display = 'block'
+        })
+      })
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
-.notice {
+.time {
   width: 100%;
   height: 100%;
 }
@@ -398,5 +411,38 @@ export default {
   color: #666 !important;
   font-size: 14px !important;
   font-family: '微软雅黑' !important;
+}
+/deep/.el-card__body{
+  height: 88% !important;
+}
+.clearfix {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  div:nth-of-type(2) {
+    i {
+      cursor: pointer;
+      font-size: 20px;
+      color: #999;
+      border: 1px solid #bbb;
+      &:nth-of-type(2) {
+        margin: 0 3px;
+      }
+    }
+  }
+}
+.iActive {
+  color: #9df3c4 !important;
+  border-color: #9df3c4 !important;
+}
+
+.box {
+  width: 100%;
+  height: 100%;
+  & > div {
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
 }
 </style>

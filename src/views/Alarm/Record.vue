@@ -1,34 +1,30 @@
 <template>
-  <div class="error">
+  <div class="notice">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>数据中心</el-breadcrumb-item>
-      <el-breadcrumb-item>报警数据</el-breadcrumb-item>
+      <el-breadcrumb-item>通知记录</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row :gutter="16">
       <el-col :span="20">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <div>
-              <el-cascader v-model="cascaderValue" size="small " :options="options" :props="{ expandTrigger: 'hover' }"></el-cascader>
-              <el-date-picker
-                style="margin: 0 10px"
-                v-model="datePickerValue"
-                size="small"
-                type="datetimerange"
-                :picker-options="pickerOptions"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                align="right"
-              >
-              </el-date-picker>
-              <el-button type="primary" size="mini" icon="el-icon-search">查询</el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete-solid">删除</el-button>
-            </div>
-            <div>
-              <el-button type="primary" size="mini" icon="el-icon-menu">批量报警处理</el-button>
-            </div>
+            <el-cascader style="margin-right: 10px" v-model="cascaderValue" size="small " :options="options" :props="{ expandTrigger: 'hover' }"></el-cascader>
+            <el-cascader v-model="cascaderValue1" size="small " :options="options1" :props="{ expandTrigger: 'hover' }"></el-cascader>
+            <el-date-picker
+              style="margin: 0 10px"
+              v-model="datePickerValue"
+              size="small"
+              type="datetimerange"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+            >
+            </el-date-picker>
+            <el-button type="primary" size="mini" icon="el-icon-search">查询</el-button>
+            <el-button type="danger" size="mini" icon="el-icon-delete-solid">删除</el-button>
           </div>
 
           <div style="display: block" v-for="o in 4" :key="o" class="text item">
@@ -45,7 +41,7 @@
 
 <script>
 export default {
-  name: 'BlankElEcBimRealisticError',
+  name: 'BlankElEcBimRealisticRecord',
 
   data() {
     return {
@@ -348,8 +344,31 @@ export default {
           ]
         }
       ],
+      options1: [
+        {
+          value: 'quanbu',
+          label: '全部'
+        },
+        {
+          value: 'duanxin',
+          label: '短信通知'
+        },
+        {
+          value: 'yuyin',
+          label: '语音通知'
+        },
+        {
+          value: 'youjian',
+          label: '邮件通知'
+        },
+        {
+          value: 'weixin',
+          label: '微信通知'
+        }
+      ],
       datePickerValue: '',
-      cascaderValue: ''
+      cascaderValue: '',
+      cascaderValue1: 'quanbu'
     }
   },
 
@@ -360,7 +379,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.error {
+.notice {
   width: 100%;
   height: 100%;
 }
@@ -379,10 +398,5 @@ export default {
   color: #666 !important;
   font-size: 14px !important;
   font-family: '微软雅黑' !important;
-}
-.clearfix {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 </style>

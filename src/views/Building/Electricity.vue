@@ -1,22 +1,22 @@
 <template>
-  <div class="page">
+  <div class="time">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>在线监控</el-breadcrumb-item>
-      <el-breadcrumb-item>继电器控制</el-breadcrumb-item>
+      <el-breadcrumb-item>实时数据</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row :gutter="16">
       <el-col :span="20">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <el-button type="primary" size="mini" icon="el-icon-plus">添加继电器</el-button>
-            <el-button type="primary" size="mini" icon="el-icon-s-grid">批量添加继电器</el-button>
-            <el-button type="primary" size="mini" icon="el-icon-s-operation">批量控制继电器</el-button>
-            <el-button type="danger" size="mini" icon="el-icon-delete-solid">删除</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-s-data">全部</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-s-grid">折叠</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-menu">展开</el-button>
+            <el-button type="danger" size="mini" icon="el-icon-delete-solid">清空</el-button>
 
             <el-input size="small" placeholder="请输入内容" v-model="input3" class="input-with-select" style="width: 200px; margin-left: 10px">
-              <template slot="append">
-                <el-button size="mini" type="primary" icon="el-icon-search"></el-button>
+              <template slot="append" >
+                <el-button size="mini" type="primary" icon="el-icon-search" ></el-button>
               </template>
             </el-input>
           </div>
@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: 'BlankElEcBimRealisticPage',
+  name: 'BlankElEcBimRealisticElectricity',
 
   data() {
     return {}
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.page {
+.time {
   width: 100%;
   height: 100%;
 }

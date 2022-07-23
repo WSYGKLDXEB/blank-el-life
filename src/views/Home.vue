@@ -79,7 +79,7 @@
       <div v-for="o in 8" :key="o" class="">
         <!-- 搜索 -->
         <i class="el-icon-search"></i>
-        <i class="el-icon-s-marketing"></i>
+        <i class="iconfont icon--shebei" style='margin-left:0'></i>
         <p>
           <span>温度-{{ o }}</span>
           <span>离线</span>
@@ -180,7 +180,7 @@ export default {
   }
 }
 .el-row {
-  color: #fff;
+  color: var(--color-default);
 
   width: 100%;
   .el-col {
@@ -330,7 +330,7 @@ export default {
           text-align: center;
           flex: 2;
           background-color: #a3a6a4;
-          color: #fff;
+          color: var(--color-default);
           font-size: 40px;
         }
       }

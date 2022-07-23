@@ -19,15 +19,18 @@ const routes = [
     redirect: '/home',
     children: [
       { path: '/home', component: () => import('@/views/Home.vue') },
-      { path: '/time', component: () => import('@/views/Monitor/Time.vue') },
-      { path: '/video', component: () => import('@/views/Monitor/Video.vue') },
-      { path: '/page', component: () => import('@/views/Monitor/Page.vue') },
-      { path: '/history', component: () => import('@/views/Datas/History.vue') },
-      { path: '/error', component: () => import('@/views/Datas/Error.vue') },
-      { path: '/notice', component: () => import('@/views/Datas/Notice.vue') },
+      { path: '/equipment', component: () => import('@/views/Building/Equipment.vue') },
+      { path: '/video', component: () => import('@/views/Building/Video.vue') },
+      { path: '/electricity', component: () => import('@/views/Building/Electricity.vue') },
+      { path: '/door', component: () => import('@/views/Building/Door.vue') },
+      { path: '/parking', component: () => import('@/views/Building/Parking.vue') },
+      { path: '/energy', component: () => import('@/views/Building/Energy.vue') },
+      { path: '/stairs', component: () => import('@/views/Building/Stairs.vue') },
+      { path: '/invasion', component: () => import('@/views/Alarm/Invasion.vue') },
+      { path: '/fire', component: () => import('@/views/Alarm/Fire.vue') },
+      { path: '/record', component: () => import('@/views/Alarm/Record.vue') },
       { path: '/user', component: () => import('@/views/Tool/User.vue') },
-      { path: '/equipment', component: () => import('@/views/Tool/Equipment.vue') },
-      { path: '/log', component: () => import('@/views/Tool/Log.vue') }
+      { path: '/authorit', component: () => import('@/views/Tool/Authorit.vue') }
     ]
   }
 ]

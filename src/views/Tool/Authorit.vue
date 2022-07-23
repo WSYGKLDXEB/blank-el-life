@@ -52,7 +52,7 @@
 
 <script>
 export default {
-  name: 'BlankElEcBimRealisticEquipment',
+  name: 'BlankElEcBimRealisticAuthorit',
 
   data() {
     return {

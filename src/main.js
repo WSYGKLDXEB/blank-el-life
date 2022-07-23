@@ -8,7 +8,8 @@ import './plugins/element.js'
 // 引入全局初始化文件
 import 'normalize.css'
 import '@/assets/style/global.less'
-
+// 字体样式
+import '@/assets/style/iconfont.css'
 // 全局注册
 import TreeList from '@/components/TreeList.vue'
 import Map from '@/components/Map.vue'
