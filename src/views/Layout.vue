@@ -24,7 +24,7 @@
             :default-active="$route.path"
             :collapse="ifFold"
             class="el-menu-vertical-demo"
-            background-color="var(--color-default)"
+            background-color="var(--bgc-default)"
             text-color="#333"
             active-text-color="var(--color-theme)"
           >
@@ -80,23 +80,12 @@ export default {
               label: '设备平面',
               icon: 'iconfont icon-shebeiguanli2'
             },
-            {
-              path: '/video',
-              name: 'video',
-              label: '视频监控',
-              icon: 'iconfont icon-shipinjiankong'
-            },
+
             {
               path: '/electricity',
               name: 'electricity',
               label: '高压配电',
               icon: 'iconfont icon-dian'
-            },
-            {
-              path: '/door',
-              name: 'door',
-              label: '门禁管理',
-              icon: 'iconfont icon-menjin'
             },
             {
               path: '/energy',
@@ -110,25 +99,31 @@ export default {
               name: 'stairs',
               label: '梯控管理',
               icon: 'iconfont icon-dianti'
-            },
-            {
-              path: '/parking',
-              name: 'parking',
-              label: '停车管理',
-              icon: 'iconfont icon-tingchechang'
             }
           ]
         },
         {
-          name: 'alarm',
-          label: '报警中心',
-          icon: 'iconfont icon-risk-alarm_fill',
+          name: 'Safety',
+          label: '安全中心',
+          icon: 'iconfont icon-anquan',
           children: [
             {
               path: '/record',
               name: 'record',
               label: '报警记录',
               icon: 'el-icon-s-data'
+            },
+            {
+              path: '/video',
+              name: 'video',
+              label: '视频监控',
+              icon: 'iconfont icon-shipinjiankong'
+            },
+            {
+              path: '/door',
+              name: 'door',
+              label: '门禁管理',
+              icon: 'iconfont icon-menjin'
             },
             {
               path: '/invasion',
@@ -141,6 +136,12 @@ export default {
               name: 'fire',
               label: '火灾报警',
               icon: 'iconfont icon-fire-monitoring'
+            },
+            {
+              path: '/parking',
+              name: 'parking',
+              label: '停车管理',
+              icon: 'iconfont icon-tingchechang'
             }
           ]
         },
@@ -271,6 +272,11 @@ export default {
 .el-menu {
   border-right: none;
   height: 100%;
+  overflow: auto !important;
+  // 解决隐藏滚动条无法滚动的问题
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 /deep/.is-active {
   // border-left: 2px solid var(--color-theme);

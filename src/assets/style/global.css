@@ -1,18 +1,25 @@
 :root {
-  --theme: #9df3c4;
+  --theme: rgba(39, 110, 70, 0.8);
   --secondary: #ccc;
-  --color-theme: #62d2a2;
+  --color-theme: rgba(29, 107, 73, 0.8);
   --color-default: #fff;
+  --bgc-theme: #eff2f9;
+  --bgc-default: #fff;
 }
 .el-breadcrumb {
   margin-bottom: 15px;
   font-size: 12px;
 }
 .el-card {
+  background-color: var(--bgc-default);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15) !important;
 }
+.el-card .el-card__body {
+  height: 100%;
+  box-sizing: border-box;
+}
 .el-cascader-panel {
-  max-height: 200px ;
+  max-height: 200px;
 }
 .el-step {
   margin: 15px 0;

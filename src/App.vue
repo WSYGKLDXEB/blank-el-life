@@ -6,14 +6,17 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  mounted() {
+    document.title = '中国人寿'
+  }
 }
 </script>
 
 <style lang="less">
 #app {
   min-width: 1200px;
-  background-color: #eff2f9;
+  background-color: var(--bgc-theme);
   // 隐藏滚动条
   overflow: auto !important;
   // overflow-y: auto;

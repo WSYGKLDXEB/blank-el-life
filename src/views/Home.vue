@@ -5,7 +5,7 @@
     </el-breadcrumb>
     <el-row type="flex" justify="space-between" align="middle" class="content_row1">
       <el-col>
-        <i class="el-icon-s-tools"></i>
+        <i class="iconfont icon--shebei"></i>
         <div>
           <p>设备总数</p>
           <p>12</p>
@@ -26,7 +26,7 @@
         </div></el-col
       >
       <el-col
-        ><i class="el-icon-s-release"></i>
+        ><i class="iconfont icon-lixian1"></i>
         <div>
           <p>离线设备</p>
           <p>11</p>
@@ -35,12 +35,6 @@
     </el-row>
     <el-row type="flex" justify="space-between" align="middle" class="content_row2" ref="content_row2">
       <el-col>
-        <!-- <el-card class="box-card">
-          <div slot="header" class="header">
-            <span>设备列表</span>
-          </div>
-          <el-tree icon-class="el-icon-folder" :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-        </el-card> -->
         <tree-list title="设备列表"></tree-list>
       </el-col>
       <el-col style="padding: 0 10px">
@@ -79,7 +73,7 @@
       <div v-for="o in 8" :key="o" class="">
         <!-- 搜索 -->
         <i class="el-icon-search"></i>
-        <i class="iconfont icon--shebei" style='margin-left:0'></i>
+        <i class="iconfont icon--shebei" style="margin-left: 0"></i>
         <p>
           <span>温度-{{ o }}</span>
           <span>离线</span>

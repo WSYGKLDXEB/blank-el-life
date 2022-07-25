@@ -32,7 +32,8 @@ import {
   Cascader,
   Table,
   TableColumn,
-  Pagination
+  Pagination,
+  Slider
 } from 'element-ui'
 
 Vue.use(Button)
@@ -65,6 +66,7 @@ Vue.use(Cascader)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
+Vue.use(Slider)
 Vue.use(tooltip)
 // Vue.use(Message)
 

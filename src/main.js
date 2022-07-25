@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
+import * as echarts from 'echarts'
 import './plugins/element.js'
 // import './assets/style/blank-px.css'
 
@@ -18,7 +19,7 @@ import Map from '@/components/Map.vue'
 Vue.component('TreeList', TreeList)
 Vue.component('MapBox', Map)
 Vue.config.productionTip = false
-
+Vue.prototype.$echarts = echarts
 new Vue({
   store,
   router,
