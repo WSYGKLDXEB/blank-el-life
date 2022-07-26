@@ -33,7 +33,10 @@ import {
   Table,
   TableColumn,
   Pagination,
-  Slider
+  Slider,
+  Empty,
+  Dialog,
+  Notification
 } from 'element-ui'
 
 Vue.use(Button)
@@ -67,9 +70,13 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
 Vue.use(Slider)
+Vue.use(Empty)
+Vue.use(Dialog)
 Vue.use(tooltip)
 // Vue.use(Message)
 
 Vue.prototype.$message = Message
 // 确认框
 Vue.prototype.$confirm = MessageBox.confirm
+
+Vue.prototype.$notify = Notification

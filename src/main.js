@@ -3,6 +3,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import * as echarts from 'echarts'
+import 'echarts-liquidfill'
 import './plugins/element.js'
 // import './assets/style/blank-px.css'
 

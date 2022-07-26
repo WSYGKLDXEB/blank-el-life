@@ -240,6 +240,9 @@ export default {
   height: 45%;
   min-height: 300px;
   .el-col {
+    /deep/.el-card__body {
+      height: 90%;
+    }
     &:nth-of-type(1) {
       flex: 3;
       min-width: 170px;
@@ -292,6 +295,7 @@ export default {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    height: 90%;
     // width: 100%;
     // height: 100%;
     div {

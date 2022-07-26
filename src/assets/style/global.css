@@ -6,15 +6,27 @@
   --bgc-theme: #eff2f9;
   --bgc-default: #fff;
 }
+/* 声明字体*/
+@font-face {
+  font-family: electronicFont;
+  src: url(../font/DS-DIGIT.TTF);
+}
 .el-breadcrumb {
   margin-bottom: 15px;
   font-size: 12px;
+}
+.el-pagination {
+  margin-top: 15px;
 }
 .el-card {
   background-color: var(--bgc-default);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15) !important;
 }
+.el-card .el-card__header {
+  padding: 10px 20px !important;
+}
 .el-card .el-card__body {
+  position: relative;
   height: 100%;
   box-sizing: border-box;
 }
@@ -32,4 +44,11 @@
 }
 .ql-editor {
   min-height: 300px;
+}
+.hidden {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.hidden::-webkit-scrollbar {
+  display: none;
 }

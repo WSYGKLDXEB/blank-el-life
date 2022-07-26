@@ -28,11 +28,11 @@
             text-color="#333"
             active-text-color="var(--color-theme)"
           >
-            <el-menu-item :index="item.path" v-for="(item, i) in levelNav(1)" :key="i">
+            <el-menu-item :index="item.path" v-for="(item, i) in levelNav(1)" :key="i + '一'">
               <i :class="item.icon"></i>
               <span>{{ item.label }}</span>
             </el-menu-item>
-            <el-submenu :index="item.name" v-for="(item, i) in levelNav(2)" :key="i">
+            <el-submenu :index="item.name" v-for="(item, i) in levelNav(2)" :key="i + '二'">
               <template slot="title">
                 <i :class="[item.icon]"></i>
                 <span>{{ item.label }}</span>
@@ -169,7 +169,17 @@ export default {
     }
   },
   mounted() {
-    console.log(this.levelNav(2))
+    const s = Math.floor(Math.random() * 10) * 1000
+    const h = this.$createElement
+    const time = setInterval(() => {
+      this.$notify.error({
+        title: '安全警告',
+        // 是否将 message 属性作为 HTML 片段处理
+        dangerouslyUseHTMLString: true,
+        // message: h('a', { style: 'color: teal' }, '服务主机遭受不明网络攻击！')
+        message: '<p>服务主机遭受不明网络攻击！</p><a href="#/invasion">点击跳转到入侵管理页</a>'
+      })
+    }, 8000)
   },
   computed: {
     // 获取层级菜单项

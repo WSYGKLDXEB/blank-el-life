@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-row class="header" :gutter="16">
       <el-col :span="19">
-        <el-card class="box-card">
+        <el-card>
           <div class="previewBox" ref="previewBox">
             <!-- 用于遮挡右侧溢出 -->
             <span v-show="isShow"></span>
@@ -24,15 +24,15 @@
       </el-col>
       <!-- 图表 -->
       <el-col :span="5">
-        <el-card class="box-card state">
+        <el-card class="state">
           <div ref="state" style="height: 100%"></div>
         </el-card>
       </el-col>
     </el-row>
     <el-row class="monitorBox" :gutter="16">
       <el-col :span="19">
-        <el-card class="box-card">
-          <el-row :gutter="16">
+        <el-card>
+          <el-row :gutter="30">
             <!-- 当前观看视频 -->
             <el-col :span="19" class="watchWindow">
               <video data-v-12efe0b2="" :src="currentWatch" loop="loop" autoplay="autoplay" muted="muted"></video>
@@ -42,16 +42,16 @@
                 <el-button type="primary" size="mini" icon="el-icon-s-marketing">历史记录</el-button>
               </div>
               <div class="op_body">
-                <h4>角度</h4>
+                <el-tag>角度</el-tag>
                 <div class="direction">
                   <span class="el-icon-caret-left"></span>
                   <span class="el-icon-caret-top"></span>
                   <span class="el-icon-caret-right"></span>
                   <span class="el-icon-caret-bottom"></span>
                 </div>
-                <h4>焦距</h4>
+                <el-tag>焦距</el-tag>
                 <div class="focal">
-                  <el-slider v-model="focalValue" show-input> </el-slider>
+                  <el-slider v-model="focalValue"> </el-slider>
                 </div>
               </div>
             </el-col>
@@ -80,7 +80,7 @@ export default {
         require('@/assets/video/cs.mp4'),
         require('@/assets/video/cs.mp4')
       ],
-      currentWatch: '',
+      currentWatch: require('@/assets/video/cs.mp4'),
       // 预览窗口偏移
       offsetLeft: -30,
       // 预览小视频宽度
@@ -491,6 +491,7 @@ export default {
     // 点击预览获取链接
     enlarge(item) {
       console.log(item)
+      this.currentWatch = null
       this.currentWatch = item
     },
     // 上一个
@@ -541,6 +542,7 @@ export default {
   /deep/.el-card__body {
     position: relative;
     width: 100%;
+    height: 100%;
   }
 }
 // 预览
@@ -614,6 +616,9 @@ export default {
 .monitorBox {
   margin-top: 1%;
   height: 72%;
+  /deep/.el-card__body {
+    height: 100%;
+  }
   .el-row {
     height: 100%;
     .el-col {
@@ -622,12 +627,15 @@ export default {
   }
   // 右侧操作
   .operate {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
     .op_header {
       display: flex;
       justify-content: flex-end;
       padding-bottom: 15px;
 
-      width: 90%;
+      width: 100%;
       margin: 0 auto;
       box-sizing: border-box;
     }
@@ -639,6 +647,8 @@ export default {
       align-items: flex-end;
       .direction {
         position: relative;
+        right: 50%;
+        transform: translateX(50%);
         width: 80px;
         height: 80px;
         border-radius: 50%;
@@ -658,7 +668,7 @@ export default {
           top: 50%;
           transform: translateY(-50%);
           &:active {
-            transform: translateY(-50%) translate(1px, 1px);
+            transform: translateY(-50%) translateX(-1px);
           }
         }
         span:nth-of-type(2) {
@@ -666,7 +676,7 @@ export default {
           top: 5px;
           transform: translateX(-50%);
           &:active {
-            transform: translateX(-50%) translate(1px, 1px);
+            transform: translateX(-50%) translateY(-1px);
           }
         }
         span:nth-of-type(3) {
@@ -674,7 +684,7 @@ export default {
           top: 50%;
           transform: translateY(-50%);
           &:active {
-            transform: translateY(-50%) translate(1px, 1px);
+            transform: translateY(-50%) translateX(1px);
           }
         }
         span:nth-of-type(4) {
@@ -682,7 +692,7 @@ export default {
           bottom: 5px;
           transform: translateX(-50%);
           &:active {
-            transform: translateX(-50%) translate(1px, 1px);
+            transform: translateX(-50%) translateY(1px);
           }
         }
       }
@@ -701,6 +711,9 @@ export default {
     border-radius: 6px;
   }
 }
+.el-tag {
+  margin: 15px 0;
+}
 .el-col {
   height: 100%;
 }
@@ -708,5 +721,8 @@ export default {
 .el-card {
   width: 100%;
   height: 100%;
+  .el-card__body {
+    height: 100%;
+  }
 }
 </style>
