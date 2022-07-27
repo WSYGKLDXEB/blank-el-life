@@ -36,7 +36,10 @@ import {
   Slider,
   Empty,
   Dialog,
-  Notification
+  Notification,
+  Select,
+  Option,
+  Switch
 } from 'element-ui'
 
 Vue.use(Button)
@@ -72,6 +75,9 @@ Vue.use(Pagination)
 Vue.use(Slider)
 Vue.use(Empty)
 Vue.use(Dialog)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Switch)
 Vue.use(tooltip)
 // Vue.use(Message)
 

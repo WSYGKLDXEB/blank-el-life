@@ -11,7 +11,9 @@
         <el-card class="leftBody">
           <div slot="header" class="clearfix">
             <div>
-              <el-cascader v-model="cascaderValue" size="small " :options="options" :props="{ expandTrigger: 'hover' }"></el-cascader>
+              <el-select size="small" v-model="selValue" placeholder="请选择">
+                <el-option v-for="item in selOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
               <el-date-picker
                 style="margin: 0 10px"
                 v-model="datePickerValue"
@@ -22,6 +24,7 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 align="right"
+                @keyup.enter.native="search"
               >
               </el-date-picker>
               <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
@@ -147,8 +150,8 @@ export default {
           }
         ]
       },
-      // 级联选择器配置项
-      options: [
+      // 选择器数据
+      selOptions: [
         {
           value: 'water',
           label: '用水'
@@ -166,8 +169,8 @@ export default {
       },
       // 时间日期
       datePickerValue: '',
-      // 级联选择器
-      cascaderValue: '',
+      // 选择器
+      selValue: '',
       // 分页
       currentPage: 1,
       // table表格数据
@@ -196,7 +199,7 @@ export default {
   methods: {
     // 查询
     search() {
-      if (!this.datePickerValue || !this.cascaderValue) {
+      if (!this.datePickerValue || !this.selValue) {
         return this.$message.warning('请先选择查询条件！')
       }
       this.tableData = [

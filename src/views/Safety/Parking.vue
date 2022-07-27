@@ -10,19 +10,14 @@
       <el-col :span="19">
         <el-card class="leftBox">
           <div slot="header" class="clearfix">
-            <div style="width: auto">
-              <el-date-picker
-                style="margin-right: 10px"
-                v-model="datePickerValue"
-                size="small"
-                type="datetimerange"
-                :picker-options="pickerOptions"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                align="right"
-              >
-              </el-date-picker>
+            <div style="width: 50%">
+              <el-select size="small" v-model="selValue" placeholder="请选择">
+                <el-option label="全部" value="1"></el-option>
+                <el-option label="车牌" value="2"></el-option>
+                <el-option label="品牌" value="3"></el-option>
+                <el-option label="车型" value="3"></el-option>
+              </el-select>
+              <el-input style="width: 200px; margin: 0 10px" size="small" placeholder="请输入内容" v-model="inputValue" class="input-with-select" @keyup.enter.native="search"> </el-input>
               <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
             </div>
             <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
@@ -73,15 +68,15 @@
           </div>
         </el-card>
         <el-card>
-          <div ref="clas" style="height: 100%"></div>
+          <div ref="model" style="height: 100%"></div>
         </el-card>
         <el-card>
-          <div ref="dealWith" style="height: 100%"></div>
+          <div ref="income" style="height: 100%"></div>
         </el-card>
       </el-col>
     </el-row>
 
-    <!-- 编辑弹出框 -->
+    <!-- 操作弹出框 -->
     <el-dialog center :title="isEditState ? '编辑' : '添加'" :visible.sync="isDialog" :show-close="false" width="40%" @close="close">
       <el-form ref="formRef" label-position="right" label-width="80px" :model="formData" :rules="formRules">
         <el-form-item label="日期" prop="date">
@@ -112,6 +107,7 @@
 </template>
 
 <script>
+import { CreateChart, color, grid, colorArr } from '@/assets/js/balnk'
 export default {
   name: 'BlankParking',
 
@@ -140,46 +136,14 @@ export default {
           url: require('@/assets/image/icon/info-img-4.png')
         }
       ],
-      // 时间日期配置项
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          },
-          {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          },
-          {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }
-        ]
-      },
       // 表单项规则
       formRules: {
         date: [{ required: true, message: '请输入日期', trigger: 'blur' }],
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         address: [{ type: 'string', required: true, message: '请输入地址', trigger: 'blur' }]
       },
-      // 时间日期
-      datePickerValue: '',
+      inputValue: '',
+      selValue: '1',
       // table表格数据
       tableData: [],
       // 分页
@@ -198,12 +162,15 @@ export default {
     }
   },
 
-  mounted() {},
+  mounted() {
+    this.modelChart()
+    this.incomeChart()
+  },
 
   methods: {
     // 查询
     search() {
-      if (!this.datePickerValue) {
+      if (!this.selValue || !this.inputValue) {
         return this.$message.warning('请先选择查询条件！')
       }
       this.tableData = [
@@ -290,6 +257,404 @@ export default {
     },
     close() {
       // this.$refs.formRef.resetFields()
+    },
+    modelChart() {
+      const option = {
+        color: colorArr,
+        backgroundColor: '',
+        title: [
+          {
+            text: '单位：辆',
+            left: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          },
+          {
+            text: '7日车辆类型',
+            right: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          }
+        ],
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}  <br/>{c}辆'
+        },
+        legend: {
+          x: 'center',
+          y: '20%',
+          data: ['车型一', '车型二', '车型三', '车型四'],
+          icon: 'circle',
+          textStyle: {
+            color: '#9ec6d7'
+          }
+        },
+        calculable: true,
+        series: [
+          {
+            name: '车型',
+            type: 'pie',
+            // 起始角度，支持范围[0, 360]
+            startAngle: 0,
+            // 饼图的半径，数组的第一项是内半径，第二项是外半径
+            radius: [51, 80],
+            // 支持设置成百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度
+            center: ['50%', '40%'],
+            // 是否展示成南丁格尔图，通过半径区分数据大小。可选择两种模式：
+            // 'radius' 面积展现数据的百分比，半径展现数据的大小。
+            //  'area' 所有扇区面积相同，仅通过半径展现数据大小
+            roseType: 'area',
+            // 是否启用防止标签重叠策略，默认开启，圆环图这个例子中需要强制所有标签放在中心位置，可以将该值设为 false。
+            avoidLabelOverlap: false,
+            label: {
+              normal: {
+                show: true,
+                formatter: '{c}辆'
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            labelLine: {
+              normal: {
+                show: true,
+                length2: 1
+              },
+              emphasis: {
+                show: true
+              }
+            },
+            data: [
+              {
+                value: 600,
+                name: '车型一',
+                itemStyle: {
+                  normal: {
+                    // color: "#33b565",
+                  }
+                }
+              },
+              {
+                value: 1100,
+                name: '车型二',
+                itemStyle: {
+                  normal: {
+                    // color: "#20cc98",
+                  }
+                }
+              },
+              {
+                value: 1200,
+                name: '车型三',
+                itemStyle: {
+                  normal: {
+                    // color: "#2089cf",
+                  }
+                }
+              },
+              {
+                value: 1300,
+                name: '车型四',
+                itemStyle: {
+                  normal: {
+                    // color: "#205bcf",
+                  }
+                }
+              },
+
+              {
+                value: 0,
+                name: '',
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              },
+              {
+                value: 0,
+                name: '',
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              },
+              {
+                value: 0,
+                name: '',
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              },
+              {
+                value: 0,
+                name: '',
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              },
+              {
+                value: 0,
+                name: '',
+                label: {
+                  show: false
+                },
+                labelLine: {
+                  show: false
+                }
+              }
+            ]
+          }
+        ]
+      }
+      CreateChart(this.$refs.model, option)
+    },
+    incomeChart() {
+      const data = {
+        chart: [
+          {
+            month: '周一',
+            value: 10
+          },
+
+          {
+            month: '周二',
+            value: 8.7
+          },
+
+          {
+            month: '周三',
+            value: 6.8
+          },
+
+          {
+            month: '周四',
+            value: 5.9
+          },
+
+          {
+            month: '周五',
+            value: 5.2
+          },
+          {
+            month: '周六',
+            value: 7.8
+          },
+          {
+            month: '周日',
+            value: 6.8
+          }
+        ]
+      }
+
+      const xAxisMonth = []
+      const barData = []
+      const lineData = []
+      for (let i = 0; i < data.chart.length; i++) {
+        xAxisMonth.push(data.chart[i].month)
+        barData.push({
+          name: xAxisMonth[i],
+          value: data.chart[i].value
+        })
+        lineData.push({
+          name: xAxisMonth[i],
+          value: data.chart[i].ratio
+        })
+      }
+      const option = {
+        // backgroundColor: "#020d22",
+        title: [
+          {
+            text: '单位：K',
+            left: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          },
+          {
+            text: '7日收益',
+            right: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          }
+        ],
+        grid: {
+          ...grid,
+          bottom: '-5%'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'none'
+          },
+          formatter: function (params) {
+            return params[0].data.name + '<br/>' + '总收益: ' + params[1].data.value + 'K'
+          }
+        },
+        xAxis: [
+          {
+            type: 'category',
+            show: false,
+            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+            axisLabel: {
+              textStyle: {
+                color: '#b8f0fc'
+              }
+            }
+          },
+          {
+            type: 'category',
+            position: 'bottom',
+            data: xAxisMonth,
+            boundaryGap: true,
+            // offset: 40,
+
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color
+              }
+            },
+            axisLabel: {
+              textStyle: {
+                color: '#b8f0fc'
+              }
+            }
+          }
+        ],
+        yAxis: [
+          {
+            show: true,
+            offset: 15,
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color
+              }
+            },
+
+            axisTick: {
+              show: false
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color
+              }
+            },
+            axisLabel: {
+              show: true,
+              color: '#b8f0fc'
+            }
+          },
+          {
+            show: false,
+            type: 'value',
+            // name: "合格率(%)",
+            nameTextStyle: {
+              color: '#ccc'
+            },
+            axisLabel: {
+              color: '#b8f0fc'
+            },
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              show: true,
+              color: 'rgba(255,255,255,0.2)'
+            },
+            axisTick: {
+              show: true
+            }
+          }
+        ],
+        color: ['#e54035'],
+        series: [
+          {
+            name: '训练人次',
+            type: 'pictorialBar',
+            xAxisIndex: 1,
+            barCategoryGap: '-40%',
+            // barCategoryGap: '-5%',
+            symbol: 'path://d="M150 50 L130 130 L170 130  Z"',
+            itemStyle: {
+              normal: {
+                color: function (params) {
+                  const colorList = [
+                    'rgba(13,177,205,0.8)',
+                    'rgba(29,103,182,0.6)',
+                    'rgba(13,177,205,0.8)',
+                    'rgba(29,103,182,0.6)',
+                    'rgba(13,177,205,0.8)',
+                    'rgba(29,103,182,0.6)',
+                    'rgba(13,177,205,0.8)'
+                  ]
+                  return colorList[params.dataIndex]
+                }
+              },
+              emphasis: {
+                opacity: 1
+              }
+            },
+            data: barData
+          },
+          {
+            symbol:
+              'image://data:image/png;base64,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',
+            symbolSize: 42,
+
+            type: 'line',
+            yAxisIndex: 1,
+            data: lineData,
+            itemStyle: {
+              normal: {
+                borderWidth: 5,
+                color: {
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: '#821eff'
+                    },
+
+                    {
+                      offset: 1,
+                      color: '#204fff'
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+
+      CreateChart(this.$refs.income, option)
     }
   }
 }
