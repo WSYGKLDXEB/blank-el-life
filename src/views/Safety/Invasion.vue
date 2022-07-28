@@ -438,7 +438,7 @@ export default {
           top: '20%',
           right: 'top',
           textStyle: {
-            color: '#b8f0fc'
+            color: '#9ec6d7'
           },
           formatter: (name) => {
             // 该函数用于设置图例显示后的百分比
@@ -464,8 +464,9 @@ export default {
             center: ['25%', '65%'],
             roseType: 'area',
             itemStyle: {
-              show: false,
-              borderRadius: 0
+              borderRadius: 6,
+              borderColor: '#fff',
+              borderWidth: 2
             },
             label: {
               show: false

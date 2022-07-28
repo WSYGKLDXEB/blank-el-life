@@ -19,7 +19,7 @@
             <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
           </div>
           <!-- 表格 -->
-          <el-table max-height="655" :data="userList" border style="width: 100%">
+          <el-table stripe max-height="655" :data="userList" border style="width: 100%">
             <el-table-column type="index" label="#"> </el-table-column>
             <el-table-column prop="username" label="用户" width="180"> </el-table-column>
             <el-table-column prop="email" label="邮箱" width="180"> </el-table-column>
@@ -52,7 +52,7 @@
       <!-- 右侧图表 -->
       <el-col :span="5" class="chartBox">
         <el-card>
-          <div ref="state" style="height: 100%"></div>
+          <div ref="type" style="height: 100%"></div>
         </el-card>
         <el-card>
           <div ref="number" style="height: 100%"></div>
@@ -185,7 +185,7 @@ export default {
   },
 
   mounted() {
-    this.stateChart()
+    this.typeChart()
     this.numberChart()
     this.activeChart()
   },
@@ -278,10 +278,11 @@ export default {
     close() {
       // this.$refs.formRef.resetFields()
     },
-    stateChart() {
+    typeChart() {
       const option = {
-        // color: ["#3fb1e3", "#6be6c1", "#626c91", "#a0a7e6", "#c4ebad", "#96dee8"],
+        // color: ['#4ea397', '#22c3aa', '#7bd9a5', '#d0648a', '#f58db2', '#f2b3c9'],
         color: colorArr,
+        backgroundColor: '',
         title: [
           {
             text: '单位：%',
@@ -302,22 +303,21 @@ export default {
         ],
         tooltip: {
           trigger: 'item'
-          // formatter: "{b}  <br/>{c}辆",
         },
         legend: {
           type: 'scroll',
           orient: 'vertical',
-          // right: 'right',
-          x: 'right',
-          y: '20%',
+          top: '34%',
+          right: 'top',
           textStyle: {
-            color: '#b8f0fc'
+            color: '#9ec6d7'
           },
           formatter: (name) => {
             // 该函数用于设置图例显示后的百分比
             let total = 0
             let value
             // debugger;
+            // console.log();
             option.series[0].data.forEach((item) => {
               total += Number(item.value)
               if (item.name === name) {
@@ -325,38 +325,52 @@ export default {
               }
             })
             const p = Math.round((value / total) * 100) // 求出百分比
-            return `${name} |  ${p}%` // 返回出图例所显示的内容是名称+百分比
+            return `${name} | ${p}%` // 返回出图例所显示的内容是名称+百分比
             // return `${name}`; //返回出图例所显示的内容是名称+百分比
           }
         },
+        grid: {
+          // left: '-10%'
+        },
         series: [
           {
-            name: 'Nightingale Chart',
+            name: 'Access From',
             type: 'pie',
-            radius: ['20%', '70%'],
-            center: ['30%', '60%'],
-            roseType: 'area',
+            radius: ['30%', '50%'],
+            center: ['25%', '60%'],
+            avoidLabelOverlap: false,
             itemStyle: {
-              show: false,
-              borderRadius: 0
+              borderRadius: 6,
+              borderColor: '#fff',
+              borderWidth: 2
             },
             label: {
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              // 中间文字显示
+              label: {
+                show: false,
+                fontSize: '40',
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
               show: false
             },
             data: [
-              { value: 40, name: 'rose 1' },
-              { value: 38, name: 'rose 2' },
-              { value: 32, name: 'rose 3' },
-              { value: 30, name: 'rose 4' },
-              { value: 28, name: 'rose 5' },
-              { value: 26, name: 'rose 6' },
-              { value: 22, name: 'rose 7' }
+              { value: 1048, name: 'Search Engine' },
+              { value: 735, name: 'Direct' },
+              { value: 580, name: 'Email' },
+              { value: 484, name: 'Union Ads' },
+              { value: 300, name: 'Video Ads' }
             ]
           }
         ]
       }
 
-      CreateChart(this.$refs.state, option)
+      CreateChart(this.$refs.type, option)
     },
     numberChart() {
       const option = {

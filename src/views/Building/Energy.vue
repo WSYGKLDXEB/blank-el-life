@@ -33,7 +33,7 @@
           </div>
           <!-- 表格 -->
           <template v-if="tableData.length !== 0">
-            <el-table max-height="655" :data="tableData" border style="width: 100%">
+            <el-table stripe max-height="655" :data="tableData" border style="width: 100%">
               <el-table-column type="index" label="#"> </el-table-column>
               <el-table-column prop="date" label="日期" width="180"> </el-table-column>
               <el-table-column prop="name" label="姓名" width="180"> </el-table-column>

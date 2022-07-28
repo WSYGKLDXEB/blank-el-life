@@ -159,7 +159,7 @@ export default {
             {
               path: '/authorit',
               name: 'authorit',
-              label: '权限分配',
+              label: '权限管理',
               icon: 'iconfont icon-xitongquanxian'
             }
           ]
