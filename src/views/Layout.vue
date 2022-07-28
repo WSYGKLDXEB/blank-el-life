@@ -82,12 +82,6 @@ export default {
             },
 
             {
-              path: '/electricity',
-              name: 'electricity',
-              label: '高压配电',
-              icon: 'iconfont icon-dian'
-            },
-            {
               path: '/energy',
               name: 'energy',
               label: '能源管理',
@@ -108,12 +102,6 @@ export default {
           icon: 'iconfont icon-anquan',
           children: [
             {
-              path: '/record',
-              name: 'record',
-              label: '报警记录',
-              icon: 'el-icon-s-data'
-            },
-            {
               path: '/video',
               name: 'video',
               label: '视频监控',
@@ -126,16 +114,10 @@ export default {
               icon: 'iconfont icon-menjin'
             },
             {
-              path: '/invasion',
-              name: 'invasion',
-              label: '入侵报警',
-              icon: 'iconfont icon-zhujiruqin'
-            },
-            {
-              path: '/fire',
-              name: 'fire',
-              label: '火灾报警',
-              icon: 'iconfont icon-fire-monitoring'
+              path: '/alarm',
+              name: 'alarm',
+              label: '报警管理',
+              icon: 'iconfont icon-baojing01'
             },
             {
               path: '/parking',
@@ -177,7 +159,7 @@ export default {
         // 是否将 message 属性作为 HTML 片段处理
         dangerouslyUseHTMLString: true,
         // message: h('a', { style: 'color: teal' }, '服务主机遭受不明网络攻击！')
-        message: '<p>服务主机遭受不明网络攻击！</p><a href="#/invasion">点击跳转到入侵管理页</a>'
+        message: '<p>服务主机遭受不明网络攻击！</p><a href="#/alarm">点击跳转到报警管理页</a>'
       })
     }, 8000)
   },

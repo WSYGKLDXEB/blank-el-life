@@ -1,6 +1,7 @@
 import * as echarts from 'echarts'
 import 'echarts-liquidfill'
 export const color = '#eff2f9'
+export const textColor = '#b8f0fc'
 export const colorArr = [
   '#2ec7c9',
   '#b6a2de',

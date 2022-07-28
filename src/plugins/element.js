@@ -39,7 +39,8 @@ import {
   Notification,
   Select,
   Option,
-  Switch
+  Switch,
+  PageHeader
 } from 'element-ui'
 
 Vue.use(Button)
@@ -78,6 +79,7 @@ Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Switch)
+Vue.use(PageHeader)
 Vue.use(tooltip)
 // Vue.use(Message)
 

@@ -15,7 +15,10 @@
                 <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
               </el-input>
             </div>
-            <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+            <div>
+              <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-s-grid" @click="$router.push('/rights')">权限列表</el-button>
+            </div>
           </div>
           <!-- 表格 -->
           <el-table stripe max-height="675" :data="tableData" border style="width: 100%">
@@ -76,8 +79,16 @@
           <el-pagination background :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400"> </el-pagination>
         </el-card>
       </el-col>
-      <el-col :span="5">
-        <tree-list title="设备列表"></tree-list>
+      <el-col :span="5" class="chartBox">
+        <el-card>
+          <div ref="number" style="height: 100%"></div>
+        </el-card>
+        <el-card>
+          <div ref="clas" style="height: 100%"></div>
+        </el-card>
+        <el-card>
+          <div ref="dealWith" style="height: 100%"></div>
+        </el-card>
       </el-col>
     </el-row>
 
@@ -353,5 +364,25 @@ td {
 .el-pagination {
   position: absolute;
   bottom: 15px;
+}
+// 右侧图表
+.chartBox {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  height: 100%;
+  /deep/.el-card__body {
+    height: 100%;
+  }
+  .el-card {
+    height: 35%;
+    &:nth-of-type(1) {
+      height: 26%;
+    }
+    & > div {
+      width: 100%;
+      height: 30%;
+    }
+  }
 }
 </style>

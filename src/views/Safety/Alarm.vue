@@ -1,9 +1,9 @@
 <template>
-  <div class="invasion">
+  <div class="fire">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>安全中心</el-breadcrumb-item>
-      <el-breadcrumb-item>入侵报警</el-breadcrumb-item>
+      <el-breadcrumb-item>报警管理</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row :gutter="16">
       <!-- 左侧列表 -->
@@ -11,8 +11,13 @@
         <el-card class="leftBox">
           <div slot="header" class="clearfix">
             <div style="width: auto">
+              <el-select size="small" v-model="selValue" placeholder="请选择">
+                <el-option label="全部" value="quanbu"></el-option>
+                <el-option label="火灾" value="huizai"></el-option>
+                <el-option label="入侵" value="ruqin"></el-option>
+              </el-select>
               <el-date-picker
-                style="margin-right: 10px"
+                style="margin: 0 10px"
                 v-model="datePickerValue"
                 size="small"
                 type="datetimerange"
@@ -166,7 +171,9 @@ export default {
       // 当前选中项ID,
       tableId: 0,
       // 是否为编辑状态
-      isEditState: true
+      isEditState: true,
+      // 选择器
+      selValue: 'quanbu'
     }
   },
 
@@ -179,7 +186,7 @@ export default {
   methods: {
     // 查询
     search() {
-      if (!this.datePickerValue) {
+      if (!this.datePickerValue || !this.selValue) {
         return this.$message.warning('请先选择查询条件！')
       }
       this.tableData = [
@@ -353,7 +360,7 @@ export default {
         ],
         series: [
           {
-            name: '数量',
+            name: '入侵',
             type: 'line',
             stack: 'Total',
             emphasis: {
@@ -402,6 +409,51 @@ export default {
             // 开始不显示拐点， 鼠标经过显示
             showSymbol: false,
             data: [99, 136, 88, 100, 124, 77, 99]
+          },
+          {
+            name: '火灾',
+            type: 'line',
+            // smooth: true,
+            lineStyle: {
+              normal: {
+                color: '#00d887',
+                width: 2
+              }
+            },
+            areaStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: 'rgba(0, 216, 135, 0.7)'
+                  },
+                  {
+                    offset: 0.8,
+                    color: 'rgba(0, 216, 135, 0.2)'
+                  }
+                ],
+                global: false // 缺省为 false
+              },
+              shadowColor: 'rgba(0, 0, 0, 0.1)'
+            },
+            // 设置拐点 小圆点
+            symbol: 'circle',
+            // 拐点大小
+            symbolSize: 8,
+            // 设置拐点颜色以及边框
+            itemStyle: {
+              color: '#00d887',
+              borderColor: 'rgba(221, 220, 107, .1)',
+              borderWidth: 12
+            },
+            // 开始不显示拐点， 鼠标经过显示
+            showSymbol: false,
+            data: [6, 2, 8, 1, 1, 5, 7]
           }
         ]
       }
@@ -698,7 +750,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.invasion {
+.fire {
   width: 100%;
   height: 100%;
 }
