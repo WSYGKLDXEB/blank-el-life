@@ -126,7 +126,7 @@
         </el-card>
       </el-col>
       <el-col :span="24 - leftSpan">
-        <tree-list title="设备列表" v-show="leftSpan === 19"></tree-list>
+        <tree-list isFilter v-show="leftSpan === 19"></tree-list>
         <el-card class="hisMonitorBox" v-show="leftSpan !== 19">
           <video ref="hisMonitor" loop="loop" autoplay="autoplay" controls :src="hisMonitorUrl"></video>
 
@@ -173,6 +173,7 @@
 
 <script>
 import { CreateChart } from '@/assets/js/balnk'
+import tableData from '@/assets/js/tableData'
 export default {
   name: 'BlankElEcBimRealisticVideo',
 
@@ -355,6 +356,13 @@ export default {
     init() {
       const f = document.querySelectorAll('#iconBut>i')
       const s = document.querySelectorAll('#box>div')
+
+      const f1 = this.$refs.previewBox.offsetWidth + 100
+      const s1 = this.$refs.videoBox.offsetWidth
+      console.log(f1, s1)
+      if (f1 >= s1) {
+        this.isNext = false
+      }
       this.toggle(f, s)
     },
     // 图标按钮切换
@@ -826,38 +834,7 @@ export default {
       if (!this.datePickerValue || !this.cascaderValue1) {
         return this.$message.warning('请先选择查询条件！')
       }
-      this.tableData = [
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ]
+      this.tableData = tableData
     },
     // 显示对话框
     showEditDialog(item) {
@@ -999,6 +976,11 @@ export default {
     margin-left: 15px;
     height: 100%;
     border-radius: 6px;
+    transition: all 0.3s;
+    &:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
   }
 }
 // 历史监控视频

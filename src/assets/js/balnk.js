@@ -39,3 +39,6 @@ export const CreateChart = (dom, option) => {
     chart.resize()
   })
 }
+
+// 数值补零 prefixInteger(需要补零的数字，输出数字位数)
+export const PrefixInteger = (num, n) => (Array(n).join(0) + num).slice(-n)

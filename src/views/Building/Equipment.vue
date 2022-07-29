@@ -8,29 +8,59 @@
     <el-row :gutter="16">
       <el-col :span="20">
         <el-card class="box-card">
-          <div v-for="o in 4" :key="o" class="text item">
-            {{ '列表内容 ' + o }}
-          </div>
+          <machine-group :dataList="new Array(13)"></machine-group>
         </el-card>
       </el-col>
       <el-col :span="4">
-        <tree-list title="设备列表"></tree-list>
+        <tree-list :treeData="treeData" isFilter @nodeClick="nodeClick"></tree-list>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import MachineGroup from '@/components/MachineGroup.vue'
 export default {
   name: 'BlankElLifeEquipment',
 
   data() {
-    return {}
+    return {
+      treeData: [
+        {
+          label: '1f',
+          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
+        },
+        {
+          label: '2f',
+          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
+        },
+        {
+          label: '3f',
+          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
+        },
+        {
+          label: '4f',
+          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
+        }
+      ]
+    }
   },
 
   mounted() {},
 
-  methods: {}
+  methods: {
+    // 节点点击
+    nodeClick(obj, node, com) {
+      // console.log(obj, node, com)
+      if (!obj.children) {
+        console.log(obj)
+      }
+      // this.$emit('nodeClick', (obj, node, com))
+    }
+  },
+  components: {
+    MachineGroup
+  }
 }
 </script>
 
@@ -48,5 +78,13 @@ export default {
 .el-card {
   width: 100%;
   height: 100%;
+}
+/deep/.el-card__body {
+  height: 98%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>

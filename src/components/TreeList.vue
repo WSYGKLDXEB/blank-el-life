@@ -5,7 +5,9 @@
       <div slot="header" class="header">
         <span>{{ title }}</span>
       </div>
-      <el-tree icon-class="el-icon-folder" :data="data" :props="defaultProps"></el-tree>
+      <!-- 过滤器 -->
+      <el-input v-if="isFilter" placeholder="输入关键字进行过滤" v-model="filterText"> </el-input>
+      <el-tree ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" icon-class="el-icon-folder" :data="treeData" :props="defaultProps"></el-tree>
     </el-card>
   </div>
 </template>
@@ -14,10 +16,18 @@
 import icon from '@/assets/image/32px.png'
 export default {
   name: 'BlankElEcBimRealisticTreeList',
-  props: ['title'],
-  data() {
-    return {
-      data: [
+  props: {
+    title: {
+      type: String,
+      default: '设备列表'
+    },
+    isFilter: {
+      type: Boolean,
+      default: false
+    },
+    treeData: {
+      type: Array,
+      default: () => [
         {
           label: '一级 1',
           children: [
@@ -25,6 +35,7 @@ export default {
               label: '二级 1-1',
               children: [
                 {
+                  value: '3',
                   label: '三级 1-1-1'
                 }
               ]
@@ -73,7 +84,11 @@ export default {
             }
           ]
         }
-      ],
+      ]
+    }
+  },
+  data() {
+    return {
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -85,15 +100,30 @@ export default {
       dom2: [],
       dom3: [],
       icon,
-      iconURl: require('@/assets/image/32px.png')
+      iconURl: require('@/assets/image/32px.png'),
+      // 过滤器
+      filterText: ''
     }
   },
 
   mounted() {
     // this.init()
   },
-
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val)
+    }
+  },
   methods: {
+    // 过滤器
+    filterNode(value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
+    },
+    // 节点点击
+    nodeClick(obj, node, com) {
+      this.$emit('nodeClick', obj, node, com)
+    },
     init() {
       document.querySelector('.el-tree').style.cssText += 'margin-left: 14px;'
       // 第一场
@@ -237,6 +267,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// 过滤器
+.el-input {
+  margin-bottom: 15px;
+}
 /deep/.el-card__header {
   display: flex;
   justify-content: center !important;

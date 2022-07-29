@@ -40,7 +40,8 @@ import {
   Select,
   Option,
   Switch,
-  PageHeader
+  PageHeader,
+  TimePicker
 } from 'element-ui'
 
 Vue.use(Button)
@@ -80,6 +81,7 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Switch)
 Vue.use(PageHeader)
+Vue.use(TimePicker)
 Vue.use(tooltip)
 // Vue.use(Message)
 

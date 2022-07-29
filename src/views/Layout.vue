@@ -161,7 +161,7 @@ export default {
         // message: h('a', { style: 'color: teal' }, '服务主机遭受不明网络攻击！')
         message: '<p>服务主机遭受不明网络攻击！</p><a href="#/alarm">点击跳转到报警管理页</a>'
       })
-    }, 8000)
+    }, 12000)
   },
   computed: {
     // 获取层级菜单项

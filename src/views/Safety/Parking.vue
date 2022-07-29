@@ -108,6 +108,7 @@
 
 <script>
 import { CreateChart, color, grid, colorArr } from '@/assets/js/balnk'
+import tableData from '@/assets/js/tableData'
 export default {
   name: 'BlankParking',
 
@@ -173,38 +174,7 @@ export default {
       if (!this.selValue || !this.inputValue) {
         return this.$message.warning('请先选择查询条件！')
       }
-      this.tableData = [
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ]
+      this.tableData = tableData
     },
     // 显示对话框
     showEditDialog(item) {
