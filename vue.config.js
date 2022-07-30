@@ -30,7 +30,7 @@ module.exports = defineConfig({
         vue: 'Vue',
         'vue-router': 'VueRouter',
         // 'vue-echarts': 'VueECharts',
-        echarts: 'echarts',
+        // echarts: 'echarts',
         axios: 'axios',
         nprogress: 'NProgress',
         zrender: 'zrender'
