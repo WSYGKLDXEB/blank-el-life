@@ -1,12 +1,9 @@
 {
-    "rewrites": [
-      {
-         
-        "source": "/shop/(.*)",
-        
-        "destination": "/api/proxy"
-      }
-    ]
-  }
-  
-  
+  "rewrites": [
+    {
+      "source": "/cdn/(.*)",
+
+      "destination": "/api/proxy"
+    }
+  ]
+}

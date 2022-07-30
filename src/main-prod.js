@@ -11,7 +11,7 @@ import 'echarts-liquidfill'
 // 网页加载插件 https://github.com/rstacruz/nprogress
 import NProgress from 'nprogress'
 // 引入全局初始化文件
-import 'normalize.css'
+// import 'normalize.css'
 import '@/assets/style/global.less'
 // 字体样式
 import '@/assets/style/iconfont.css'
