@@ -1,7 +1,12 @@
+// 这是项目发布阶段需要用到的bebel插件
+const prodPlugins = []
+
+if (process.env.NODE_ENV === 'production') {
+  prodPlugins.push('transform-remove-console')
+}
+
 module.exports = {
-  presets: [
-    '@vue/cli-plugin-babel/preset'
-  ],
+  presets: ['@vue/cli-plugin-babel/preset'],
   plugins: [
     [
       'component',
@@ -9,6 +14,7 @@ module.exports = {
         libraryName: 'element-ui',
         styleLibraryName: 'theme-chalk'
       }
-    ]
+    ],
+    ...prodPlugins // 这里...展开运算符，把上面定义的prodPlugins数组里面的每一项展开添加到这个plugins数组里面
   ]
 }

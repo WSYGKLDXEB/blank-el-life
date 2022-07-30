@@ -3,7 +3,7 @@
     <el-card class="box-card">
       <el-form ref="loginForm" :model="loginData" :rules="rules" label-width="54px">
         <el-form-item label="用户" size="small " prop="user">
-          <el-input clearable type="text" v-model.trim="loginData.user" @keyup.enter.native="$refs.pass.focus"></el-input>
+          <el-input ref="user" clearable type="text" v-model.trim="loginData.user" @keyup.enter.native="$refs.pass.focus"></el-input>
         </el-form-item>
         <el-form-item label="密码" size="small " prop="paw">
           <el-input clearable show-password type="password" ref="pass" v-model.trim="loginData.paw" @keyup.enter.native="$refs.ver.focus"></el-input>
@@ -61,7 +61,9 @@ export default {
   created() {
     this.verifyChange()
   },
-  mounted() {},
+  mounted() {
+    this.$refs.user.focus()
+  },
 
   methods: {
     // 验证码

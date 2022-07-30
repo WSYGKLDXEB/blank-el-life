@@ -8,11 +8,9 @@ module.exports = defineConfig({
     //  port: 8080,//本地运行的端口
     // 配置自动启动浏览器
     open: true,
-    //  hotOnly:false,
     // 接口代理
     proxy: {
       '/image': {
-        // target: 'http://127.0.0.1:8888/api/private/v1/', // 设置要代理访问的接口
         target: 'https://picsum.photos', // 设置要代理访问的接口
         changeOrigin: true,
         pathRewrite: {
@@ -20,5 +18,28 @@ module.exports = defineConfig({
         }
       }
     }
+  },
+
+  // 配置不同环境下的打包入口
+  chainWebpack: (config) => {
+    // console.log(process.env.NODE_ENV)
+    // 发布模式
+    config.when(process.env.NODE_ENV === 'production', (config) => {
+      // 声明
+      config.set('externals', {
+        vue: 'Vue',
+        'vue-router': 'VueRouter',
+        // 'vue-echarts': 'VueECharts',
+        echarts: 'echarts',
+        axios: 'axios',
+        nprogress: 'NProgress',
+        zrender: 'zrender'
+      })
+      config.entry('app').clear().add('./src/main-prod.js')
+    })
+    // 开发模式
+    config.when(process.env.NODE_ENV === 'development', (config) => {
+      config.entry('app').clear().add('./src/main-dev.js')
+    })
   }
 })

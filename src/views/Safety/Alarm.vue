@@ -510,7 +510,7 @@ export default {
     },
     dealWithChart() {
       const chart = this.$echarts.init(this.$refs.dealWith)
-      const value = 0.66
+      const value = 0.52
       function Pie() {
         const dataArr = []
         for (let i = 0; i < 150; i++) {
@@ -544,7 +544,7 @@ export default {
       }
       const data = Pie()
       const option = {
-        backgroundColor: 'rgba(255, 255, 255)',
+        backgroundColor: '',
         title: [
           {
             text: '单位：%',
@@ -570,11 +570,13 @@ export default {
             radius: '70%', // 控制中间圆球的尺寸（此处可以理解为距离外圈圆的距离控制）
             center: ['50%', '50%'],
             data: [
-              value,
+              value + 0.05,
               {
                 value,
                 direction: 'left' // 波浪方向
-              }
+              },
+              value - 0.05,
+              { value: value - 0.15, direction: 'right' }
             ], // data个数代表波浪数
             backgroundStyle: {
               borderWidth: 1,
@@ -616,8 +618,15 @@ export default {
                   }
                 },
                 textStyle: {
-                  fontSize: 30,
-                  color: '#fff'
+                  fontSize: '30',
+                  // fontWeight: '500',
+                  color: 'rgba(91, 195, 246, .9)',
+                  textAlign: 'center',
+                  textBorderColor: 'rgba(0, 0, 0, 0)',
+                  textShadowColor: '#fff',
+                  textShadowBlur: '0',
+                  textShadowOffsetX: 0,
+                  textShadowOffsetY: 1
                 }
               }
             },
