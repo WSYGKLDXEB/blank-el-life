@@ -47,17 +47,32 @@
                   <video ref="curMonitor" controls :src="curMonitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
                 </el-col>
                 <el-col :span="5" class="operate">
-                  <div class="op_body">
-                    <el-tag>角度</el-tag>
-                    <div class="direction">
-                      <span class="el-icon-caret-left"></span>
-                      <span class="el-icon-caret-top"></span>
-                      <span class="el-icon-caret-right"></span>
-                      <span class="el-icon-caret-bottom"></span>
+                  <div class="op_time">
+                    <div class="time_box">
+                      <h1>{{ time }}</h1>
+                      <div>
+                        <span>{{ week }}</span>
+                        <p>{{ years }}</p>
+                      </div>
                     </div>
-                    <el-tag>焦距</el-tag>
-                    <div class="focal">
-                      <el-slider v-model="focalValue"> </el-slider>
+                  </div>
+                  <div class="op_header">
+                    <div class="header_box">
+                      <h4>设备：<span>电梯出入口</span></h4>
+                      <p>摄像头信息，摄像头信息，摄像头信息</p>
+                    </div>
+                  </div>
+                  <div class="op_body">
+                    <div class="body_box">
+                      <div class="direction">
+                        <span class="el-icon-caret-left"></span>
+                        <span class="el-icon-caret-top"></span>
+                        <span class="el-icon-caret-right"></span>
+                        <span class="el-icon-caret-bottom"></span>
+                      </div>
+                      <div class="focal">
+                        <el-slider v-model="focalValue"> </el-slider>
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -172,7 +187,7 @@
 </template>
 
 <script>
-import { CreateChart } from '@/assets/js/balnk'
+import { CreateChart, CurrentDate } from '@/assets/js/balnk'
 import tableData from '@/assets/js/tableData'
 export default {
   name: 'BlankElEcBimRealisticVideo',
@@ -341,7 +356,11 @@ export default {
       // 是否为编辑状态
       isEditState: true,
       // 布局所占大小
-      leftSpan: 19
+      leftSpan: 19,
+      time: '',
+      week: '',
+      years: '',
+      timeInterVal: null
     }
   },
 
@@ -350,6 +369,14 @@ export default {
     this.monitorWidth = this.$refs.video[0].offsetWidth - 22
     console.log(this.$refs.video[0].offsetWidth)
     this.stateChart()
+
+    this.timeInterVal = setInterval(() => {
+      const obj = CurrentDate()
+      // console.log(obj)
+      this.week = obj.week
+      this.years = obj.years
+      this.time = obj.time
+    }, 1000)
   },
 
   methods: {
@@ -1083,41 +1110,169 @@ export default {
     display: flex;
     flex-flow: column;
     justify-content: flex-end;
+    .op_time {
+      position: relative;
+      width: 100%;
+      height: 15%;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      border: 1px dashed rgba(64, 158, 255, 0.8);
+      background: rgba(64, 158, 255, 0.1);
+      border-radius: 6px;
+      transition: all 0.3s;
+      .time_box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        transition: all 0.3s;
+
+        background: rgba(185, 210, 240, 1);
+        border-radius: 6px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        & > div {
+          color: rgba(64, 158, 255, 0.8);
+          margin-left: 6px;
+          font-size: 12px;
+        }
+        h1 {
+          color: rgba(64, 158, 255, 0.6);
+          transition: all 0.3s;
+        }
+        p {
+          margin: 0;
+        }
+      }
+    }
     .op_header {
+      position: relative;
       display: flex;
       justify-content: flex-end;
       padding-bottom: 15px;
 
       width: 100%;
-      margin: 0 auto;
+      height: 34%;
+      margin-bottom: 20px;
       box-sizing: border-box;
+      border: 1px dashed rgba(64, 158, 255, 0.8);
+      background: rgba(64, 158, 255, 0.1);
+      border-radius: 6px;
+      transition: all 0.3s;
+      .header_box {
+        padding: 30px 10px 10px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        transition: all 0.3s;
+        background: rgba(185, 210, 240, 1);
+        border-radius: 6px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+      }
     }
     .op_body {
+      position: relative;
       width: 100%;
+      height: 34%;
       display: flex;
       flex-flow: column;
       justify-content: space-between;
       align-items: flex-end;
+      border: 1px dashed rgba(64, 158, 255, 0.8);
+      background: rgba(64, 158, 255, 0.1);
+      border-radius: 6px;
+      transition: all 0.3s;
+      // &:hover {
+      //   border: 1px dashed rgba(64, 158, 255, 0.8);
+      //   background: rgba(64, 158, 255, 0.1);
+      //   .body_box {
+      //     background: rgba(185, 210, 240, 1);
+      //     border-radius: 6px;
+      //     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+      //     transform: translate(10px, -10px);
+      //   }
+      //   .direction {
+      //     background-color: rgba(150, 185, 220, 0.8);
+      //     span {
+      //       background-color: rgba(150, 185, 220, 1);
+      //     }
+      //   }
+      //   .focal {
+      //     background-color: rgba(150, 185, 220, 1);
+      //   }
+      // }
+      .body_box {
+        padding: 30px 10px 10px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        transition: all 0.3s;
+        background: rgba(185, 210, 240, 1);
+        border-radius: 6px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        p {
+          width: 100%;
+          text-align: left;
+          // background-image: -webkit-linear-gradient(270deg, #fff, rgba(185, 210, 240, 1));
+          // -webkit-background-clip: text;
+          // -webkit-text-fill-color: transparent;
+        }
+      }
       .direction {
         position: relative;
         right: 50%;
         transform: translateX(50%);
-        width: 80px;
-        height: 80px;
+        width: 86px;
+        height: 86px;
+        z-index: 98;
         border-radius: 50%;
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: rgba(150, 185, 220, 0.8);
+        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+        // background-color: rgba(228, 231, 237, 1);
+        // &::after {
+        //   content: '';
+        //   position: absolute;
+        //   top: 50%;
+        //   left: 50%;
+        //   transform: translate(-50%, -50%);
+        //   z-index: -1;
+        //   width: 120%;
+        //   height: 120%;
+        //   border-radius: 50%;
+        //   background: rgba(255, 255, 255, 0.25);
+        //   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3) !important;
+        // }
         span {
           cursor: pointer;
           position: absolute;
           width: 20px;
           height: 20px;
+          z-index: 99;
           line-height: 20px;
           text-align: center;
-          color: #bbb;
+          color: #fff;
           font-size: 20px;
+          box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+          background-color: rgba(150, 185, 220, 1);
+          // background-color: rgba(0, 0, 0, 0.1);
         }
         span:nth-of-type(1) {
-          left: 5px;
+          left: 8px;
           top: 50%;
           transform: translateY(-50%);
           &:active {
@@ -1126,14 +1281,14 @@ export default {
         }
         span:nth-of-type(2) {
           left: 50%;
-          top: 5px;
+          top: 8px;
           transform: translateX(-50%);
           &:active {
             transform: translateX(-50%) translateY(-1px);
           }
         }
         span:nth-of-type(3) {
-          right: 5px;
+          right: 8px;
           top: 50%;
           transform: translateY(-50%);
           &:active {
@@ -1142,7 +1297,7 @@ export default {
         }
         span:nth-of-type(4) {
           left: 50%;
-          bottom: 5px;
+          bottom: 8px;
           transform: translateX(-50%);
           &:active {
             transform: translateX(-50%) translateY(1px);
@@ -1150,7 +1305,28 @@ export default {
         }
       }
       .focal {
+        position: relative;
+        padding-left: 15px;
+        padding-right: 10px;
         width: 100%;
+        height: 30px;
+        border-radius: 6px;
+        box-sizing: border-box;
+        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+        background-color: rgba(150, 185, 220, 1);
+        .el-slider {
+          // position: absolute;
+          // top: 50%;
+          // left: 0;
+          // transform: translateY(-50%);
+        }
+        /deep/.el-slider__runway {
+          margin: 12px 0;
+        }
+        /deep/.el-slider__button {
+          width: 14px;
+          height: 14px;
+        }
       }
     }
   }

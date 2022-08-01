@@ -62,3 +62,8 @@ body,
 .hidden::-webkit-scrollbar {
   display: none;
 }
+.text {
+  background-image: -webkit-linear-gradient(270deg, #fff, var(--theme));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

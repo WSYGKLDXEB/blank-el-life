@@ -41,3 +41,48 @@ export const CreateChart = (dom, option) => {
 
 // 数值补零 prefixInteger(需要补零的数字，输出数字位数)
 export const PrefixInteger = (num, n) => (Array(n).join(0) + num).slice(-n)
+
+// 获取时间
+export const CurrentDate = () => {
+  const date = new Date()
+  const yy = date.getFullYear()
+  const mm = date.getMonth() + 1
+  const dd = date.getDate()
+
+  const h = date.getHours()
+  const m = date.getMinutes()
+  const s = date.getSeconds()
+
+  const day = date.getDay()
+  let week = ''
+  switch (day) {
+    case 0:
+      week = '星期日'
+      break
+    case 1:
+      week = '星期一'
+      break
+    case 2:
+      week = '星期二'
+      break
+    case 3:
+      week = '星期三'
+      break
+    case 4:
+      week = '星期四'
+      break
+    case 5:
+      week = '星期五'
+      break
+    case 6:
+      week = '星期六'
+      break
+  }
+  return {
+    time: `${h}:${PrefixInteger(m, 2)}:${PrefixInteger(s, 2)}`,
+    years: `${yy}-${PrefixInteger(mm, 2)}-${PrefixInteger(dd, 2)}`,
+    week,
+    h,
+    m
+  }
+}

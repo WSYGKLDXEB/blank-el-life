@@ -661,11 +661,6 @@ export default {
   }
 }
 // 右侧上
-.text {
-  background-image: -webkit-linear-gradient(270deg, #fff, var(--theme));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 .box {
   width: 100%;
   display: flex;
