@@ -41,7 +41,8 @@ import {
   Option,
   Switch,
   PageHeader,
-  TimePicker
+  TimePicker,
+  ColorPicker
 } from 'element-ui'
 
 Vue.use(Button)
@@ -82,6 +83,7 @@ Vue.use(Option)
 Vue.use(Switch)
 Vue.use(PageHeader)
 Vue.use(TimePicker)
+Vue.use(ColorPicker)
 Vue.use(tooltip)
 // Vue.use(Message)
 

@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4118040",
+      "name": "自定义",
+      "font_class": "zidingyi",
+      "unicode": "eb6a",
+      "unicode_decimal": 60266
+    },
+    {
+      "icon_id": "18175800",
+      "name": "正方形",
+      "font_class": "checkbox-full",
+      "unicode": "ea6f",
+      "unicode_decimal": 60015
+    },
+    {
+      "icon_id": "2377198",
+      "name": "主题",
+      "font_class": "zhuti",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "18170200",
+      "name": "画板,主题,颜色,色彩",
+      "font_class": "sketchpad-theme",
+      "unicode": "e985",
+      "unicode_decimal": 59781
+    },
+    {
+      "icon_id": "18170201",
+      "name": "画板,主题,颜色,色彩",
+      "font_class": "sketchpad-theme-full",
+      "unicode": "e986",
+      "unicode_decimal": 59782
+    },
+    {
+      "icon_id": "22386418",
+      "name": "主题",
+      "font_class": "zhuti1",
+      "unicode": "ee2a",
+      "unicode_decimal": 60970
+    },
+    {
       "icon_id": "4933356",
       "name": "离线",
       "font_class": "lixian",

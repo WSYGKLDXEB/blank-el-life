@@ -1,10 +1,11 @@
 :root {
-  --theme: rgba(39, 110, 70, 0.8);
-  --secondary: #ccc;
-  --color-theme: rgba(29, 107, 73, 0.8);
+  --theme: rgba(71, 169, 108, 0.8);
+  --secondary: #276e46;
+  --color-theme: #47a96c;
   --color-default: #fff;
   --bgc-theme: #eff2f9;
   --bgc-default: #fff;
+  --br-theme: rgba(255, 255, 255, 0);
 }
 /* 声明字体*/
 @font-face {
@@ -20,6 +21,7 @@ body,
   margin: 0;
   padding: 0;
   min-width: 1366px;
+  transition: all 0.6s;
 }
 .el-breadcrumb {
   margin-bottom: 15px;
