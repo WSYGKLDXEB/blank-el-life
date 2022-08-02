@@ -1,13 +1,14 @@
 :root {
   // --theme: rgba(157, 243, 196, 1);
   //
-  --theme: rgba(71, 169, 108, 0.8);
+  --theme: rgba(21, 136, 199, 0.8);
 
   // --secondary: #ccc;
-  --secondary: rgba(39, 110, 70, 1);
+  // --secondary: rgba(39, 110, 70, 1);
   // --color-theme: #62d2a2;
   // 字体主题色
-  --color-theme: rgba(71, 169, 108, 1);
+  --color-theme: rgba(21, 136, 199, 1);
+  --color-secondary: #333;
   // 默认字体颜色
   --color-default: #fff;
   // 页面背景颜色
@@ -33,6 +34,7 @@ body,
   padding: 0;
   min-width: 1366px;
   transition: all 0.6s;
+  color: var(--color-secondary);
 }
 // 面包屑
 .el-breadcrumb {
@@ -49,6 +51,7 @@ body,
   // height: 100%;
   background-color: var(--bgc-default);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15) !important;
+  border-color: var(--bgc-default);
   .el-card__header {
     padding: 10px 20px !important;
   }
@@ -57,6 +60,30 @@ body,
     height: 100%;
     box-sizing: border-box;
   }
+}
+.el-tree {
+  background-color: var(--bgc-default);
+}
+.el-input .el-input__inner {
+  background-color: var(--bgc-default);
+}
+.el-range-editor {
+  background-color: var(--bgc-default);
+}
+.el-range-editor .el-range-input {
+  background-color: var(--bgc-default);
+}
+.el-table tr:not(.el-table__row--striped) td.el-table__cell {
+  background-color: var(--bgc-default) !important;
+}
+.el-table th.el-table__cell {
+  background-color: var(--bgc-theme) !important;
+}
+.el-table tr td.el-table__cell {
+  background-color: var(--bgc-theme) !important;
+}
+.el-descriptions .el-descriptions__body {
+  background-color: var(--bgc-default) !important;
 }
 // 解决Cascader 级联选择器 显示高度过高
 .el-cascader-panel {

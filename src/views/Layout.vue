@@ -11,7 +11,7 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="theme-green"><img src="../assets//image/icon/theme-green.png" />健康绿</el-dropdown-item>
                 <el-dropdown-item command="theme-blue"><img src="../assets//image/icon/theme-blue.png" />科技蓝</el-dropdown-item>
-                <el-dropdown-item command="theme-black" disabled><img src="../assets//image/icon/theme-black.png" />酷炫黑</el-dropdown-item>
+                <el-dropdown-item command="theme-black"><img src="../assets//image/icon/theme-black.png" />酷炫黑</el-dropdown-item>
                 <el-dropdown-item command="theme-custom"
                   ><el-color-picker
                     @change="activeColor"
@@ -48,7 +48,7 @@
             :collapse="ifFold"
             class="el-menu-vertical-demo"
             background-color="var(--bgc-default)"
-            text-color="#333"
+            text-color="var(--color-secondary)"
             active-text-color="var(--color-theme)"
           >
             <el-menu-item :index="item.path" v-for="(item, i) in levelNav(1)" :key="i + '一'">
@@ -161,18 +161,29 @@ export default {
         dom.setProperty('--theme', 'rgba(71, 169, 108, .8)')
         dom.setProperty('--color-theme', 'rgba(71, 169, 108, 1)')
         dom.setProperty('--br-theme', 'rgba(255, 255, 255, 0)')
+        dom.setProperty('--color-secondary', '#333')
+        dom.setProperty('--bgc-default', '#fff')
+        dom.setProperty('--bgc-theme', '#eff2f9')
       } else if (com === 'theme-blue') {
         // 科技蓝
         dom.setProperty('--theme', 'rgba(21, 136, 199, .8)')
         dom.setProperty('--color-theme', 'rgba(21, 136, 199, 1)')
+
+        dom.setProperty('--color-secondary', '#333')
+        dom.setProperty('--bgc-default', '#fff')
+        dom.setProperty('--bgc-theme', '#eff2f9')
       } else if (com === 'theme-black') {
         // 酷炫黑
         dom.setProperty('--theme', 'rgba(36, 39, 48, .8)')
-        dom.setProperty('--color-theme', 'rgba(255,255,255, .8)')
+        dom.setProperty('--color-theme', 'rgba(255,255,255, 1)')
+        dom.setProperty('--color-secondary', '#787878')
         dom.setProperty('--bgc-default', 'rgba(36, 39, 48, 1)')
         dom.setProperty('--bgc-theme', 'rgba(29, 32, 39, 1)')
       } else if (com === 'theme-custom') {
         // 自定义
+        dom.setProperty('--color-secondary', '#333')
+        dom.setProperty('--bgc-default', '#fff')
+        dom.setProperty('--bgc-theme', '#eff2f9')
       }
     },
     colorChage(color) {

@@ -689,28 +689,28 @@ export default {
     right: -1px;
     height: 80%;
     width: 1px;
-    background: linear-gradient(to top, var(--theme), transparent);
+    background: linear-gradient(to top, var(--color-theme), transparent);
   }
   div:nth-of-type(2) ::before {
     bottom: 0;
     left: 0;
     height: 1px;
     width: 80%;
-    background: linear-gradient(to right, var(--theme), transparent);
+    background: linear-gradient(to right, var(--color-theme), transparent);
   }
   div:nth-of-type(3) ::before {
     top: -1px;
     right: 0;
     height: 1px;
     width: 80%;
-    background: linear-gradient(to left, var(--theme), transparent);
+    background: linear-gradient(to left, var(--color-theme), transparent);
   }
   div:nth-of-type(4) ::before {
     top: 0;
     left: 0;
     height: 80%;
     width: 1px;
-    background: linear-gradient(to bottom, var(--theme), transparent);
+    background: linear-gradient(to bottom, var(--color-theme), transparent);
   }
   img {
     // opacity: var(--opacity);
@@ -718,7 +718,7 @@ export default {
   }
   span {
     margin: 8px 0;
-    color: var(--theme);
+    color: var(--color-theme);
   }
   p {
     margin: 4px 0;

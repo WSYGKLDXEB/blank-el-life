@@ -1,7 +1,7 @@
 :root {
-  --theme: rgba(71, 169, 108, 0.8);
-  --secondary: #276e46;
-  --color-theme: #47a96c;
+  --theme: rgba(21, 136, 199, 0.8);
+  --color-theme: #1588c7;
+  --color-secondary: #333;
   --color-default: #fff;
   --bgc-theme: #eff2f9;
   --bgc-default: #fff;
@@ -22,6 +22,7 @@ body,
   padding: 0;
   min-width: 1366px;
   transition: all 0.6s;
+  color: var(--color-secondary);
 }
 .el-breadcrumb {
   margin-bottom: 15px;
@@ -33,6 +34,7 @@ body,
 .el-card {
   background-color: var(--bgc-default);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15) !important;
+  border-color: var(--bgc-default);
 }
 .el-card .el-card__header {
   padding: 10px 20px !important;
@@ -41,6 +43,30 @@ body,
   position: relative;
   height: 100%;
   box-sizing: border-box;
+}
+.el-tree {
+  background-color: var(--bgc-default);
+}
+.el-input .el-input__inner {
+  background-color: var(--bgc-default);
+}
+.el-range-editor {
+  background-color: var(--bgc-default);
+}
+.el-range-editor .el-range-input {
+  background-color: var(--bgc-default);
+}
+.el-table tr:not(.el-table__row--striped) td.el-table__cell {
+  background-color: var(--bgc-default) !important;
+}
+.el-table th.el-table__cell {
+  background-color: var(--bgc-theme) !important;
+}
+.el-table tr td.el-table__cell {
+  background-color: var(--bgc-theme) !important;
+}
+.el-descriptions .el-descriptions__body {
+  background-color: var(--bgc-default) !important;
 }
 .el-cascader-panel {
   max-height: 200px;

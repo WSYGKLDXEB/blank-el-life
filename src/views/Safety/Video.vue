@@ -970,13 +970,13 @@ export default {
     z-index: 98;
     width: 46px;
     left: 0;
-    background-color: #fff;
+    background-color: var(--bgc-default);
   }
   span:nth-of-type(2) {
     z-index: 98;
     width: 46px;
     right: 0;
-    background-color: #fff;
+    background-color: var(--bgc-default);
   }
   span:nth-of-type(3) {
     z-index: 99;
