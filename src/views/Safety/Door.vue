@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import { CreateChart, grid, color, colorArr, textColor } from '@/assets/js/balnk'
+import { CreateChart, grid, color, colorArr, textColor } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
 export default {
   name: 'BlankElLifeDoor',

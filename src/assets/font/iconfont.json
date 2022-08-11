@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "631375",
+      "name": "火",
+      "font_class": "huo",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "1309",
+      "name": "退出",
+      "font_class": "tuichu",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "249478",
+      "name": "退出编辑",
+      "font_class": "tuichubianji",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "18170188",
+      "name": "退出,出",
+      "font_class": "exit-full",
+      "unicode": "e97f",
+      "unicode_decimal": 59775
+    },
+    {
       "icon_id": "4118040",
       "name": "自定义",
       "font_class": "zidingyi",

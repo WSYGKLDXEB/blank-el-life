@@ -7,15 +7,17 @@
     </el-breadcrumb>
     <el-row :gutter="16">
       <!-- 左侧列表 -->
-      <el-col :span="19">
+      <el-col :span="colSpan">
         <el-card class="leftBox">
           <div slot="header" class="clearfix">
-            <div style="width: auto">
+            <div style="width: auto" v-show="isQueryBox">
+              <!-- 下拉选择框 -->
               <el-select size="small" v-model="selValue" placeholder="请选择">
                 <el-option label="全部" value="quanbu"></el-option>
                 <el-option label="1F" value="huizai"></el-option>
                 <el-option label="2F" value="ruqin"></el-option>
               </el-select>
+              <!-- 时间日期选择框 -->
               <el-date-picker
                 style="margin: 0 10px"
                 v-model="datePickerValue"
@@ -30,7 +32,10 @@
               </el-date-picker>
               <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
             </div>
-            <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+            <div>
+              <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+              <el-button type="primary" size="mini" :icon="colSpan === 2 ? 'el-icon-s-unfold' : 'el-icon-s-fold'" @click="toggleCol">{{ colSpan === 2 ? '展开表格' : '收起表格' }}</el-button>
+            </div>
           </div>
           <!-- 表格 -->
           <template v-if="tableData.length !== 0">
@@ -67,9 +72,10 @@
         </el-card>
       </el-col>
       <!-- 右侧图表 -->
-      <el-col :span="5" class="chartBox">
+      <el-col :span="24 - colSpan" ref="chartBox" id="chartBox" class="chartBox">
         <el-card>
-          <div ref="park" style="height: 100%"></div>
+          <div ref="park_row" style="height: 100%" v-show="isChart"></div>
+          <div ref="park_col" style="height: 100%" v-show="!isChart"></div>
         </el-card>
         <el-card>
           <div ref="record" style="height: 100%"></div>
@@ -108,7 +114,7 @@
 </template>
 
 <script>
-import { CreateChart, grid, color, colorArr, textColor } from '@/assets/js/balnk'
+import { CreateChart, grid, color, colorArr, textColor } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
 export default {
   name: 'BlankElLifeStairs',
@@ -161,6 +167,10 @@ export default {
       currentPage: 1,
       // 弹出框弹出与否
       isDialog: false,
+      // 控制组件一些查询框的显示与否
+      isQueryBox: false,
+      // 控制图表的显示与否
+      isChart: true,
       formData: {
         date: '',
         name: '',
@@ -171,16 +181,46 @@ export default {
       // 是否为编辑状态
       isEditState: true,
       // 搜索框
-      selValue: 'quanbu'
+      selValue: 'quanbu',
+      // 左右面板比例大小（左侧）
+      colSpan: 2
     }
   },
 
-  mounted() {
-    this.parkChart()
+  async mounted() {
+    this.parkChart_row()
+    this.parkChart_col()
+    // this.parkChart()
     this.recordChart()
+    // const cs = await axios.get('192.168.1.13')
+    // console.log(cs)
   },
 
   methods: {
+    // 变化页面布局
+    toggleCol() {
+      if (this.colSpan === 2) {
+        this.colSpan = 19
+        const time = setTimeout(() => {
+          this.isChart = false
+          this.isQueryBox = true
+          clearTimeout(time)
+        }, 500)
+
+        // this.isChart = false // 销毁组件
+        // this.$nextTick(() => {
+        //   this.isChart = true // 重建组件
+        // })
+        // this.parkChart_col()
+      } else {
+        this.isChart = true
+        this.isQueryBox = false
+        this.colSpan = 2
+        this.tableData = []
+
+        // this.parkChart_row()
+      }
+    },
     // 查询
     search() {
       if (!this.datePickerValue || !this.selValue) {
@@ -240,7 +280,201 @@ export default {
     close() {
       // this.$refs.formRef.resetFields()
     },
-    parkChart() {
+    // 电梯井横排 (默认)
+    parkChart_row() {
+      let time = null // 存放定时器
+      const data = [
+        { name: '1#电梯', floorCount: 26, nowFloor: 4, type: 0 }, // 0停在某一楼层，1上行，2下行,还没做
+        { name: '2#电梯', floorCount: 26, nowFloor: 1, type: 1 },
+        { name: '3#电梯', floorCount: 26, nowFloor: 6, type: 0 },
+        { name: '4#电梯', floorCount: 26, nowFloor: 4, type: 2 },
+        { name: '5#电梯', floorCount: 26, nowFloor: 3, type: 1 },
+        { name: '6#消防', floorCount: 26, nowFloor: 3, type: 1 }
+      ]
+
+      const setSeries = () => {
+        const series = []
+        const xData = []
+        let MaxCount = 0
+        for (let i = 0; i < data.length; i++) {
+          xData.push(data[i].name)
+          if (data[i].floorCount > MaxCount) MaxCount = data[i].floorCount
+        }
+
+        for (let i = 1; i <= MaxCount; i++) {
+          const bar = {
+            data: [],
+            type: 'bar',
+            color: 'rgba(7, 7, 7, 1)',
+            // /* barGap: '-100%',//重叠*/
+            stack: 'one', // 堆叠
+            barWidth: 50
+          }
+          const bar2 = {
+            type: 'bar',
+            stack: 'one', // 堆叠
+            color: 'rgba(125, 125, 125, 0)',
+            barWidth: 50,
+            data: []
+          }
+          for (let j = 0; j < data.length; j++) {
+            if (i <= data[j].floorCount) {
+              bar.data.push({
+                // 方块的宽度
+                value: 16,
+                itemStyle: {
+                  borderColor: 'rgba(150, 150, 150, .3)',
+                  borderWidth: '20', // 防空遮罩阴影宽度
+                  color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 0.7, [
+                    {
+                      offset: 0,
+                      color: i !== data[j].nowFloor ? '#087cf9' : '#f51207'
+                    },
+                    {
+                      offset: 1,
+                      color: i !== data[j].nowFloor ? '#09408a' : '#e2746e'
+                    }
+                  ])
+                },
+                label: {
+                  color: '#fff',
+                  show: true,
+                  position: 'inside',
+                  formatter: i + 'F'
+                }
+              })
+              bar2.data.push(2)
+            } else {
+              bar.data.push(null)
+              bar2.data.push(null)
+            }
+          }
+          series.push(bar)
+          series.push(bar2)
+        }
+        const option = {
+          backgroundColor: '', // ' #0494fc',
+          title: [
+            {
+              text: '单位：层',
+              left: '6px',
+              textStyle: {
+                color: '#9ec6d7',
+                fontSize: 10
+              }
+            },
+            {
+              text: '电梯运行状态',
+              right: '6px',
+              textStyle: {
+                color: '#9ec6d7',
+                fontSize: 10
+              }
+            }
+          ],
+          tooltip: {
+            show: true,
+            formatter: (params) => {
+              const obj = data.filter((item) => item.name === params.name)
+              return `${params.name}当前停靠:${obj[0].nowFloor}层`
+            }
+          },
+          grid: {
+            top: 0,
+            left: '5%',
+            right: 0,
+            bottom: 0
+          },
+
+          yAxis: {
+            data: xData,
+            axisLine: {
+              lineStyle: {
+                color: textColor
+              },
+              show: false
+            },
+            axisLabel: {
+              show: true,
+              fontSize: 14
+            },
+            axisTick: {
+              show: false
+            }
+          },
+          xAxis: {
+            splitLine: {
+              show: false
+            },
+            axisLabel: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            }
+          },
+          series: series
+        }
+
+        CreateChart(this.$refs.park_row, option)
+        // chart.setOption(option)
+      }
+
+      setSeries()
+
+      // #region
+      // time = setInterval(() => {
+      //   if (!this.isChart) {
+      //     clearInterval(time)
+      //   }
+      //   for (let i = 0; i < data.length; i++) {
+      //     if (data[i].type === 1) {
+      //       if (data[i].nowFloor < data[i].floorCount) {
+      //         data[i].nowFloor++
+      //       } else {
+      //         data[i].type = 2
+      //       }
+      //     } else if (data[i].type === 2) {
+      //       if (data[i].nowFloor > 1) {
+      //         data[i].nowFloor--
+      //       } else {
+      //         data[i].type = 1
+      //       }
+      //     }
+      //   }
+      //   setSeries()
+      // }, 2000)
+      // #endregion
+
+      // if (!this.isChart) {
+      //   clearInterval(time)
+      // } else {
+      time = setInterval(() => {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].type === 1) {
+            if (data[i].nowFloor < data[i].floorCount) {
+              data[i].nowFloor++
+            } else {
+              data[i].type = 2
+            }
+          } else if (data[i].type === 2) {
+            if (data[i].nowFloor > 1) {
+              data[i].nowFloor--
+            } else {
+              data[i].type = 1
+            }
+          }
+        }
+        setSeries()
+      }, 2000)
+      // }
+    },
+    // 电梯井竖排
+    parkChart_col() {
+      let time = null // 存放定时器
       const data = [
         { name: '1#电梯', floorCount: 6, nowFloor: 4, type: 0 }, // 0停在某一楼层，1上行，2下行,还没做
         { name: '2#电梯', floorCount: 7, nowFloor: 1, type: 1 },
@@ -375,13 +609,16 @@ export default {
           series: series
         }
 
-        CreateChart(this.$refs.park, option)
+        CreateChart(this.$refs.park_col, option)
         // chart.setOption(option)
       }
 
       setSeries()
 
-      setInterval(() => {
+      // if (this.isChart) {
+      //   clearInterval(time1)
+      // } else {
+      time = setInterval(() => {
         for (let i = 0; i < data.length; i++) {
           if (data[i].type === 1) {
             if (data[i].nowFloor < data[i].floorCount) {
@@ -399,6 +636,7 @@ export default {
         }
         setSeries()
       }, 2000)
+      // }
     },
     recordChart() {
       const option = {
@@ -571,6 +809,7 @@ export default {
     height: 100%;
   }
   .el-card {
+    width: 100%;
     height: 30%;
     &:nth-of-type(1) {
       height: 68%;

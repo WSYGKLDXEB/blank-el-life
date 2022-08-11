@@ -114,7 +114,7 @@
 <script>
 import userData from '@/assets/js/userData'
 import userPerm from '@/assets/js/userPerm'
-import { CreateChart, color, colorArr, grid } from '@/assets/js/balnk'
+import { CreateChart, color, colorArr, grid } from '@/assets/js/blank'
 export default {
   name: 'BlankElEcBimRealisticUser',
 

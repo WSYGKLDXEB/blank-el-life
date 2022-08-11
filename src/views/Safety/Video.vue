@@ -187,7 +187,7 @@
 </template>
 
 <script>
-import { CreateChart, CurrentDate } from '@/assets/js/balnk'
+import { CreateChart, CurrentDate } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
 export default {
   name: 'BlankElEcBimRealisticVideo',

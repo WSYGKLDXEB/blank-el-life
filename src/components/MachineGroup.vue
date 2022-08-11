@@ -20,7 +20,7 @@
         <el-col :span="8">
           <div class="stateBox" style="float: right">
             <p>启动控制</p>
-            <el-switch class="startUp" :width="70" v-model="startUpValue" active-color="rgba(19, 206, 102, .85)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
+            <el-switch style="margin-top: 4px" class="startUp" :width="70" v-model="startUpValue" active-color="rgba(19, 206, 102, .85)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
           </div>
         </el-col>
       </el-row>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { PrefixInteger } from '@/assets/js/balnk'
+import { PrefixInteger } from '@/assets/js/blank'
 export default {
   name: 'BlankElLifeMachineGroup',
   props: {

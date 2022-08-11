@@ -30,13 +30,25 @@ export const grid = {
   bottom: '3%',
   containLabel: true
 }
-// 自定方法
+// 创建图表
 export const CreateChart = (dom, option) => {
   const chart = echarts.init(dom)
   chart.setOption(option)
-  window.addEventListener('resize', () => {
-    chart.resize()
+  // 为图表父节点添加监听， 用于监测父节点的大小变化
+  const resizeObserver = new ResizeObserver((entries) => {
+    // entries 是一个数组 里面有5个属性能用到的只有两个contentRect, target
+    // contentRect 是dom的几何信息
+    // target 和点击事件里面的target一样的 dom对象
+    entries.forEach((item, index) => {
+      // console.log(item.contentRect)
+      chart.resize()
+    })
   })
+  resizeObserver.observe(dom.parentNode)
+  // window.addEventListener('resize', () => {
+  //   console.log('窗口变化')
+  //   chart.resize()
+  // })
 }
 
 // 数值补零 prefixInteger(需要补零的数字，输出数字位数)
@@ -86,3 +98,40 @@ export const CurrentDate = () => {
     m
   }
 }
+
+// 向子页面发送消息
+export const sendSonInfo = (father, info) => father.contentWindow.postMessage(info, '*')
+
+// 向父页面发送消息
+export const sendFatherInfo = (name, url) => {
+  window.parent.postMessage(
+    {
+      cmd: 'Model',
+      res: {
+        name,
+        url
+      }
+    },
+    '*'
+  )
+}
+
+export const receiveFatherInfo = () => {
+  // 接收父页面发来的消息
+  window.addEventListener('message', (e) => {
+    switch (e.data.cmd) {
+      case 'Topology':
+        break
+
+      case 'ClerTopology':
+        break
+    }
+  })
+}
+
+// 接收iframe子页面的信息
+export const receiveSonInfo = () =>
+  window.addEventListener('message', (e) => {
+    // console.log(e)
+    // return e
+  })

@@ -7,7 +7,7 @@
       </div>
       <!-- 过滤器 -->
       <el-input v-if="isFilter" size="small" placeholder="输入关键字进行过滤" v-model="filterText"> </el-input>
-      <el-tree ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" icon-class="el-icon-folder" :data="treeData" :props="defaultProps"></el-tree>
+      <el-tree accordion ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" icon-class="el-icon-folder" :data="treeData" :props="defaultProps"></el-tree>
     </el-card>
   </div>
 </template>
@@ -271,6 +271,15 @@ export default {
 .el-input {
   margin-bottom: 15px;
 }
+
+.tree {
+  width: 100%;
+  // height: calc(100% - 5px);
+  height: 100%;
+}
+.el-card {
+  height: 100%;
+}
 /deep/.el-card__header {
   display: flex;
   justify-content: center !important;
@@ -279,13 +288,8 @@ export default {
   font-size: 14px !important;
   font-family: '微软雅黑' !important;
 }
-.tree {
-  width: 100%;
-  // height: calc(100% - 5px);
-  height: 100%;
-}
-.el-card {
-  height: 100%;
+/deep/.el-card__body {
+  height: 96% !important;
 }
 // 图标
 /deep/.el-tree-node__expand-icon {

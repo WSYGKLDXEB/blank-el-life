@@ -122,7 +122,7 @@
 <script>
 import userPerm from '@/assets/js/userPerm'
 import autTreeList from '@/assets/js/autTreeLIst'
-import { CreateChart, grid, color, textColor } from '@/assets/js/balnk'
+import { CreateChart, grid, color, textColor } from '@/assets/js/blank'
 import giftImageUrl from '@/assets/image/chartImg.png'
 export default {
   name: 'BlankElEcBimRealisticAuthorit',

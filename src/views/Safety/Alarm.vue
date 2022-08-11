@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { CreateChart, grid, color, colorArr } from '@/assets/js/balnk'
+import { CreateChart, grid, color, colorArr } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
 export default {
   name: 'BlankInvasion',

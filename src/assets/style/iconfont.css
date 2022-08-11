@@ -13,6 +13,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-huo:before {
+  content: '\e66c';
+}
+
+.icon-tuichu:before {
+  content: '\e600';
+}
+
+.icon-tuichubianji:before {
+  content: '\e601';
+}
+
+.icon-exit-full:before {
+  content: '\e97f';
+}
+
 .icon-zidingyi:before {
   content: '\eb6a';
 }

@@ -29,6 +29,12 @@ export default [
         name: 'stairs',
         label: '梯控管理',
         icon: 'iconfont icon-dianti'
+      },
+      {
+        path: '/configEle',
+        name: 'configEle',
+        label: '高压配电',
+        icon: 'iconfont icon-dian'
       }
     ]
   },
@@ -52,8 +58,14 @@ export default [
       {
         path: '/alarm',
         name: 'alarm',
-        label: '报警管理',
-        icon: 'iconfont icon-baojing01'
+        label: '入侵报警',
+        icon: 'iconfont icon-zhujiruqinfangyu'
+      },
+      {
+        path: '/fire',
+        name: 'fire',
+        label: '火灾报警',
+        icon: 'iconfont icon-huo'
       },
       {
         path: '/parking',

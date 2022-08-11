@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { CreateChart, color, grid } from '@/assets/js/balnk'
+import { CreateChart, color, grid } from '@/assets/js/blank'
 import chartUrl1 from '@/assets/image/custom-gauge-panel-1.png'
 import chartUrl2 from '@/assets/image/custom-gauge-panel-2.png'
 import tableData from '@/assets/js/tableData'

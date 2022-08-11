@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { CreateChart, textColor, grid } from '@/assets/js/balnk'
+import { CreateChart, textColor, grid } from '@/assets/js/blank'
 import rightsList from '@/assets/js/permList'
 export default {
   name: 'BlankElLifeRights',
