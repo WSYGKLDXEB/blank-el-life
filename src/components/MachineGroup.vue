@@ -1,77 +1,159 @@
 <template>
-  <div class="machine">
+  <div :class="['machine', horizontal ? 'horizontal' : '']">
     <div class="machine-item" v-for="(item, i) in dataList" :key="i">
-      <h4>地下室排风机-0{{ i }}</h4>
-      <el-row>
-        <el-col :span="16" class="butState">
-          <div class="stateBox">
-            <p>运行状态</p>
-            <el-button @click="toggleBut(0)" :disabled="selectButId !== 0 && !startUpValue" type="success" size="mini">运行</el-button>
-          </div>
-          <div class="stateBox">
-            <p>故障状态</p>
-            <el-button @click="toggleBut(1)" :disabled="selectButId !== 1 && !startUpValue" type="danger" size="mini">故障</el-button>
-          </div>
-          <div class="stateBox">
-            <p>自动状态</p>
-            <el-button @click="toggleBut(2)" :disabled="selectButId !== 2 && !startUpValue" type="primary" size="mini">自动</el-button>
-          </div>
+      <div class="titleBox">
+        <h4>地下室排风机-0{{ i }}</h4>
+        <div v-if="horizontal && isAniBut">
+          <p>演示动画：</p>
+          <el-switch class="model" :width="70" v-model="aniSwitch" active-color="rgba(64, 158, 255, .8)" inactive-color="rgba(126, 124, 125, 1)" @change="modelOpen"> </el-switch>
+        </div>
+      </div>
+
+      <!-- 竖排（默认） -->
+      <template v-if="!horizontal">
+        <el-row>
+          <el-col :span="16" class="butState">
+            <div class="stateBox">
+              <p>运行状态</p>
+              <el-button @click="toggleBut(0)" :disabled="selectButId !== 0 && !startUpValue" type="success" size="mini">运行</el-button>
+            </div>
+            <div class="stateBox">
+              <p>故障状态</p>
+              <el-button @click="toggleBut(1)" :disabled="selectButId !== 1 && !startUpValue" type="danger" size="mini">故障</el-button>
+            </div>
+            <div class="stateBox">
+              <p>自动状态</p>
+              <el-button @click="toggleBut(2)" :disabled="selectButId !== 2 && !startUpValue" type="primary" size="mini">自动</el-button>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="stateBox" style="float: right">
+              <p>启动控制</p>
+              <el-switch style="margin-top: 4px" class="startUp" :width="70" v-model="startUpValue" active-color="rgba(19, 206, 102, .85)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <div class="stateBox" style="float: left">
+              <p>定时模式</p>
+              <el-switch class="time" :width="70" v-model="timingValue" active-color="rgba(64, 158, 255, .8)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
+            </div>
+          </el-col>
+          <el-col :span="16" class="timeBox">
+            <p style="text-align: right">
+              时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分&nbsp;&nbsp;&nbsp;
+            </p>
+            <span>开启&nbsp;&nbsp;{{ timingValue ? timeValue[0] : 'XX : XX' }}&nbsp;&nbsp;关闭&nbsp;&nbsp;{{ timingValue ? timeValue[1] : 'XX : XX' }}</span>
+            <el-time-picker
+              value-format="HH:mm"
+              :picker-options="pickerOptions"
+              is-range
+              :clearable="false"
+              v-model="timeValue"
+              :disabled="!timingValue"
+              range-separator="至"
+              start-placeholder="开始时间"
+              end-placeholder="结束时间"
+              placeholder="选择时间范围"
+            >
+            </el-time-picker>
+          </el-col>
+        </el-row>
+      </template>
+
+      <!-- 横排 -->
+      <el-row v-else>
+        <el-col :span="12">
+          <el-row>
+            <el-col :span="16" class="butState">
+              <div class="stateBox">
+                <p>运行状态</p>
+                <el-button @click="toggleBut(0)" :disabled="selectButId !== 0 && !startUpValue" type="success" size="mini">运行</el-button>
+              </div>
+              <div class="stateBox">
+                <p>故障状态</p>
+                <el-button @click="toggleBut(1)" :disabled="selectButId !== 1 && !startUpValue" type="danger" size="mini">故障</el-button>
+              </div>
+              <div class="stateBox">
+                <p>自动状态</p>
+                <el-button @click="toggleBut(2)" :disabled="selectButId !== 2 && !startUpValue" type="primary" size="mini">自动</el-button>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="stateBox" style="float: right">
+                <p>启动控制</p>
+                <el-switch style="margin-top: 4px" class="startUp" :width="70" v-model="startUpValue" active-color="rgba(19, 206, 102, .85)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
+              </div>
+            </el-col>
+          </el-row>
         </el-col>
-        <el-col :span="8">
-          <div class="stateBox" style="float: right">
-            <p>启动控制</p>
-            <el-switch style="margin-top: 4px" class="startUp" :width="70" v-model="startUpValue" active-color="rgba(19, 206, 102, .85)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <div class="stateBox" style="float: left">
-            <p>定时模式</p>
-            <el-switch class="time" :width="70" v-model="timingValue" active-color="rgba(64, 158, 255, .8)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
-          </div>
-        </el-col>
-        <el-col :span="16" class="timeBox">
-          <p style="text-align: right">
-            时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分&nbsp;&nbsp;&nbsp;
-          </p>
-          <span>开启&nbsp;&nbsp;{{ timingValue ? timeValue[0] : 'XX : XX' }}&nbsp;&nbsp;关闭&nbsp;&nbsp;{{ timingValue ? timeValue[1] : 'XX : XX' }}</span>
-          <el-time-picker
-            value-format="HH:mm"
-            :picker-options="pickerOptions"
-            is-range
-            :clearable="false"
-            v-model="timeValue"
-            :disabled="!timingValue"
-            range-separator="至"
-            start-placeholder="开始时间"
-            end-placeholder="结束时间"
-            placeholder="选择时间范围"
-          >
-          </el-time-picker>
+        <el-col :span="12">
+          <el-row>
+            <el-col :span="16" class="timeBox">
+              <p style="text-align: right">
+                时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分&nbsp;&nbsp;&nbsp;
+              </p>
+              <span>开启&nbsp;&nbsp;{{ timingValue ? timeValue[0] : 'XX : XX' }}&nbsp;&nbsp;关闭&nbsp;&nbsp;{{ timingValue ? timeValue[1] : 'XX : XX' }}</span>
+              <el-time-picker
+                value-format="HH:mm"
+                :picker-options="pickerOptions"
+                is-range
+                :clearable="false"
+                v-model="timeValue"
+                :disabled="!timingValue"
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                placeholder="选择时间范围"
+              >
+              </el-time-picker>
+            </el-col>
+            <el-col :span="8">
+              <div class="stateBox" style="float: right">
+                <p>定时模式</p>
+                <el-switch class="time" :width="70" v-model="timingValue" active-color="rgba(64, 158, 255, .8)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
+              </div>
+            </el-col>
+          </el-row>
         </el-col>
       </el-row>
     </div>
     <!-- 补齐空位  -->
     <!-- 列数减去(数据长度)余列数 即：col-(serveData.length)%col -->
-    <div
-      class="machine-item"
-      style="box-shadow: none; background: none; border: none; pointer-events: none"
-      v-for="(item, index) in 4 - (dataList.length % 4)"
-      :key="index"
-      v-show="dataList.length % 4 > 0"
-    ></div>
+    <template v-if="!horizontal">
+      <div
+        class="machine-item"
+        style="box-shadow: none; background: none; border: none; pointer-events: none"
+        v-for="(item, index) in 4 - (dataList.length % 4)"
+        :key="index"
+        v-show="dataList.length % 4 > 0"
+      ></div>
+    </template>
   </div>
 </template>
 
 <script>
-import { PrefixInteger } from '@/assets/js/blank'
+import { PrefixInteger, sendSonInfo } from '@/assets/js/blank'
 export default {
   name: 'BlankElLifeMachineGroup',
   props: {
     dataList: {
       type: Array,
       default: new Array(10)
+    },
+    // 横排
+    horizontal: {
+      type: Boolean,
+      default: false
+    },
+    isAniBut: {
+      type: Boolean,
+      default: false
+    },
+    iframe: {
+      type: HTMLElement,
+      default: null
     }
   },
   data() {
@@ -89,12 +171,14 @@ export default {
         format: 'HH:mm'
       },
       // 选中按钮ID
-      selectButId: 0
+      selectButId: 0,
+      // 演示动画
+      aniSwitch: true
     }
   },
 
   mounted() {
-    console.log(this.dataList.length)
+    this.aniSwitch = true
     const time = `${PrefixInteger(new Date().getHours(), 2)}:${PrefixInteger(new Date().getMinutes(), 2)}`
     // 设置时间范围
     this.pickerOptions.selectableRange = `${time} - 24:00`
@@ -108,6 +192,15 @@ export default {
       this.selectButId = i
       this.startUpValue = false
       console.log(i)
+    },
+    // 模型开关
+    modelOpen() {
+      // console.log(this.iframe)
+      const info = {
+        cmd: 'Open',
+        isOpen: this.aniSwitch
+      }
+      sendSonInfo(this.iframe, info)
     }
   }
 }
@@ -116,9 +209,57 @@ export default {
 <style lang="less" scoped>
 // 机器
 .machine {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
+}
+.horizontal {
+  justify-content: center !important;
+  .titleBox {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row nowrap;
+    div {
+      margin-right: 6px;
+      display: flex;
+      align-items: flex-end;
+      & > p {
+        line-height: 20px;
+        margin: 0 !important;
+      }
+    }
+    // 定时模式
+    /deep/.el-switch.model {
+      .el-switch__core::after {
+        content: '关闭';
+        background: rgba(191, 191, 191, 0.9);
+      }
+    }
+    /deep/.el-switch.model.is-checked {
+      .el-switch__core::after {
+        content: '开启';
+        color: #666;
+        background: #fff;
+      }
+    }
+  }
+  .machine-item {
+    background-color: var(--bgc-default) !important;
+    // box-shadow: none !important;
+    border-width: 0 !important;
+    margin-bottom: 0 !important;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15) !important;
+    width: 80% !important;
+  }
+  .timeBox {
+    span {
+      margin-top: 10px;
+    }
+  }
+  .time {
+    margin-top: 4px;
+  }
 }
 .machine-item {
   // 文字禁止选中
@@ -126,8 +267,6 @@ export default {
   padding: 10px 14px 20px;
   box-sizing: border-box;
   margin-bottom: 15px;
-  width: 24%;
-  // height: 160px;
   background-color: var(--bgc-theme);
   border-radius: 6px;
   border-style: solid;
@@ -135,10 +274,11 @@ export default {
   border-width: 1px 0 0 1px;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
   transition: all 0.3s;
-  &:hover {
-    transform: translate(-1px, -1px);
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
-  }
+  width: 24%;
+  // &:hover {
+  //   transform: translate(-1px, -1px);
+  //   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
+  // }
   .el-button {
     // opacity: 0.9;
     box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.25);

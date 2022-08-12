@@ -290,6 +290,15 @@ export default {
 }
 /deep/.el-card__body {
   height: 96% !important;
+  max-height: 82vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.el-tree {
+  height: 92%;
 }
 // 图标
 /deep/.el-tree-node__expand-icon {

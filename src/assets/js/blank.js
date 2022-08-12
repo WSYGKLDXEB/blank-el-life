@@ -98,6 +98,12 @@ export const CurrentDate = () => {
     m
   }
 }
+// 颜色hex转rgba
+export const hex2Rgba = (bgColor, alpha = 1) => {
+  const color = bgColor.slice(1) // 去掉'#'号
+  const rgba = [parseInt('0x' + color.slice(0, 2)), parseInt('0x' + color.slice(2, 4)), parseInt('0x' + color.slice(4, 6)), alpha]
+  return 'rgba(' + rgba.toString() + ')'
+}
 
 // 向子页面发送消息
 export const sendSonInfo = (father, info) => father.contentWindow.postMessage(info, '*')
