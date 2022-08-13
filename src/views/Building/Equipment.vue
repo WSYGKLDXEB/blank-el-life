@@ -30,7 +30,7 @@
         </el-col>
       </el-row>
       <div class="operateBox">
-        <machine-group :iframe="iframeRef" isAniBut horizontal :dataList="new Array(1)"></machine-group>
+        <machine-group :iframe="iframeRef" :isAniBut="isAniBut" horizontal :dataList="new Array(1)"></machine-group>
       </div>
     </el-dialog>
   </div>
@@ -101,6 +101,7 @@ export default {
         this.isAniBut = e.data.res.ani.length > 0
         this.isTopology = true
         this.modelInfo = e.data
+        console.log(this.isAniBut)
       }
     })
   },
