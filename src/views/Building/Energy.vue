@@ -5,7 +5,8 @@
       <el-breadcrumb-item>楼宇智控</el-breadcrumb-item>
       <el-breadcrumb-item>能源管理</el-breadcrumb-item>
     </el-breadcrumb>
-
+    <!-- 设备列表显示按钮 -->
+    <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据列表</el-button>
     <el-row :gutter="16">
       <el-col :span="19">
         <el-card class="leftBody">
@@ -79,6 +80,69 @@
       </el-col>
     </el-row>
 
+    <!-- 表格展示框 -->
+    <el-dialog class="tableBox" center fullscreen title="数据查询" :visible.sync="isFormDialog" width="80%">
+      <el-card>
+        <div slot="header" class="clearfix">
+          <div style="width: auto">
+            <!-- 下拉选择框 -->
+            <el-select size="small" v-model="selValue" placeholder="请选择">
+              <el-option v-for="item in selOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+            <!-- 时间日期选择框 -->
+            <el-date-picker
+              style="margin: 0 10px"
+              v-model="datePickerValue"
+              size="small"
+              type="datetimerange"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              align="right"
+              @keyup.enter.native="search"
+            >
+            </el-date-picker>
+            <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
+          </div>
+          <div>
+            <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+          </div>
+        </div>
+        <!-- 表格 -->
+        <template v-if="tableData.length !== 0">
+          <el-table stripe max-height="655" :data="tableData" border style="width: 100%">
+            <el-table-column type="index" label="#"> </el-table-column>
+            <el-table-column prop="date" label="日期" width="180"> </el-table-column>
+            <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
+            <el-table-column prop="address" label="地址"> </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+                  <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope)"></el-button>
+                </el-tooltip>
+                <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                  <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope)"></el-button>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+          </el-table>
+        </template>
+        <!-- 分页 -->
+        <el-pagination
+          v-if="tableData.length !== 0"
+          background
+          :current-page="currentPage"
+          :page-sizes="[100, 200, 300, 400]"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="400"
+        >
+        </el-pagination>
+        <!-- 空状态 -->
+        <el-empty v-else description="选择条件查询！"></el-empty>
+      </el-card>
+    </el-dialog>
     <!-- 编辑弹出框 -->
     <el-dialog center :title="isEditState ? '编辑' : '添加'" :visible.sync="isDialog" :show-close="false" width="40%" @close="close">
       <el-form ref="formRef" label-position="right" label-width="80px" :model="formData" :rules="formRules">
@@ -178,6 +242,8 @@ export default {
       tableData: [],
       // 弹出框弹出与否
       isDialog: false,
+      // 表格框弹出与否
+      isFormDialog: false,
       formData: {
         date: '',
         name: '',
@@ -671,8 +737,23 @@ export default {
   justify-content: space-between;
 }
 .energy {
+  position: relative;
   width: 100%;
   height: 100%;
+}
+// 数据展示框
+.tableBox {
+  /deep/.el-dialog__body {
+    padding-top: 10px !important;
+    height: 90%;
+  }
+  .el-card {
+    box-shadow: none !important;
+  }
+  /deep/.el-card__body {
+    height: 95%;
+    // padding-bottom: 0 !important;
+  }
 }
 .el-row {
   height: 96%;

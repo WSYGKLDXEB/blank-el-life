@@ -5,10 +5,10 @@
       <el-breadcrumb-item>楼宇智控</el-breadcrumb-item>
       <el-breadcrumb-item>梯控管理</el-breadcrumb-item>
     </el-breadcrumb>
+    <!-- 表格显示框按钮 -->
+    <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据表格</el-button>
     <!-- 图表 -->
     <div ref="chartBox" id="chartBox" class="chartBox">
-      <!-- 表格显示框按钮 -->
-      <el-button size="mini" type="primary" @click="isFormDialog = true">数据表格</el-button>
       <el-card>
         <div ref="park" style="height: 100%"></div>
       </el-card>
@@ -58,7 +58,7 @@
         </div>
         <!-- 表格 -->
         <template v-if="tableData.length !== 0">
-          <el-table max-height="655" :data="tableData" border style="width: 100%">
+          <el-table stripe max-height="655" :data="tableData" border style="width: 100%">
             <el-table-column type="index" label="#"> </el-table-column>
             <el-table-column prop="date" label="日期" width="180"> </el-table-column>
             <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
@@ -728,6 +728,7 @@ export default {
 
 <style lang="less" scoped>
 .stairs {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -774,11 +775,6 @@ export default {
         height: 100%;
       }
     }
-  }
-  .el-button {
-    position: absolute;
-    top: -34px;
-    right: 0;
   }
 }
 // 分页定位

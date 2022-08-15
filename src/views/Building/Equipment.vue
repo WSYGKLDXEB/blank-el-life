@@ -5,11 +5,11 @@
       <el-breadcrumb-item>楼宇智控</el-breadcrumb-item>
       <el-breadcrumb-item>设备平面</el-breadcrumb-item>
     </el-breadcrumb>
+    <!-- 设备列表显示按钮 -->
+    <el-button class="listBut" size="mini" type="primary" @click="isShowList = !isShowList">{{ isShowList ? '场景操控' : '操控面板' }}</el-button>
     <el-row :gutter="16">
       <el-col :span="20">
         <el-card class="box-card">
-          <!-- 数据列表显示按钮 -->
-          <i :class="['showList', isShowList ? 'el-icon-top-right' : 'el-icon-bottom-left']" @click="isShowList = !isShowList"></i>
           <machine-group v-show="isShowList" :dataList="new Array(13)"></machine-group>
           <iframe v-show="!isShowList" ref="scenes" src="https://www.thingjs.com/pp/889475f1d1cd354ffe1fc1f6" frameborder="0"></iframe>
         </el-card>
@@ -151,6 +151,7 @@ export default {
 
 <style lang="less" scoped>
 .equipment {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -175,18 +176,5 @@ export default {
 }
 /deep/.el-dialog {
   background-color: var(--bgc-theme);
-}
-// 数据列表显示按钮
-.showList {
-  cursor: pointer;
-  position: absolute;
-  right: 1px;
-  top: 1px;
-  color: var(--theme);
-  font-weight: 700;
-  border-width: 0 0 1px 1px;
-  border-color: var(--color-theme);
-  border-style: solid;
-  transition: all 0.3s;
 }
 </style>
