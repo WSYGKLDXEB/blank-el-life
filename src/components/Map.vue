@@ -4,6 +4,8 @@
 </template>
 
 <script>
+// 引入加载TXMap的方法
+import TMap from '@/utils/initMap'
 export default {
   name: 'BlankElEcBimRealisticMap',
   props: {
@@ -24,18 +26,23 @@ export default {
   },
 
   methods: {
-    init() {
+    async init() {
+      // console.log(
+      //   '地图',
+      //   TMap.then((res) => res)
+      // )
       // 步骤：定义map变量 调用 qq.maps.Map() 构造函数   获取地图显示容器
       // 自己设置地图中心点
-      const myLatlng = new qq.maps.LatLng(39.916527, 116.397128)
+      const myLatlng = new qq.maps.LatLng(28.690697, 115.855263)
       // 定义工厂模式函数
       const myOptions = {
-        zoom: 8, // 设置地图缩放级别
+        zoom: 18, // 设置地图缩放级别
         center: myLatlng, // 设置中心点样式
         mapTypeId: qq.maps.MapTypeId.ROADMAP // 设置地图样式详情参见MapType
       }
       // 获取dom元素添加地图信息
       const map = new qq.maps.Map(document.getElementById('container'), myOptions)
+      // console.log(new qq.maps.MultiMarker())
     },
     setMapH() {
       // 获取窗口的高度，减去一个定值，你可以自己* 乘以一个小数

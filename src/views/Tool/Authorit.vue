@@ -17,7 +17,7 @@
             </div>
             <div>
               <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
-              <el-button type="primary" size="mini" icon="el-icon-s-grid" @click="$router.push('/rights')">权限列表</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-s-grid" @click="isFormDialog = true">权限列表</el-button>
             </div>
           </div>
           <!-- 表格 -->
@@ -92,6 +92,38 @@
       </el-col>
     </el-row>
 
+    <!-- 表格展示框 -->
+    <el-dialog class="tableBox" center fullscreen title="数据查询" :visible.sync="isFormDialog" width="80%">
+      <el-card>
+        <!-- 表格 -->
+        <el-table :default-sort="{ prop: 'level', order: 'ascending' }" stripe max-height="740" :data="rightsList" border style="width: 100%">
+          <!-- 展开项 -->
+          <el-table-column type="index" label="#"> </el-table-column>
+          <el-table-column prop="authName" label="权限名称"> </el-table-column>
+          <el-table-column prop="path" label="路径"> </el-table-column>
+          <el-table-column sortable prop="level" label="权限等级">
+            <template slot-scope="scope">
+              <el-tag v-if="Number(scope.row.level) === 0">一级</el-tag>
+              <el-tag type="success" v-else-if="Number(scope.row.level) === 1">二级</el-tag>
+              <el-tag type="warning" v-else>三级</el-tag>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination
+          v-if="tableData.length !== 0"
+          background
+          :current-page="currentPage"
+          :page-sizes="[100, 200, 300, 400]"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="400"
+        >
+        </el-pagination>
+        <!-- 空状态 -->
+        <el-empty v-else description="选择条件查询！"></el-empty>
+      </el-card>
+    </el-dialog>
     <!-- 操作弹出框 -->
     <el-dialog center title="添加角色" :visible.sync="isDialog" :show-close="false" width="40%" @close="close">
       <el-form ref="formRef" label-position="right" label-width="80px" :model="formData" :rules="formRules">
@@ -124,11 +156,13 @@ import userPerm from '@/assets/js/userPerm'
 import autTreeList from '@/assets/js/autTreeLIst'
 import { CreateChart, grid, color, textColor } from '@/assets/js/blank'
 import giftImageUrl from '@/assets/image/chartImg.png'
+import rightsList from '@/assets/js/permList'
 export default {
   name: 'BlankElEcBimRealisticAuthorit',
 
   data() {
     return {
+      rightsList,
       searchValue: '',
       autTreeList,
       // 默认选中的节点id数值集合
@@ -162,7 +196,9 @@ export default {
       tableId: 0,
       // 是否为编辑状态
       isEditState: false,
-      selValue: ''
+      selValue: '',
+      // 控制表格展示框的显示与否
+      isFormDialog: false
     }
   },
 
@@ -780,6 +816,20 @@ export default {
 tr,
 td {
   transition: all 0.6s;
+}
+// 数据展示框
+.tableBox {
+  /deep/.el-dialog__body {
+    padding-top: 10px !important;
+    height: 90%;
+  }
+  .el-card {
+    box-shadow: none !important;
+  }
+  /deep/.el-card__body {
+    height: 100%;
+    // padding-bottom: 0 !important;
+  }
 }
 // 展开栏tag标签垂直居中
 .vcenter {

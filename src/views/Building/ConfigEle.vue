@@ -620,7 +620,7 @@ export default {
       CreateChart(this.$refs.use, option)
     },
     electChart() {
-      const bgColor = '#fff'
+      const bgColor = ''
       const color = ['#0090FF', '#36CE9E', '#FFC005', '#FF515A', '#8B5CFF', '#00CA69']
       const echartData = [
         {
