@@ -48,31 +48,46 @@ export default {
       treeData: [
         {
           label: '1f',
-          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
+          children: [
+            { label: '空调机-1', value: 'tem1' },
+            { label: '空调机-2', value: 'tem2' },
+            { label: '空调机-3', value: 'tem3' },
+            { label: '空调机-4', value: 'tem4' },
+            { label: '空调机-5', value: 'tem5' },
+            { label: '空调机-6', value: 'tem6' },
+            { label: '空调机-7', value: 'tem7' }
+          ]
         },
         {
           label: '2f',
-          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
+          children: [
+            { label: '空调机-1', value: 'tem1' },
+            { label: '空调机-2', value: 'tem2' },
+            { label: '空调机-3', value: 'tem3' },
+            { label: '空调机-4', value: 'tem4' },
+            { label: '空调机-5', value: 'tem5' },
+            { label: '空调机-6', value: 'tem6' },
+            { label: '空调机-7', value: 'tem7' },
+            { label: '空调机-8', value: 'tem8' },
+            { label: '空调机-9', value: 'tem9' },
+            { label: '空调机-10', value: 'tem10' }
+          ]
         },
         {
           label: '3f',
-          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
-        },
-        {
-          label: '4f',
-          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
-        },
-        {
-          label: '5f',
-          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
-        },
-        {
-          label: '6f',
-          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
-        },
-        {
-          label: '7f',
-          children: [{ label: '空调机-1' }, { label: '空调机-2' }, { label: '空调机-3' }, { label: '空调机-4' }, { label: '空调机-5' }, { label: '空调机-6' }, { label: '空调机-7' }]
+          children: [
+            { label: '空调机-1', value: 'tem1' },
+            { label: '空调机-2', value: 'tem2' },
+            { label: '空调机-3', value: 'tem3' },
+            { label: '空调机-4', value: 'tem4' },
+            { label: '空调机-5', value: 'tem5' },
+            { label: '空调机-6', value: 'tem6' },
+            { label: '空调机-7', value: 'tem7' },
+            { label: '空调机-8', value: 'tem8' },
+            { label: '空调机-9', value: 'tem9' },
+            { label: '空调机-10', value: 'tem10' },
+            { label: '空调机-11', value: 'tem11' }
+          ]
         }
       ],
       // 拓扑图的显示与否
@@ -121,10 +136,13 @@ export default {
     // 节点点击
     nodeClick(obj, node, com) {
       if (!obj.children) {
-        console.log(obj)
+        const object = {
+          cmd: obj.value
+        }
+        // console.log(obj, object)
+        sendSonInfo(this.$refs.scenes, object)
       }
     },
-    // 拓扑图弹出框打开动画结束后的回调
     dialogOpened() {
       const time = setTimeout(() => {
         sendSonInfo(this.$refs.model, this.modelInfo)
