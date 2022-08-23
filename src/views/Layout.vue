@@ -109,8 +109,8 @@ export default {
     }
   },
   mounted() {
-    const s = Math.floor(Math.random() * 10) * 1000
-    const h = this.$createElement
+    // const s = Math.floor(Math.random() * 10) * 1000
+    // const h = this.$createElement
     // const time = setInterval(() => {
     //   this.$notify.error({
     //     title: '安全警告',
@@ -121,7 +121,7 @@ export default {
     //     // 偏移
     //     offset: 60
     //   })
-    // }, 12000)
+    // }, 1000)
   },
   computed: {
     // 获取层级菜单项
@@ -174,11 +174,14 @@ export default {
         dom.setProperty('--bgc-theme', '#eff2f9')
       } else if (com === 'theme-black') {
         // 酷炫黑
-        dom.setProperty('--theme', 'rgba(36, 39, 48, .8)')
+        // dom.setProperty('--theme', 'rgba(36, 39, 48, .8)')
+        dom.setProperty('--theme', 'rgba(37, 44, 72, .8)')
         dom.setProperty('--color-theme', 'rgba(255,255,255, 1)')
         dom.setProperty('--color-secondary', '#787878')
-        dom.setProperty('--bgc-default', 'rgba(36, 39, 48, 1)')
-        dom.setProperty('--bgc-theme', 'rgba(29, 32, 39, 1)')
+        // dom.setProperty('--bgc-default', 'rgba(36, 39, 48, 1)')
+        dom.setProperty('--bgc-default', 'rgba(37, 44, 72, 1)')
+        // dom.setProperty('--bgc-theme', 'rgba(29, 32, 39, 1)')
+        dom.setProperty('--bgc-theme', 'rgba(23, 28, 49, 1)')
       } else if (com === 'theme-custom') {
         // 自定义
         dom.setProperty('--color-secondary', '#333')

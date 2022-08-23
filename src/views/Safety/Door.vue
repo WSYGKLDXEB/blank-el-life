@@ -1086,6 +1086,7 @@ export default {
       }
       const option = {
         backgroundColor: '',
+        color: colorArr,
         tooltip: {
           formatter: function (params) {
             return params.marker + params.name + ': ' + params.value[3] + ' ms'

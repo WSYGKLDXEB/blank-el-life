@@ -154,7 +154,7 @@
 <script>
 import userPerm from '@/assets/js/userPerm'
 import autTreeList from '@/assets/js/autTreeLIst'
-import { CreateChart, grid, color, textColor } from '@/assets/js/blank'
+import { CreateChart, grid, color, textColor, colorArr } from '@/assets/js/blank'
 import giftImageUrl from '@/assets/image/chartImg.png'
 import rightsList from '@/assets/js/permList'
 export default {
@@ -522,7 +522,8 @@ export default {
     },
     gradeChart() {
       const option = {
-        color: ['rgb(41,182,203)', 'rgb(52,195,242)', 'rgb(52,146,242)', 'rgb(86,111,206)'],
+        // color: ['rgb(41,182,203)', 'rgb(52,195,242)', 'rgb(52,146,242)', 'rgb(86,111,206)'],
+        color: colorArr,
         title: [
           {
             text: '单位：#',
@@ -731,6 +732,7 @@ export default {
         }
       ]
       const option = {
+        color: colorArr,
         title: [
           {
             text: '单位：%',

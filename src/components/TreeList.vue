@@ -7,7 +7,17 @@
       </div>
       <!-- 过滤器 -->
       <el-input v-if="isFilter" size="small" placeholder="输入关键字进行过滤" v-model="filterText"> </el-input>
-      <el-tree accordion ref="tree" @node-click="nodeClick" :filter-node-method="filterNode" icon-class="el-icon-folder" :data="treeData" :props="defaultProps"></el-tree>
+      <el-tree
+        node-key="value"
+        default-expanded-keys="floor1"
+        accordion
+        ref="tree"
+        @node-click="nodeClick"
+        :filter-node-method="filterNode"
+        icon-class="el-icon-folder"
+        :data="treeData"
+        :props="defaultProps"
+      ></el-tree>
     </el-card>
   </div>
 </template>

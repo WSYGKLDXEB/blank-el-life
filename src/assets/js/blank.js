@@ -2,13 +2,12 @@ import * as echarts from 'echarts'
 export const color = '#eff2f9'
 export const textColor = '#b8f0fc'
 export const colorArr = [
-  '#2ec7c9',
-  '#b6a2de',
-  '#5ab1ef',
-  '#ffb980',
-  '#d87a80',
-  '#8d98b3',
-  '#e5cf0d',
+  '#22c3aa',
+  '#ff999a',
+  '#49afff',
+  '#ffa77f',
+  '#f6b655',
+  '#74caae',
   '#97b552',
   '#95706d',
   '#dc69aa',
@@ -23,6 +22,30 @@ export const colorArr = [
   '#6f5553',
   '#c14089'
 ]
+// #region
+// export const colorArr = [
+//   '#2ec7c9',
+//   '#b6a2de',
+//   '#5ab1ef',
+//   '#ffb980',
+//   '#d87a80',
+//   '#8d98b3',
+//   '#e5cf0d',
+//   '#97b552',
+//   '#95706d',
+//   '#dc69aa',
+//   '#07a2a4',
+//   '#9a7fd1',
+//   '#588dd5',
+//   '#f5994e',
+//   '#c05050',
+//   '#59678c',
+//   '#c9ab00',
+//   '#7eb00a',
+//   '#6f5553',
+//   '#c14089'
+// ]
+// #endregion
 export const grid = {
   top: '18%',
   left: '3%',

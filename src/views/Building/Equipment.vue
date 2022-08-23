@@ -48,6 +48,7 @@ export default {
       treeData: [
         {
           label: '1f',
+          value: 'floor1',
           children: [
             { label: '空调机-1', value: 'tem1' },
             { label: '空调机-2', value: 'tem2' },
@@ -60,6 +61,7 @@ export default {
         },
         {
           label: '2f',
+          value: 'floor2',
           children: [
             { label: '空调机-1', value: 'tem1' },
             { label: '空调机-2', value: 'tem2' },
@@ -75,6 +77,7 @@ export default {
         },
         {
           label: '3f',
+          value: 'floor3',
           children: [
             { label: '空调机-1', value: 'tem1' },
             { label: '空调机-2', value: 'tem2' },
@@ -87,6 +90,46 @@ export default {
             { label: '空调机-9', value: 'tem9' },
             { label: '空调机-10', value: 'tem10' },
             { label: '空调机-11', value: 'tem11' }
+          ]
+        },
+        {
+          label: '4f',
+          value: 'floor4',
+          children: [
+            { label: '空调机-1', value: 'tem1' },
+            { label: '空调机-2', value: 'tem2' }
+          ]
+        },
+        {
+          label: '5f',
+          value: 'floor6',
+          children: [
+            { label: '空调机-1', value: 'tem1' },
+            { label: '空调机-2', value: 'tem2' }
+          ]
+        },
+        {
+          label: '6f',
+          value: 'floor6',
+          children: [
+            { label: '空调机-1', value: 'tem1' },
+            { label: '空调机-2', value: 'tem2' }
+          ]
+        },
+        {
+          label: '7f',
+          value: 'floor7',
+          children: [
+            { label: '空调机-1', value: 'tem1' },
+            { label: '空调机-2', value: 'tem2' }
+          ]
+        },
+        {
+          label: '8f',
+          value: 'floor8',
+          children: [
+            { label: '空调机-1', value: 'tem1' },
+            { label: '空调机-2', value: 'tem2' }
           ]
         }
       ],
@@ -135,13 +178,14 @@ export default {
   methods: {
     // 节点点击
     nodeClick(obj, node, com) {
-      if (!obj.children) {
-        const object = {
-          cmd: obj.value
-        }
-        // console.log(obj, object)
-        sendSonInfo(this.$refs.scenes, object)
+      console.log(obj, node, com)
+      // if (!obj.children) {
+      const object = {
+        cmd: obj.value
       }
+
+      sendSonInfo(this.$refs.scenes, object)
+      // }
     },
     dialogOpened() {
       const time = setTimeout(() => {

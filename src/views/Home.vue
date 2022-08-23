@@ -48,20 +48,22 @@
       <el-col>
         <el-card class="box-card">
           <div slot="header" class="header">
-            <span>设备信息</span>
+            <span>项目信息</span>
           </div>
           <el-descriptions column="1">
-            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="用户名">kooriookami</el-descriptions-item>
-            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="手机号">18100000000</el-descriptions-item>
-            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="居住地">苏州市</el-descriptions-item>
-            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="备注">
-              <el-tag size="small">学校</el-tag>
+            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="项目名称">中国人寿江西分公司</el-descriptions-item>
+            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="类型">
+              <el-tag size="small" type="success">保险</el-tag>
             </el-descriptions-item>
-            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="联系地址">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="联系人">邓经理（182 7081 0602）</el-descriptions-item>
+            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="地址">南昌市红谷滩区丰和中大道1266号中国人寿项目部（翠林国际大厦旁）</el-descriptions-item>
+            <el-descriptions-item labelStyle="font-weight:700;color: #111;" label="介绍"
+              >该项目地下室两层，地上25层（其中一至四层为裙房），为一类高层公共建筑。总建筑面积54925.11平方米，其中地下室建筑面积18802.50平方米，地上建筑面积36122.61平方米，建筑高度99.85米。
+            </el-descriptions-item>
           </el-descriptions>
-          <div class="footer">
+          <!-- <div class="footer">
             <el-button type="success" size="mini" icon="el-icon-video-camera">测试</el-button>
-          </div>
+          </div> -->
         </el-card>
       </el-col>
     </el-row>

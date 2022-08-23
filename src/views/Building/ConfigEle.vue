@@ -304,9 +304,9 @@ export default {
     // 温度
     temChart(dom, id) {
       const dataValArray = 0.63
-      const value = 40
+      let value = 40
       const max = 50
-      const colorArr = [['#49afff'], ['#68A54A'], ['#f56c6c']]
+      const colorArr = ['#49afff', '#36ce9e', '#f56c6c']
       const option = {
         title: [
           {
@@ -459,7 +459,8 @@ export default {
                 color: [
                   // 数组第一个属性是颜色所占line百分比
                   [0.4, '#49afff'],
-                  [0.6, '#68A54A'],
+                  // [0.6, '#68A54A'],
+                  [0.6, '#36ce9e'],
                   [1, '#f56c6c']
                 ],
                 width: 22
@@ -520,19 +521,22 @@ export default {
         } else if (value >= 30 && value <= 50) {
           option.series[0].color = colorArr[2]
         }
-        option.series[0].color = colorArr[0]
+        // option.series[0].color = colorArr[0]
       }
       CreateChart(dom, option)
       const time = setInterval(() => {
-        // const num = (Math.random() * 40).toFixed(2) - 0
+        const num = (Math.random() * 40).toFixed(2) - 0
+        value = num
+        initPolarColor(value)
         // const num = value
-        // option.series[0].data[0].value = num
+        option.series[0].data[2] = num / 10
         // option.series[1].data[0].value = num
         // option.series[1].data[2].value = 67 - num
         CreateChart(dom, option)
-        initPolarColor(value)
-        clearInterval(time)
-      }, 1000)
+
+        // clearInterval(time)
+        console.log(num)
+      }, 3000)
     },
     useChart() {
       const data = []
@@ -1031,7 +1035,8 @@ export default {
             name: '故障',
             type: 'line',
             smooth: true,
-            color: 'orange',
+            // color: 'orange',
+            color: '#ffcb1c',
             symbol: 'circle',
             areaStyle: {
               opacity: 0.3,
@@ -1045,6 +1050,7 @@ export default {
                   {
                     offset: 0,
                     color: 'orange' // 0% 处的颜色
+                    // color: '#f6b655' // 0% 处的颜色
                   },
                   {
                     offset: 1,
@@ -1061,7 +1067,8 @@ export default {
             name: '报警',
             type: 'line',
             smooth: true,
-            color: 'red',
+            color: '#f56c6c',
+            // color: 'red',
             // hoverAnimation:true,
             symbol: 'circle',
             areaStyle: {
@@ -1075,7 +1082,8 @@ export default {
                 colorStops: [
                   {
                     offset: 0,
-                    color: 'red'
+                    // color: 'red'
+                    color: '#f56c6c'
                   },
                   {
                     offset: 1,
