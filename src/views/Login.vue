@@ -37,8 +37,8 @@ export default {
     return {
       verify: '123',
       loginData: {
-        user: '',
-        paw: '',
+        user: 'blank',
+        paw: '666666',
         verify: ''
       },
       // 验证规则
@@ -180,7 +180,7 @@ export default {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: url('https://picsum.photos/1920/1080/?blur=1');
+  background: url('../assets/image/bg.jpg');
 }
 h1 {
   padding: 5px;
