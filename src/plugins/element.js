@@ -43,7 +43,9 @@ import {
   PageHeader,
   TimePicker,
   ColorPicker,
-  TimeSelect
+  TimeSelect,
+  Timeline,
+  TimelineItem
 } from 'element-ui'
 
 Vue.use(Button)
@@ -86,6 +88,8 @@ Vue.use(PageHeader)
 Vue.use(TimePicker)
 Vue.use(ColorPicker)
 Vue.use(TimeSelect)
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 Vue.use(tooltip)
 // Vue.use(Message)
 

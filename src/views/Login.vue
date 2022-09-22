@@ -37,8 +37,8 @@ export default {
     return {
       verify: '123',
       loginData: {
-        user: '',
-        paw: '',
+        user: 'blank',
+        paw: '666666',
         verify: ''
       },
       // 验证规则
@@ -149,7 +149,7 @@ export default {
         if (this.loginData.verify.toLowerCase() === this.verify.toLowerCase()) {
           if (this.loginData.user === 'blank' && this.loginData.paw === '666666') {
             sessionStorage.setItem('token', 'XXX-XXXX-XXXX')
-            this.$router.push('/layout')
+            this.$router.push('/exhibit')
           } else {
             this.$refs.loginForm.resetFields()
             return this.$message.error('用户或者密码错误！')
@@ -180,7 +180,7 @@ export default {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: url('https://picsum.photos/1920/1080/?blur=1');
+  background: url('../assets/image/bg.jpg');
 }
 h1 {
   padding: 5px;

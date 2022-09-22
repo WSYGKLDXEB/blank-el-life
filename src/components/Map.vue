@@ -12,17 +12,22 @@ export default {
     h: {
       type: Number,
       default: 242
+    },
+    // 黑夜模式
+    darkNight: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      mapStyle: { height: '' }
+      mapStyle: { height: '100%' }
     }
   },
 
   mounted() {
     this.init()
-    this.setMapH()
+    // this.setMapH()
   },
 
   methods: {
@@ -37,8 +42,12 @@ export default {
       // 定义工厂模式函数
       const myOptions = {
         zoom: 18, // 设置地图缩放级别
-        center: myLatlng, // 设置中心点样式
-        mapTypeId: qq.maps.MapTypeId.ROADMAP // 设置地图样式详情参见MapType
+        center: myLatlng // 设置中心点样式
+        // mapTypeId: qq.maps.MapTypeId.ROADMAP // 设置地图样式详情参见MapType
+        // mapStyleId: 'style1'
+      }
+      if (this.darkNight) {
+        myOptions.mapStyleId = 'style3'
       }
       // 获取dom元素添加地图信息
       const map = new qq.maps.Map(document.getElementById('container'), myOptions)

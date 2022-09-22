@@ -54,7 +54,7 @@ export const grid = {
   containLabel: true
 }
 // 创建图表
-export const CreateChart = (dom, option) => {
+export const CreateChart = (dom, option, type, time) => {
   const chart = echarts.init(dom)
   chart.setOption(option)
   // 为图表父节点添加监听， 用于监测父节点的大小变化
@@ -72,8 +72,45 @@ export const CreateChart = (dom, option) => {
   //   console.log('窗口变化')
   //   chart.resize()
   // })
+  if (type) {
+    chartDynamicShow(chart, option, type)
+  }
+  if (type && time) {
+    chartDynamicShow(chart, option, type, time)
+  }
 }
-
+// chart动态显示提示
+export const chartDynamicShow = (obj, option, type = 'showTip', time = 1000) => {
+  // 动态显示tootip
+  let index = 0 // 播放所在下标
+  setInterval(function () {
+    if (type === 'highlight') {
+      // 饼图
+      option.series[0].data.forEach((item, i) => {
+        console.log(465654)
+        // 遍历饼图数据，取消所有图形的高亮效果
+        obj.dispatchAction({
+          type: 'downplay',
+          seriesIndex: 0,
+          dataIndex: i
+        })
+      })
+    }
+    // 使得tootip每隔三秒自动显示
+    obj.dispatchAction({
+      type, // 根据 tooltip 的配置项显示提示框。
+      seriesIndex: 0,
+      dataIndex: index
+    })
+    index++
+    // faultRateOption.series[0].data.length 是已报名纵坐标数据的长度
+    option.series.forEach((item) => {
+      if (index >= item.data.length) {
+        index = 0
+      }
+    })
+  }, time)
+}
 // 数值补零 prefixInteger(需要补零的数字，输出数字位数)
 export const PrefixInteger = (num, n) => (Array(n).join(0) + num).slice(-n)
 
@@ -126,6 +163,29 @@ export const hex2Rgba = (bgColor, alpha = 1) => {
   const color = bgColor.slice(1) // 去掉'#'号
   const rgba = [parseInt('0x' + color.slice(0, 2)), parseInt('0x' + color.slice(2, 4)), parseInt('0x' + color.slice(4, 6)), alpha]
   return 'rgba(' + rgba.toString() + ')'
+}
+
+/**
+ * 滚动数字
+ * @param {*DOM} DOM DOM对象
+ * @param {*Number} initNum 滚动初始值  默认值为0
+ * @param {*Number} targetNum 结束值    默认值为1000
+ * @param {*Number} speed      速度     默认值为10
+ */
+export function numberRun(DOM, initNum = 0, targetNum = 1000, speed = 10) {
+  let numText = initNum
+  let global
+  function numberGlobal() {
+    numText += speed // 速度的计算可以为小数
+    if (numText >= targetNum) {
+      numText = targetNum
+      cancelAnimationFrame(global)
+    } else {
+      global = requestAnimationFrame(numberGlobal)
+    }
+    DOM.innerHTML = numText
+  }
+  numberGlobal()
 }
 
 // 向子页面发送消息
