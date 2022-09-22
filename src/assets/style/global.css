@@ -4,8 +4,8 @@
   --color-secondary: #333;
   --color-default: #fff;
   --bgc-theme: #eff2f9;
-  --bgc-default: #fff;
-  --br-theme: rgba(255, 255, 255, 0);
+  --bgc-default: rgba(141, 239, 250, 0.2);
+  --br-theme: rgba(255, 255, 255, 0.2);
 }
 /* 声明字体*/
 @font-face {
@@ -28,8 +28,8 @@ html {
 }
 .listBut {
   position: absolute;
-  top: -10px;
-  right: 0;
+  top: -54px;
+  right: 94px;
 }
 iframe {
   width: 100%;

@@ -16,7 +16,9 @@ export default {
 <style lang="less">
 #app {
   min-width: 1200px;
-  background-color: var(--bgc-theme);
+  // background-color: var(--bgc-theme);
+  background: url('../src/assets/image/bg1.png');
+  background-size: 100% 100%;
   // 隐藏滚动条
   overflow: auto !important;
   // overflow-y: auto;

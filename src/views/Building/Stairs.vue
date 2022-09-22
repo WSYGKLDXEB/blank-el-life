@@ -1,10 +1,5 @@
 <template>
   <div class="stairs">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>楼宇智控</el-breadcrumb-item>
-      <el-breadcrumb-item>梯控管理</el-breadcrumb-item>
-    </el-breadcrumb>
     <!-- 表格显示框按钮 -->
     <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据表格</el-button>
     <!-- 图表 -->
@@ -732,6 +727,7 @@ export default {
   width: 100%;
   height: 100%;
 }
+// 数据弹窗显示按钮
 .tableBox {
   /deep/.el-dialog__body {
     padding-top: 10px !important;
@@ -751,7 +747,7 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  height: 96%;
+  height: 100%;
   /deep/.el-card__body {
     height: 100%;
   }

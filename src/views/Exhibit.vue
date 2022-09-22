@@ -48,9 +48,15 @@
         <!-- 视频监控 -->
         <div class="title_c">视频监控</div>
         <div class="monitor float between" @click="$router.push('/video')">
-          <div class="videoBox between hidden" ref="">
-            <video v-for="i in 6" :key="i" @click="$router.push('/video')" ref="curMonitor" controls :src="monitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
+          <!-- 左右切换按钮 -->
+          <span class="el-icon-arrow-left arrow" @click.stop="previous"></span>
+          <span class="el-icon-arrow-right arrow" @click.stop="next"></span>
+          <div class="videoToggle">
+            <div class="videoBox between hidden" ref="">
+              <video v-for="i in 6" :key="i" @click="$router.push('/video')" ref="curMonitor" :src="monitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
+            </div>
           </div>
+
           <div class="control hidden between">
             <span v-for="i in 10" :key="i">监控-{{ i }}</span>
           </div>
@@ -141,6 +147,15 @@ export default {
   },
 
   methods: {
+    init() {},
+    // 上一个
+    previous() {
+      console.log('s')
+    },
+    // 下一个
+    next() {
+      console.log('sf')
+    },
     // 自动滚动
     autoRoll(dom) {
       let nowScroll = dom.scrollTop
@@ -1532,6 +1547,8 @@ export default {
       }
     }
     .monitor {
+      position: relative;
+      padding-left: 0.35rem;
       margin-top: 0.05rem;
       // height: calc(100vh - 6.2rem);
       height: calc((100% - 0.8rem) * 0.14);
@@ -1540,16 +1557,48 @@ export default {
         // border: 1px dashed salmon;
         height: 100%;
       }
-      .videoBox {
-        padding: 0 0.5rem;
+      .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        font-size: 0.2rem;
+        height: 1rem;
+        line-height: 1rem;
+        text-align: center;
+        width: 0.3rem;
+        background-color: #04253c;
+        overflow: auto !important;
+      }
+      .el-icon-arrow-left {
+        left: 0rem;
+        border-radius: 6px 0 0 6px;
+        &:active {
+          transform: translate(-1px, -50%);
+        }
+      }
+      .el-icon-arrow-right {
+        left: calc(80% + 0.15rem);
+        border-radius: 0 6px 6px 0;
+        &:active {
+          transform: translate(1px, -50%);
+        }
+      }
+      .videoToggle {
         width: 80%;
+        position: relative;
+
+        .videoBox {
+          height: 100%;
+        }
         video {
           // padding: 0.05rem;
           height: 1rem;
           // width: 76%;
           border-radius: 0.04rem;
-          border: 2px solid #041a29;
+          border: 2px solid transparent;
           position: relative;
+          transition: all 0.3s;
           &::before {
             position: absolute;
             top: 50%;
@@ -1559,6 +1608,11 @@ export default {
             width: 105%;
             height: 105%;
             border: 1px solid #01deff;
+          }
+          &:hover {
+            z-index: 1;
+            transform: translateY(-1px) scale(1.01);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
           }
         }
       }

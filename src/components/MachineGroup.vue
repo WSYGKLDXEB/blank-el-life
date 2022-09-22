@@ -2,7 +2,7 @@
   <div :class="['machine', horizontal ? 'horizontal' : '']">
     <div class="machine-item" v-for="(item, i) in dataList" :key="i">
       <div class="titleBox">
-        <h4>地下室排风机-0{{ i }}</h4>
+        <h4 class="title">地下室排风机-0{{ i }}</h4>
         <div v-if="horizontal && isAniBut">
           <p>演示动画：</p>
           <el-switch class="model" :width="70" v-model="aniSwitch" active-color="rgba(64, 158, 255, .8)" inactive-color="rgba(126, 124, 125, 1)" @change="modelOpen"> </el-switch>
@@ -220,6 +220,10 @@ export default {
     display: flex;
     justify-content: space-between;
     flex-flow: row nowrap;
+
+    .title {
+      font-size: 0.2rem !important;
+    }
     div {
       margin-right: 6px;
       display: flex;
@@ -340,6 +344,7 @@ export default {
     height: auto;
   }
   h4 {
+    font-size: 0.2rem;
     margin: 0;
     color: #bbb;
   }

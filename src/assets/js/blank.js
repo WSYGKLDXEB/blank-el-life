@@ -87,7 +87,7 @@ export const chartDynamicShow = (obj, option, type = 'showTip', time = 1000) => 
     if (type === 'highlight') {
       // 饼图
       option.series[0].data.forEach((item, i) => {
-        console.log(465654)
+        // console.log(465654)
         // 遍历饼图数据，取消所有图形的高亮效果
         obj.dispatchAction({
           type: 'downplay',

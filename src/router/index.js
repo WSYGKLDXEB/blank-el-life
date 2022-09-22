@@ -20,21 +20,18 @@ const routes = [
   {
     path: '/layout',
     component: () => import('@/views/Layout.vue'),
-    redirect: '/home',
     children: [
-      { path: '/home', component: () => import('@/views/Home.vue') },
-      { path: '/equipment', component: () => import('@/views/Building/Equipment.vue') },
-      { path: '/video', component: () => import('@/views/Safety/Video.vue') },
-      { path: '/door', component: () => import('@/views/Safety/Door.vue') },
-      { path: '/parking', component: () => import('@/views/Safety/Parking.vue') },
-      { path: '/energy', component: () => import('@/views/Building/Energy.vue') },
-      { path: '/stairs', component: () => import('@/views/Building/Stairs.vue') },
-      { path: '/configEle', component: () => import('@/views/Building/ConfigEle.vue') },
-      { path: '/alarm', component: () => import('@/views/Safety/Alarm.vue') },
-      { path: '/fire', component: () => import('@/views/Safety/Fire.vue') },
-      { path: '/user', component: () => import('@/views/Tool/User.vue') },
-      { path: '/authorit', component: () => import('@/views/Tool/Authorit.vue') },
-      { path: '/rights', component: () => import('@/views/Tool/Rights.vue') }
+      { meta: { name: '设备平面' }, path: '/equipment', component: () => import('@/views/Building/Equipment.vue') },
+      { meta: { name: '视频监控' }, path: '/video', component: () => import('@/views/Safety/Video.vue') },
+      { meta: { name: '门禁管理' }, path: '/door', component: () => import('@/views/Safety/Door.vue') },
+      { meta: { name: '停车管理' }, path: '/parking', component: () => import('@/views/Safety/Parking.vue') },
+      { meta: { name: '能源管理' }, path: '/energy', component: () => import('@/views/Building/Energy.vue') },
+      { meta: { name: '梯控管理' }, path: '/stairs', component: () => import('@/views/Building/Stairs.vue') },
+      { meta: { name: '高压配电' }, path: '/configEle', component: () => import('@/views/Building/ConfigEle.vue') },
+      { meta: { name: '入侵报警' }, path: '/alarm', component: () => import('@/views/Safety/Alarm.vue') },
+      { meta: { name: '火灾报警' }, path: '/fire', component: () => import('@/views/Safety/Fire.vue') },
+      { meta: { name: '用户管理' }, path: '/user', component: () => import('@/views/Tool/User.vue') },
+      { meta: { name: '权限管理' }, path: '/authorit', component: () => import('@/views/Tool/Authorit.vue') }
     ]
   }
 ]
