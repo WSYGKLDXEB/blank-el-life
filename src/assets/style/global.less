@@ -35,7 +35,7 @@ body,
   margin: 0;
   padding: 0;
   // min-width: 1366px;
-  // height: calc(100vw * 9 / 16);
+  height: calc(100vw * 9 / 16);
   transition: all 0.6s;
   color: var(--color-secondary);
   // &:not(.exhibit){
@@ -48,14 +48,83 @@ html {
 // 页面右上角列表切换按钮
 .listBut {
   position: absolute;
-  top: -54px;
-  right: 94px;
+  top: -0.54rem;
+  right: 1rem;
+}
+// 数据弹窗
+.tableBox {
+  .el-dialog {
+    .el-dialog__body {
+      height: 87%;
+      padding-top: 10px !important;
+    }
+  }
+  .el-card {
+    height: 100%;
+    box-shadow: none !important;
+    .el-card__body {
+      padding: 20px 25px !important;
+      height: 94%;
+      // padding-bottom: 0 !important;
+    }
+  }
+  // 分页定位
+  .el-pagination {
+    position: absolute;
+    bottom: 24px;
+  }
+  // 空状态定位
+  .el-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 iframe {
   width: 100%;
   height: 100%;
   border-radius: 4px;
 }
+// ------------------自适应方案--------------
+.el-dialog__header {
+  height: 0.24rem;
+}
+.el-dialog__title {
+  position: absolute;
+}
+
+.el-card__header {
+  height: 60px;
+}
+.clearfix {
+  height: 100%;
+  // card卡片
+  & > div:first-of-type {
+    height: 100%;
+    // height: 40px;
+    // position: relative;
+    // top: -72px;
+    & > div {
+      vertical-align: top;
+    }
+    & > button {
+      vertical-align: top;
+    }
+  }
+}
+
+.el-message__icon {
+  font-size: 20px;
+}
+// -----------------------------------------
+.el-dialog__body {
+  .el-card {
+    background: transparent;
+    border-color: transparent;
+  }
+}
+// -----------------------------------------
 // 面包屑
 .el-breadcrumb {
   margin-bottom: 15px;
@@ -148,4 +217,17 @@ iframe {
 }
 .column {
   flex-flow: column nowrap !important;
+}
+.card {
+  width: 100%;
+  border-radius: 4px;
+  background: var(--bgc-default);
+  border: 1px solid var(--bgc-default);
+  overflow: hidden;
+  color: #303133;
+  transition: 0.3s;
+  padding: 0.18rem;
+  box-sizing: border-box;
+  .title {
+  }
 }

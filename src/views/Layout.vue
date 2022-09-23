@@ -73,13 +73,14 @@ export default {
 <style lang="less" scoped>
 .layout {
   position: relative;
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 .el-container {
   height: 100%;
 }
 .el-main {
+  // height: calc(100vh - 0.5rem);
   padding: 14px !important;
   overflow: visible !important;
 }

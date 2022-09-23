@@ -727,20 +727,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-// 数据弹窗显示按钮
-.tableBox {
-  /deep/.el-dialog__body {
-    padding-top: 10px !important;
-    height: 90%;
-  }
-  .el-card {
-    box-shadow: none !important;
-  }
-  /deep/.el-card__body {
-    height: 95%;
-    // padding-bottom: 0 !important;
-  }
-}
+
 // 图表
 .chartBox {
   position: relative;

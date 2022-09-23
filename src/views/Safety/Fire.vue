@@ -1,35 +1,28 @@
 <template>
   <div class="fire">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>安全中心</el-breadcrumb-item>
-      <el-breadcrumb-item>火灾报警</el-breadcrumb-item>
-    </el-breadcrumb>
     <!-- 表格显示框按钮 -->
     <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据表格</el-button>
 
     <!-- 图表 -->
-    <div ref="chartBox" id="chartBox" class="chartBox">
+    <div id="chartBox" class="chartBox">
       <el-row :gutter="16" class="row_1">
         <el-col :span="16">
           <!-- 统计 -->
-          <el-card>
-            <div class="chartItem" ref="statistics" style="height: 100%"></div>
-          </el-card>
+          <div class="card" ref="statistics" style="height: 100%"></div>
         </el-col>
         <el-col :span="8">
           <!-- 报警控制 -->
-          <el-card class="alarmControl">
+          <div class="alarmControl card" v-show="true">
             <h4>报警控制</h4>
             <div class="controlBox">
-              <div class="controlItem">
+              <div class="controlItem between">
                 <el-select :disabled="!switchValue" size="" v-model="alarmRange" placeholder="请选择">
                   <el-option v-for="item in rangeOption" :key="item.value" :label="item.label" :value="item.value"> </el-option>
                 </el-select>
                 <span>报警范围</span>
                 <el-switch style="margin-top: 4px" class="startUp" :width="70" v-model="switchValue" active-color="rgba(19, 206, 102, .85)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
               </div>
-              <div class="controlItem">
+              <div class="controlItem between">
                 <el-time-select
                   :disabled="!switchValue"
                   v-model="intervals"
@@ -45,35 +38,27 @@
                 <el-switch style="margin-top: 4px" class="startUp" :width="70" v-model="switchValue" active-color="rgba(19, 206, 102, .85)" inactive-color="rgba(126, 124, 125, 1)"> </el-switch>
               </div>
             </div>
-          </el-card>
+          </div>
         </el-col>
       </el-row>
       <el-row :gutter="16" class="row_1">
         <el-col :span="16">
           <!-- 统计 -->
-          <el-card>
-            <div class="chartItem" ref="scatter" style="height: 100%"></div>
-          </el-card>
+          <div class="chartItem card" ref="scatter" style="height: 100%"></div>
         </el-col>
         <el-col :span="8">
           <!-- 分类 -->
-          <el-card>
-            <div class="chartItem" ref="num" style="height: 100%"></div>
-          </el-card>
+          <div class="chartItem card" ref="num" style="height: 100%"></div>
         </el-col>
       </el-row>
       <el-row :gutter="16" class="row_1">
         <el-col :span="16">
           <!-- 统计 -->
-          <el-card>
-            <div class="chartItem" ref="everyDay" style="height: 100%"></div>
-          </el-card>
+          <div class="chartItem card" ref="everyDay" style="height: 100%"></div>
         </el-col>
         <el-col :span="8">
           <!-- 分类 -->
-          <el-card>
-            <div class="chartItem" ref="type" style="height: 100%"></div>
-          </el-card>
+          <div class="chartItem card" ref="type" style="height: 100%"></div>
         </el-col>
       </el-row>
     </div>
@@ -81,7 +66,7 @@
     <!-- 表格展示框 -->
     <el-dialog class="tableBox" center fullscreen title="数据查询" :visible.sync="isFormDialog" width="80%">
       <el-card>
-        <div slot="header" class="clearfix">
+        <div slot="header" class="between">
           <div style="width: auto">
             <!-- 下拉选择框 -->
             <el-select size="small" v-model="selValue" placeholder="请选择">
@@ -1266,59 +1251,67 @@ export default {
 }
 // 图表第一行
 .row_1 {
-  height: 32%;
-
-  // ------------------------
-  .el-switch {
-    // box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.25);
-    /deep/.el-switch__core {
-      border-radius: 4px;
-      &::after {
-        width: 33px;
-        border-radius: 2px;
-        color: #fff;
-        font-size: 10px;
-        line-height: 16px;
-        text-align: center;
-      }
+  height: 32% !important;
+}
+// ------------------------
+.el-switch {
+  // box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.25);
+  /deep/.el-switch__core {
+    border-radius: 4px;
+    &::after {
+      width: 33px;
+      border-radius: 2px;
+      color: #fff;
+      font-size: 10px;
+      line-height: 16px;
+      text-align: center;
     }
   }
-  /deep/.el-switch.is-checked .el-switch__core::after {
-    margin-left: -34px;
+}
+/deep/.el-switch.is-checked .el-switch__core::after {
+  margin-left: -34px;
+}
+// 启动控制
+/deep/.el-switch.startUp {
+  .el-switch__core::after {
+    content: '禁止';
+    background: rgba(255, 73, 73, 0.9);
   }
-  // 启动控制
-  /deep/.el-switch.startUp {
-    .el-switch__core::after {
-      content: '禁止';
-      background: rgba(255, 73, 73, 0.9);
-    }
-  }
-  /deep/.el-switch.startUp.is-checked {
-    .el-switch__core::after {
-      content: '启动';
-      color: #333;
-      background: #fff;
-    }
+}
+/deep/.el-switch.startUp.is-checked {
+  .el-switch__core::after {
+    content: '启动';
+    color: #333;
+    background: #fff;
   }
 }
 // 报警控制
 .alarmControl {
+  height: 100%;
   h4 {
     margin-top: 0 !important;
     float: right;
     // font-size: 12px;
     color: #9ec6d7;
+    font-size: 0.14rem;
   }
   .controlBox {
-    margin-top: 30px;
+    height: 100%;
+    padding-top: 30px;
+    & > div {
+      margin-top: 0.5rem;
+      justify-content: flex-start;
+    }
   }
   .controlItem {
-    margin-bottom: 20px;
+    margin-bottom: 0.3rem;
     position: relative;
     span {
       position: absolute;
       right: 0;
       top: 0;
+      font-size: 0.14rem;
+      color: #9ec6d7;
     }
   }
   .el-select {
@@ -1328,47 +1321,14 @@ export default {
     margin-left: 50px;
   }
 }
-// 数据展示框
-.tableBox {
-  /deep/.el-dialog__body {
-    padding-top: 10px !important;
-    height: 90%;
-  }
-  .el-card {
-    box-shadow: none !important;
-  }
-  /deep/.el-card__body {
-    height: 95%;
-    // padding-bottom: 0 !important;
-  }
-}
-.el-card {
-  height: 100%;
-}
-// 分页定位
-.el-pagination {
-  position: absolute;
-  bottom: 15px;
-}
-// 空状态定位
-.el-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.clearfix {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+
 // 图表
 .chartBox {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
 
-  height: 96%;
+  height: 100%;
 }
 .chartItem {
   width: 100%;

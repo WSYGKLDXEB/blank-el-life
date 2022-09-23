@@ -1,20 +1,13 @@
 <template>
   <div class="configEle">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>楼宇智控</el-breadcrumb-item>
-      <el-breadcrumb-item>高压配电</el-breadcrumb-item>
-    </el-breadcrumb>
     <!-- 表格显示框按钮 -->
     <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据表格</el-button>
 
     <!-- 图表 -->
-    <div ref="chartBox" id="chartBox" class="chartBox">
+    <div id="chartBox" class="chartBox">
       <el-row :gutter="16" class="row_1">
         <el-col :span="8">
-          <el-card>
-            <div class="chartItem" ref="voltage" style="height: 100%"></div>
-          </el-card>
+          <div class="chartItem card" ref="voltage" style="height: 100%"></div>
         </el-col>
         <!-- 变压器温度 -->
         <el-col :span="12">
@@ -25,7 +18,7 @@
           </el-card>
         </el-col>
         <el-col :span="4">
-          <el-card class="control">
+          <div class="control card" v-show="true">
             <h4>阙值控制</h4>
             <div class="stateBox" style="float: left">
               <p>启动控制</p>
@@ -45,24 +38,18 @@
                 <el-input size="mini" :disabled="!switchValue" v-model="inputValue" @keyup.enter.native="switchValue = false"></el-input>
               </div>
             </div>
-          </el-card>
+          </div>
         </el-col>
       </el-row>
       <!-- 第二行 -->
       <el-row :gutter="16" class="row_2">
         <!-- 电量使用情况 -->
         <el-col :span="8">
-          <el-card>
-            <div class="chartItem" ref="use" style="height: 100%"></div>
-          </el-card>
+          <div class="chartItem card" ref="use" style="height: 100%"></div>
         </el-col>
         <el-col :span="16" class="row_right">
-          <el-card>
-            <div class="chartItem" ref="elect" style="height: 100%"></div>
-          </el-card>
-          <el-card>
-            <div class="chartItem" ref="abnormal" style="height: 100%"></div>
-          </el-card>
+          <div class="chartItem card" ref="elect"></div>
+          <div class="chartItem card" ref="abnormal"></div>
         </el-col>
       </el-row>
     </div>
@@ -70,7 +57,7 @@
     <!-- 表格展示框 -->
     <el-dialog class="tableBox" center fullscreen title="数据查询" :visible.sync="isFormDialog" width="80%">
       <el-card>
-        <div slot="header" class="clearfix">
+        <div slot="header" class="between">
           <div style="width: auto">
             <!-- 下拉选择框 -->
             <el-select size="small" v-model="selValue" placeholder="请选择">
@@ -1567,43 +1554,12 @@ export default {
   width: 100%;
   height: 100%;
 }
-// 数据展示框
-.tableBox {
-  /deep/.el-dialog__body {
-    padding-top: 10px !important;
-    height: 90%;
-  }
-  .el-card {
-    box-shadow: none !important;
-  }
-  /deep/.el-card__body {
-    height: 95%;
-    // padding-bottom: 0 !important;
-  }
-}
-// 分页定位
-.el-pagination {
-  position: absolute;
-  bottom: 15px;
-}
-// 空状态定位
-.el-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.clearfix {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 .chartBox {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
 
-  height: 96%;
+  height: 100%;
 }
 .chartItem {
   width: 100%;
@@ -1620,68 +1576,71 @@ export default {
   .tem {
     width: 33%;
   }
-  // 阙值控制
-  .control {
-    text-align: right;
-    /deep/.el-card__body {
-      display: block;
-    }
-    h4 {
-      margin-top: 0;
-    }
-    p {
-      margin: 0;
-      margin-bottom: 6px;
-      font-size: 12px;
-      color: #aaa;
-    }
-    .butState {
-      padding-top: 20px;
-      width: 100%;
-      // position: relative;
-      display: flex;
-      justify-content: space-between;
-    }
-    .stateBox {
-      display: flex;
-      flex-flow: column nowrap;
-      align-items: center;
-      // justify-content: space-between;
-    }
-    .el-input {
-      width: 60px;
-    }
-    // ------------------------
-    .el-switch {
-      // box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.25);
-      /deep/.el-switch__core {
-        border-radius: 4px;
-        &::after {
-          width: 33px;
-          border-radius: 2px;
-          color: #fff;
-          font-size: 10px;
-          line-height: 16px;
-          text-align: center;
-        }
+}
+// 阙值控制
+.control {
+  height: 100%;
+  text-align: right;
+  /deep/.el-card__body {
+    display: block;
+  }
+  h4 {
+    margin-top: 0;
+    font-size: 0.2rem;
+    color: #aaa;
+  }
+  p {
+    margin: 0;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: #aaa;
+  }
+  .butState {
+    padding-top: 20px;
+    width: 100%;
+    // position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+  .stateBox {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    // justify-content: space-between;
+  }
+  .el-input {
+    width: 60px;
+  }
+  // ------------------------
+  .el-switch {
+    // box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.25);
+    /deep/.el-switch__core {
+      border-radius: 4px;
+      &::after {
+        width: 33px;
+        border-radius: 2px;
+        color: #fff;
+        font-size: 10px;
+        line-height: 16px;
+        text-align: center;
       }
     }
-    /deep/.el-switch.is-checked .el-switch__core::after {
-      margin-left: -34px;
+  }
+  /deep/.el-switch.is-checked .el-switch__core::after {
+    margin-left: -34px;
+  }
+  // 启动控制
+  /deep/.el-switch.startUp {
+    .el-switch__core::after {
+      content: '禁止';
+      background: rgba(255, 73, 73, 0.9);
     }
-    // 启动控制
-    /deep/.el-switch.startUp {
-      .el-switch__core::after {
-        content: '禁止';
-        background: rgba(255, 73, 73, 0.9);
-      }
-    }
-    /deep/.el-switch.startUp.is-checked {
-      .el-switch__core::after {
-        content: '启动';
-        color: #333;
-        background: #fff;
-      }
+  }
+  /deep/.el-switch.startUp.is-checked {
+    .el-switch__core::after {
+      content: '启动';
+      color: #333;
+      background: #fff;
     }
   }
 }
@@ -1691,7 +1650,7 @@ export default {
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
-    .el-card {
+    .card {
       height: 48.5%;
     }
   }
