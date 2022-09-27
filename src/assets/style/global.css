@@ -4,7 +4,7 @@
   --color-secondary: #333;
   --color-default: #fff;
   --bgc-theme: #eff2f9;
-  --bgc-default: rgba(141, 239, 250, 0.2);
+  --bgc-default: rgba(1, 57, 84, 0.9);
   --br-theme: rgba(255, 255, 255, 0.2);
 }
 /* 声明字体*/
@@ -31,6 +31,9 @@ html {
   position: absolute;
   top: -0.54rem;
   right: 1rem;
+  padding: 0.07rem 0.15rem;
+  font-size: 0.12rem;
+  border-radius: 0.03rem;
 }
 .tableBox .el-dialog .el-dialog__body {
   height: 87%;
@@ -44,11 +47,11 @@ html {
   padding: 20px 25px !important;
   height: 94%;
 }
-.tableBox .el-pagination {
+.tableBox /deep/ .el-pagination {
   position: absolute;
   bottom: 24px;
 }
-.tableBox .el-empty {
+.tableBox /deep/ .el-empty {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -87,6 +90,12 @@ iframe {
   background: transparent;
   border-color: transparent;
 }
+.el-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .el-breadcrumb {
   margin-bottom: 15px;
   font-size: 12px;
@@ -94,7 +103,11 @@ iframe {
 .el-pagination {
   margin-top: 15px;
 }
+.el-row {
+  height: 100%;
+}
 .el-col {
+  height: 100%;
   transition: all 0.6s;
 }
 .el-card {
@@ -111,10 +124,10 @@ iframe {
   box-sizing: border-box;
 }
 .el-tree {
-  background-color: var(--bgc-default);
+  background-color: transparent;
 }
 .el-input .el-input__inner {
-  background-color: var(--bgc-default);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 .el-range-editor {
   background-color: var(--bgc-default);
@@ -123,7 +136,7 @@ iframe {
   background-color: var(--bgc-default);
 }
 .el-table tr:not(.el-table__row--striped) td.el-table__cell {
-  background-color: var(--bgc-default) !important;
+  background-color: transparent !important;
 }
 .el-table th.el-table__cell {
   background-color: var(--bgc-theme) !important;
@@ -179,4 +192,15 @@ iframe {
   transition: 0.3s;
   padding: 0.18rem;
   box-sizing: border-box;
+}
+.card .title {
+  width: 120%;
+  font-size: 0.16rem;
+  color: aliceblue;
+  text-align: center;
+  line-height: 0.3rem;
+  height: 0.3rem;
+  padding-bottom: 0.16rem;
+  margin-bottom: 0.14rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }

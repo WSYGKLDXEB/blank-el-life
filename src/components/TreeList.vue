@@ -1,24 +1,25 @@
 <template>
-  <div class="tree">
-    <!-- <img :src="icon" alt="" /> -->
-    <el-card class="box-card">
+  <div class="tree card between column">
+    <!-- <el-card class="box-card">
       <div slot="header" class="header">
         <span>{{ title }}</span>
-      </div>
-      <!-- 过滤器 -->
-      <el-input v-if="isFilter" size="small" placeholder="输入关键字进行过滤" v-model="filterText"> </el-input>
-      <el-tree
-        node-key="value"
-        default-expanded-keys="floor1"
-        accordion
-        ref="tree"
-        @node-click="nodeClick"
-        :filter-node-method="filterNode"
-        icon-class="el-icon-folder"
-        :data="treeData"
-        :props="defaultProps"
-      ></el-tree>
-    </el-card>
+      </div> -->
+    <span class="title">{{ title }}</span>
+    <!-- 过滤器 -->
+    <el-input v-if="isFilter" size="small" placeholder="输入关键字进行过滤" v-model="filterText"> </el-input>
+    <el-tree
+      class="hidden"
+      node-key="value"
+      default-expanded-keys="floor1"
+      accordion
+      ref="tree"
+      @node-click="nodeClick"
+      :filter-node-method="filterNode"
+      icon-class="el-icon-folder"
+      :data="treeData"
+      :props="defaultProps"
+    ></el-tree>
+    <!-- </el-card> -->
   </div>
 </template>
 
@@ -309,6 +310,7 @@ export default {
 }
 .el-tree {
   height: 92%;
+  width: 100%;
 }
 // 图标
 /deep/.el-tree-node__expand-icon {

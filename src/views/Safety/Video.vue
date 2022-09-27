@@ -1,10 +1,7 @@
 <template>
   <div class="video">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>楼宇智控</el-breadcrumb-item>
-      <el-breadcrumb-item>视频监控</el-breadcrumb-item>
-    </el-breadcrumb>
+    <!-- 设备列表显示按钮 -->
+    <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据列表</el-button>
     <!-- 头部轮播 -->
     <el-row class="header" :gutter="16">
       <el-col :span="19">
@@ -31,128 +28,48 @@
       </el-col>
     </el-row>
     <el-row class="monitorBox" :gutter="16">
-      <el-col :span="leftSpan">
-        <el-card>
-          <!-- 图标按钮 -->
-          <div class="iconBut" style="width: auto" id="iconBut">
-            <i class="el-icon-video-camera iconActive" title="表格"></i>
-            <i class="el-icon-s-marketing" title="图表"></i>
-          </div>
-          <div id="box" class="box">
-            <!-- 监控视频 -->
-            <div>
-              <el-row>
-                <!-- 当前观看视频 -->
-                <el-col :span="19" class="watchWindow">
-                  <video ref="curMonitor" controls :src="curMonitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
-                </el-col>
-                <el-col :span="5" class="operate">
-                  <div class="op_time">
-                    <div class="time_box">
-                      <h1>{{ time }}</h1>
-                      <div>
-                        <span>{{ week }}</span>
-                        <p>{{ years }}</p>
-                      </div>
-                    </div>
+      <el-col :span="19">
+        <div class="card">
+          <el-row>
+            <!-- 当前观看视频 -->
+            <el-col :span="19" class="watchWindow">
+              <video ref="curMonitor" controls :src="curMonitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
+            </el-col>
+            <el-col :span="5" class="operate">
+              <div class="op_time">
+                <div class="time_box">
+                  <h1>{{ time }}</h1>
+                  <div>
+                    <span>{{ week }}</span>
+                    <p>{{ years }}</p>
                   </div>
-                  <div class="op_header">
-                    <div class="header_box">
-                      <h4>设备：<span>电梯出入口</span></h4>
-                      <p>摄像头信息，摄像头信息，摄像头信息</p>
-                    </div>
-                  </div>
-                  <div class="op_body">
-                    <div class="body_box">
-                      <div class="direction">
-                        <span class="el-icon-caret-left"></span>
-                        <span class="el-icon-caret-top"></span>
-                        <span class="el-icon-caret-right"></span>
-                        <span class="el-icon-caret-bottom"></span>
-                      </div>
-                      <div class="focal">
-                        <el-slider v-model="focalValue"> </el-slider>
-                      </div>
-                    </div>
-                  </div>
-                </el-col>
-              </el-row>
-            </div>
-            <!-- 历史记录 -->
-            <div>
-              <div class="his_header">
-                <div style="width: auto">
-                  <el-cascader clearable v-model="cascaderValue1" size="small " :options="options" :props="{ expandTrigger: 'hover', checkStrictly: true }"></el-cascader>
-                  <el-date-picker
-                    style="margin: 0 10px"
-                    v-model="datePickerValue"
-                    size="small"
-                    type="datetimerange"
-                    :picker-options="pickerOptions"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    align="right"
-                  >
-                  </el-date-picker>
-                  <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
                 </div>
-                <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
               </div>
-              <div class="his_body">
-                <!-- 表格 -->
-                <template v-if="tableData.length !== 0">
-                  <el-table stripe max-height="455" :data="tableData" border style="width: 100%">
-                    <el-table-column type="index" label="#"> </el-table-column>
-                    <el-table-column prop="date" label="日期" width="180"> </el-table-column>
-                    <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
-                    <el-table-column prop="address" label="地址"> </el-table-column>
-                    <el-table-column label="操作">
-                      <template slot-scope="scope">
-                        <el-tooltip class="item" effect="dark" content="监控" placement="top">
-                          <el-button type="success" size="mini" icon="el-icon-video-camera" @click="playMonitor(scope)"></el-button>
-                        </el-tooltip>
-                        <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-                          <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope)"></el-button>
-                        </el-tooltip>
-                        <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                          <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope)"></el-button>
-                        </el-tooltip>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </template>
-                <!-- 分页 -->
-                <el-pagination
-                  v-if="tableData.length !== 0"
-                  background
-                  :current-page="currentPage"
-                  :page-sizes="[100, 200, 300, 400]"
-                  :page-size="100"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  :total="400"
-                >
-                </el-pagination>
-                <!-- 空状态 -->
-                <el-empty v-else description="选择条件查询！"></el-empty>
+              <div class="op_header">
+                <div class="header_box">
+                  <h4>设备：<span>电梯出入口</span></h4>
+                  <p>摄像头信息，摄像头信息，摄像头信息</p>
+                </div>
               </div>
-            </div>
-          </div>
-        </el-card>
+              <div class="op_body">
+                <div class="body_box">
+                  <div class="direction">
+                    <span class="el-icon-caret-left"></span>
+                    <span class="el-icon-caret-top"></span>
+                    <span class="el-icon-caret-right"></span>
+                    <span class="el-icon-caret-bottom"></span>
+                  </div>
+                  <div class="focal">
+                    <el-slider v-model="focalValue"> </el-slider>
+                  </div>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
       </el-col>
-      <el-col :span="24 - leftSpan">
-        <tree-list isFilter v-show="leftSpan === 19"></tree-list>
-        <el-card class="hisMonitorBox" v-show="leftSpan !== 19">
-          <video ref="hisMonitor" loop="loop" autoplay="autoplay" controls :src="hisMonitorUrl"></video>
-
-          <div class="monitorInfo">
-            <div>
-              <h3>{{ formData.name }}</h3>
-              <span>{{ formData.date }}</span>
-            </div>
-            <p>{{ formData.address }}</p>
-          </div>
-        </el-card>
+      <el-col :span="5">
+        <tree-list isFilter></tree-list>
       </el-col>
     </el-row>
 
@@ -182,6 +99,85 @@
           >确 定</el-button
         >
       </span>
+    </el-dialog>
+
+    <!-- 表格展示框 -->
+    <el-dialog class="tableBox" center fullscreen title="数据查询" :visible.sync="isFormDialog" width="80%">
+      <el-row :gutter="16">
+        <el-col :span="leftSpan">
+          <el-card>
+            <div slot="header" class="between">
+              <div style="width: auto">
+                <el-cascader clearable v-model="cascaderValue1" size="small " :options="options" :props="{ expandTrigger: 'hover', checkStrictly: true }"></el-cascader>
+                <el-date-picker
+                  style="margin: 0 10px"
+                  v-model="datePickerValue"
+                  size="small"
+                  type="datetimerange"
+                  :picker-options="pickerOptions"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  align="right"
+                >
+                </el-date-picker>
+                <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
+              </div>
+              <div>
+                <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+              </div>
+            </div>
+            <!-- 表格 -->
+            <template v-if="tableData.length !== 0">
+              <el-table stripe max-height="455" :data="tableData" border style="width: 100%">
+                <el-table-column type="index" label="#"> </el-table-column>
+                <el-table-column prop="date" label="日期" width="180"> </el-table-column>
+                <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
+                <el-table-column prop="address" label="地址"> </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-tooltip class="item" effect="dark" content="监控" placement="top">
+                      <el-button type="success" size="mini" icon="el-icon-video-camera" @click="playMonitor(scope)"></el-button>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+                      <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope)"></el-button>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                      <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope)"></el-button>
+                    </el-tooltip>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </template>
+            <!-- 分页 -->
+            <el-pagination
+              v-if="tableData.length !== 0"
+              background
+              :current-page="currentPage"
+              :page-sizes="[100, 200, 300, 400]"
+              :page-size="100"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="400"
+            >
+            </el-pagination>
+            <!-- 空状态 -->
+            <el-empty v-else description="选择条件查询！"></el-empty>
+          </el-card>
+        </el-col>
+        <el-col :span="24 - leftSpan">
+          <div class="hisMonitorBox card" v-show="leftSpan !== 19">
+            <video ref="hisMonitor" loop="loop" autoplay="autoplay" controls :src="hisMonitorUrl"></video>
+
+            <div class="monitorInfo">
+              <div>
+                <h3>{{ formData.name }}</h3>
+                <span>{{ formData.date }}</span>
+              </div>
+              <p>{{ formData.address }}</p>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
     </el-dialog>
   </div>
 </template>
@@ -215,6 +211,8 @@ export default {
       isNext: true,
       // 控制左侧遮罩层的显示
       isShow: false,
+      // 表格框弹出与否
+      isFormDialog: false,
       // 点击次数 => 为解决左侧偏移量问题
       index: 0,
       // 焦距
@@ -356,7 +354,7 @@ export default {
       // 是否为编辑状态
       isEditState: true,
       // 布局所占大小
-      leftSpan: 19,
+      leftSpan: 24,
       time: '',
       week: '',
       years: '',
@@ -367,7 +365,7 @@ export default {
   mounted() {
     this.init()
     this.monitorWidth = this.$refs.video[0].offsetWidth - 22
-    console.log(this.$refs.video[0].offsetWidth)
+    // console.log(this.$refs.video[0].offsetWidth)
     this.stateChart()
 
     this.timeInterVal = setInterval(() => {
@@ -390,7 +388,7 @@ export default {
       if (f1 >= s1) {
         this.isNext = false
       }
-      this.toggle(f, s)
+      // this.toggle(f, s)
     },
     // 图标按钮切换
     toggle(f, s, index) {
@@ -811,10 +809,10 @@ export default {
     },
     // 点击预览获取链接
     enlarge(item) {
-      // 切换页面
-      const f = document.querySelectorAll('#iconBut>i')
-      const s = document.querySelectorAll('#box>div')
-      this.toggle(f, s, 0)
+      // // 切换页面
+      // const f = document.querySelectorAll('#iconBut>i')
+      // const s = document.querySelectorAll('#box>div')
+      // this.toggle(f, s, 0)
       // 恢复初始布局
       this.leftSpan = 19
       this.hisMonitorUrl = ''
@@ -927,6 +925,7 @@ export default {
 
 <style lang="less" scoped>
 .video {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -951,12 +950,13 @@ export default {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    height: 90%;
+    height: 92%;
     width: 24px;
     color: #fff;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
+    font-size: 0.16rem;
     &::before {
       position: relative;
       top: 46%;
@@ -970,13 +970,13 @@ export default {
     z-index: 98;
     width: 46px;
     left: 0;
-    background-color: var(--bgc-default);
+    background-color: #1e3e4a;
   }
   span:nth-of-type(2) {
     z-index: 98;
     width: 46px;
     right: 0;
-    background-color: var(--bgc-default);
+    background-color: #1e3e4a;
   }
   span:nth-of-type(3) {
     z-index: 99;
@@ -1012,6 +1012,7 @@ export default {
 }
 // 历史监控视频
 .hisMonitorBox {
+  height: 100%;
   video {
     width: 100%;
     border-radius: 6px;
@@ -1031,30 +1032,9 @@ export default {
 }
 .monitorBox {
   margin-top: 1%;
-  height: 72%;
-  // 图标按钮
-  .iconBut {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 99;
-    i {
-      cursor: pointer;
-      font-size: 20px;
-      color: #999;
-      border: 1px solid #bbb;
-      &:nth-of-type(1) {
-        padding: 1px;
-        font-size: 18px;
-      }
-      &:nth-of-type(2) {
-        margin: 0 3px;
-      }
-    }
-  }
-  .iconActive {
-    color: #9df3c4 !important;
-    border-color: #9df3c4 !important;
+  height: 76%;
+  .card {
+    height: 100%;
   }
   // 历史记录
   .his_header {
@@ -1084,15 +1064,6 @@ export default {
       transform: translate(-50%, -50%);
     }
   }
-  .box {
-    width: 100%;
-    height: 100%;
-    & > div {
-      width: 100%;
-      height: 100%;
-      display: none;
-    }
-  }
   /deep/.el-card__body {
     height: 100%;
   }
@@ -1109,11 +1080,12 @@ export default {
     padding-left: 40px;
     display: flex;
     flex-flow: column;
-    justify-content: flex-end;
+    justify-content: center;
     .op_time {
       position: relative;
       width: 100%;
       height: 15%;
+      font-size: 0.2rem;
       margin-bottom: 20px;
       box-sizing: border-box;
       border: 1px dashed rgba(64, 158, 255, 0.8);
@@ -1155,7 +1127,7 @@ export default {
       display: flex;
       justify-content: flex-end;
       padding-bottom: 15px;
-
+      font-size: 16px;
       width: 100%;
       height: 34%;
       margin-bottom: 20px;
@@ -1328,6 +1300,11 @@ export default {
           height: 14px;
         }
       }
+    }
+    /deep/.el-slider__button-wrapper .el-tooltip,
+    .el-slider__button-wrapper::after {
+      margin-top: 8px;
+      vertical-align: top !important;
     }
   }
 }

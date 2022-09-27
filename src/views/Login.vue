@@ -62,6 +62,10 @@ export default {
     this.verifyChange()
   },
   mounted() {
+    const token = window.sessionStorage.getItem('token')
+    if (token) {
+      this.$router.push('/exhibit')
+    }
     this.$refs.user.focus()
   },
 
@@ -150,6 +154,10 @@ export default {
           if (this.loginData.user === 'blank' && this.loginData.paw === '666666') {
             sessionStorage.setItem('token', 'XXX-XXXX-XXXX')
             this.$router.push('/exhibit')
+            // 网页全屏
+            const el = document.documentElement
+            ;(el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen).call(el)
+            return this.$message.info('按‘Esc’或‘F11’键退出全屏！')
           } else {
             this.$refs.loginForm.resetFields()
             return this.$message.error('用户或者密码错误！')
@@ -179,8 +187,9 @@ export default {
 .login {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background: url('../assets/image/bg.jpg');
+  // overflow: hidden;
 }
 h1 {
   padding: 5px;

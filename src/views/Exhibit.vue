@@ -2,7 +2,27 @@
   <div class="exhibit">
     <!-- 头部 -->
     <div class="header">
+      <!-- 时间日期 -->
+      <div class="timeDate text">
+        <h1>{{ time }}</h1>
+        <div>
+          <span>{{ week }}</span>
+          <p>{{ years }}</p>
+        </div>
+      </div>
+      <!-- 天气 -->
+      <div class="weather">
+        <img src="../assets/image/晴.png" alt="" srcset="" />
+        <span>晴 30℃</span>
+      </div>
       <span class="text">中国人寿智能化平台</span>
+
+      <!-- 用户管理 -->
+      <i class="el-icon-user-solid user" @click="$router.push('/user')"></i>
+      <!-- 权限 -->
+      <i v-show="false" class="permission iconfont icon-quanxian" @click="$router.push('/authorit')"></i>
+      <!-- 退出登录 -->
+      <i class="iconfont icon-tuichubianji quit" @click="quit"></i>
     </div>
     <div class="body between">
       <div class="left hidden">
@@ -37,7 +57,7 @@
         <!-- 地图 -->
         <div class="title_c">地理位置</div>
         <div class="customize">
-          <map-box darkNight></map-box>
+          <map-box darkNight v-show="true"></map-box>
         </div>
         <!-- 按钮组 -->
         <div class="butGroup between">
@@ -97,7 +117,7 @@
 </template>
 
 <script>
-import { chartDynamicShow, CreateChart, grid, color, colorArr, textColor, hex2Rgba, PrefixInteger } from '@/assets/js/blank'
+import { CurrentDate, CreateChart, grid, color, colorArr, textColor, hex2Rgba, PrefixInteger } from '@/assets/js/blank'
 export default {
   name: 'BlankElLifeExhibit',
 
@@ -122,6 +142,7 @@ export default {
         }
       ],
       butGroup: [
+        { label: '设备管理', path: '/equipment' },
         { label: '视频监控', path: '/video' },
         { label: '入侵报警', path: '/alarm' },
         { label: '火灾报警', path: '/fire' },
@@ -130,7 +151,10 @@ export default {
         { label: '能源管理', path: '/energy' },
         { label: '门禁管理', path: '/door' },
         { label: '梯控管理', path: '/stairs' }
-      ]
+      ],
+      time: '',
+      week: '',
+      years: ''
     }
   },
 
@@ -144,10 +168,23 @@ export default {
     // this.elecChart()
     this.voltageChart()
     this.accessChart()
+    this.timeInterVal = setInterval(() => {
+      const obj = CurrentDate()
+      // console.log(obj)
+      this.week = obj.week
+      this.years = obj.years
+      this.time = obj.time
+    }, 1000)
   },
 
   methods: {
-    init() {},
+    quit() {
+      window.sessionStorage.removeItem('token')
+      this.$router.push('/login')
+      // 退出全屏
+      // 兼容各个浏览器退出全屏方法
+      ;(document.exitFullscreen || document.msExitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen).call(document)
+    },
     // 上一个
     previous() {
       console.log('s')
@@ -1437,6 +1474,7 @@ export default {
   }
 }
 .header {
+  position: relative;
   // 点击穿透
   pointer-events: none;
   width: 100%;
@@ -1446,12 +1484,68 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  span {
+  color: var(--fc-theme);
+  & > span {
     margin-top: -20px;
     font-size: 0.32em;
     font-weight: 700;
     background-image: -webkit-linear-gradient(270deg, #fff, #01deff) !important;
     // background-image: -webkit-linear-gradient(270deg, #8deffa, #01deff) !important;
+  }
+  .timeDate {
+    position: absolute;
+    top: -0.05rem;
+    left: 0.4rem;
+    height: 100%;
+    font-size: 0.16rem;
+    display: flex;
+    align-items: center;
+    color: var(--fc-theme);
+    & > div {
+      // color: rgba(64, 158, 255, 0.8);
+      margin-left: 6px;
+      font-size: 12px;
+    }
+    h1 {
+      // color: rgba(64, 158, 255, 0.6);
+      transition: all 0.3s;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .weather {
+    position: absolute;
+    top: -0.05rem;
+    left: 3rem;
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    img {
+      height: 0.34rem;
+    }
+    span {
+      margin-left: 0.16rem;
+      opacity: 0.8;
+      font-size: 0.16rem;
+    }
+  }
+  i {
+    pointer-events: auto;
+    cursor: pointer;
+    position: absolute;
+    margin-top: -0.1rem;
+    font-size: 0.16rem;
+  }
+  .permission {
+    right: 1.1rem;
+  }
+  .user {
+    right: 0.8rem;
+  }
+  .quit {
+    right: 0.4rem;
   }
 }
 

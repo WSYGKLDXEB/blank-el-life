@@ -1794,7 +1794,7 @@ export default {
       for (let n = 0; n < year.length; n++) {
         optionXyMap01.options.push({
           // 背景色
-          backgroundColor: '#013954',
+          backgroundColor: '',
 
           // 标题
           title: [

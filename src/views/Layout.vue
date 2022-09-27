@@ -64,6 +64,9 @@ export default {
       } else {
         window.sessionStorage.removeItem('token')
         this.$router.push('/login')
+        // 退出全屏
+        // 兼容各个浏览器退出全屏方法
+        ;(document.exitFullscreen || document.msExitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen).call(document)
       }
     }
   }

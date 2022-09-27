@@ -1,89 +1,41 @@
 <template>
   <div class="energy">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>楼宇智控</el-breadcrumb-item>
-      <el-breadcrumb-item>能源管理</el-breadcrumb-item>
-    </el-breadcrumb>
     <!-- 设备列表显示按钮 -->
     <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据列表</el-button>
     <el-row :gutter="16">
-      <el-col :span="19">
-        <el-card class="leftBody">
-          <div slot="header" class="clearfix">
-            <div>
-              <el-select size="small" v-model="selValue" placeholder="请选择">
-                <el-option v-for="item in selOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-              </el-select>
-              <el-date-picker
-                style="margin: 0 10px"
-                v-model="datePickerValue"
-                size="small"
-                type="datetimerange"
-                :picker-options="pickerOptions"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                align="right"
-                @keyup.enter.native="search"
-              >
-              </el-date-picker>
-              <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
-            </div>
-            <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
-          </div>
-          <!-- 表格 -->
-          <template v-if="tableData.length !== 0">
-            <el-table stripe max-height="655" :data="tableData" border style="width: 100%">
-              <el-table-column type="index" label="#"> </el-table-column>
-              <el-table-column prop="date" label="日期" width="180"> </el-table-column>
-              <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
-              <el-table-column prop="address" label="地址"> </el-table-column>
-              <el-table-column label="操作">
-                <template slot-scope="scope">
-                  <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-                    <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope)"></el-button>
-                  </el-tooltip>
-                  <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                    <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope)"></el-button>
-                  </el-tooltip>
-                </template>
-              </el-table-column>
-            </el-table>
-          </template>
-          <!-- 分页 -->
-          <el-pagination
-            v-if="tableData.length !== 0"
-            background
-            :current-page="currentPage"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="400"
-          >
-          </el-pagination>
-          <!-- 空状态 -->
-          <el-empty v-else description="选择条件查询！"></el-empty>
-        </el-card>
+      <el-col :span="19" class="between column">
+        <el-row :gutter="16" class="flex_t">
+          <!-- 单位能耗 -->
+          <el-col :span="12">
+            <div class="card" ref="unit" style="height: 100%"></div>
+          </el-col>
+          <el-col :span="12">
+            <div class="card" style="height: 100%"></div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="16" class="flex_b">
+          <el-col :span="12">
+            <div class="card" ref="cost" style="height: 100%"></div>
+          </el-col>
+          <el-col :span="12">
+            <div class="card" style="height: 100%"></div>
+          </el-col>
+        </el-row>
       </el-col>
       <el-col :span="5" class="chartBox">
-        <el-card class="box-card temHun">
+        <div class="temHun card between">
           <div ref="tem" style="width: 50%; height: 100%"></div>
           <div ref="hun" style="width: 50%; height: 100%"></div>
-        </el-card>
-        <el-card class="box-card">
-          <div ref="water" style="height: 100%"></div>
-        </el-card>
-        <el-card class="box-card">
-          <div ref="elec" style="height: 100%"></div>
-        </el-card>
+        </div>
+        <div ref="water" class="card"></div>
+        <div ref="elec" class="card"></div>
       </el-col>
     </el-row>
 
     <!-- 表格展示框 -->
     <el-dialog class="tableBox" center fullscreen title="数据查询" :visible.sync="isFormDialog" width="80%">
       <el-card>
-        <div slot="header" class="clearfix">
+        <div slot="header" class="between">
           <div style="width: auto">
             <!-- 下拉选择框 -->
             <el-select size="small" v-model="selValue" placeholder="请选择">
@@ -261,6 +213,8 @@ export default {
     this.elecChart()
     this.temHunChart(this.$refs.tem, 26, 1, chartUrl1)
     this.temHunChart(this.$refs.hun, 88, 2, chartUrl2)
+    this.unitChart()
+    this.costChart()
   },
 
   methods: {
@@ -721,42 +675,448 @@ export default {
         ]
       }
       CreateChart(this.$refs.elec, option)
+    },
+    // 单位能耗
+    unitChart() {
+      const highlight = '#c2d6f9'
+
+      const demoData = [
+        { name: '', value: Math.floor(Math.random() * 20) + 50, unit: 'kgce/m².a', pos: ['16.6%', '60%'], range: [0, 120] },
+        { name: '', value: Math.floor(Math.random() * 30) + 50, unit: 'KWh/m².a', pos: ['49.8%', '60%'], range: [0, 120] },
+        { name: '', value: Math.floor(Math.random() * 5) / 10 + 0.5, unit: '%', pos: ['83%', '60%'], range: [0.1, 1.0], splitNum: 9 }
+      ]
+
+      const option = {
+        backgroundColor: '#1e3e4a',
+        title: [
+          {
+            text: '单位综合能耗',
+            left: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          },
+          {
+            text: '能源利用率',
+            right: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          }
+        ],
+        series: (function () {
+          const result = []
+
+          demoData.forEach(function (item) {
+            result.push(
+              // 外围刻度
+              {
+                type: 'gauge',
+                center: item.pos,
+                radius: '70%', // 1行3个
+                splitNumber: item.splitNum || 10,
+                min: item.range[0],
+                max: item.range[1],
+                startAngle: 225,
+                endAngle: -45,
+                axisLine: {
+                  show: true,
+                  lineStyle: {
+                    width: 2,
+                    shadowBlur: 0,
+                    color: [[1, highlight]]
+                  }
+                },
+                axisTick: {
+                  show: true,
+                  lineStyle: {
+                    color: highlight,
+                    width: 1
+                  },
+                  length: -5,
+                  splitNumber: 10
+                },
+                splitLine: {
+                  show: true,
+                  length: -14,
+                  lineStyle: {
+                    color: highlight
+                  }
+                },
+                axisLabel: {
+                  distance: -20,
+                  textStyle: {
+                    color: highlight,
+                    fontSize: '14',
+                    fontWeight: 'bold'
+                  }
+                },
+                pointer: {
+                  show: 0
+                },
+                detail: {
+                  show: 0
+                }
+              },
+
+              // 内侧指针、数值显示
+              {
+                name: item.name,
+                type: 'gauge',
+                center: item.pos,
+                radius: '50%',
+                startAngle: 225,
+                endAngle: -45,
+                min: item.range[0],
+                max: item.range[1],
+                axisLine: {
+                  show: true,
+                  lineStyle: {
+                    width: 16,
+                    color: [
+                      [item.value / item.range[1], 'rgba(39, 166, 237, .6)'],
+                      [1, highlight]
+                    ]
+                  }
+                },
+                axisTick: {
+                  show: 0
+                },
+                splitLine: {
+                  show: 0
+                },
+                axisLabel: {
+                  show: 0
+                },
+                pointer: {
+                  show: true,
+                  length: '105%'
+                },
+                detail: {
+                  show: true,
+                  offsetCenter: [0, '100%'],
+                  textStyle: {
+                    fontSize: 20,
+                    color: '#fff'
+                  },
+                  formatter: ['{value}', '{unit|' + (item.unit || '') + '}'].join('\n'),
+                  rich: {
+                    unit: {
+                      fontSize: 14,
+                      lineHeight: 30,
+                      color: '#ddd'
+                    }
+                  }
+                },
+                itemStyle: {
+                  normal: {
+                    color: highlight
+                  }
+                },
+                data: [
+                  {
+                    value: item.value
+                  }
+                ]
+              }
+            )
+          })
+
+          return result
+        })()
+      }
+      CreateChart(this.$refs.unit, option)
+    },
+    // 能源费用
+    costChart() {
+      const testData = [
+        {
+          name: '本年',
+          itemStyle: {
+            color: new this.$echarts.graphic.RadialGradient(
+              0.5,
+              0.5,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: '#0C1622'
+                },
+                {
+                  offset: 1,
+                  color: '#06647D'
+                }
+              ],
+              false
+            )
+          },
+          value: 1000
+        },
+        {
+          name: '上月',
+          itemStyle: {
+            color: new this.$echarts.graphic.RadialGradient(
+              0.5,
+              0.5,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: '#051B32' // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: '#05508A' // 100% 处的颜色
+                }
+              ],
+              false
+            )
+          },
+          value: 88
+        },
+        {
+          name: '本月',
+          itemStyle: {
+            color: new this.$echarts.graphic.RadialGradient(
+              0.5,
+              0.5,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: '#2C3E42' // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: '#4E6170' // 100% 处的颜色
+                }
+              ],
+              false
+            )
+          },
+          value: 100
+        },
+        {
+          name: '昨日',
+          itemStyle: {
+            color: new this.$echarts.graphic.RadialGradient(
+              0.5,
+              0.5,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: '#4A450E' // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: '#625A12' // 100% 处的颜色
+                }
+              ],
+              false
+            )
+          },
+          value: 40
+        },
+        {
+          name: '今日',
+          itemStyle: {
+            color: new this.$echarts.graphic.RadialGradient(
+              0.5,
+              0.5,
+              1,
+              [
+                {
+                  offset: 0,
+                  color: '#294421' // 0% 处的颜色
+                },
+                {
+                  offset: 1,
+                  color: '#3F6B30' // 100% 处的颜色
+                }
+              ],
+              false
+            )
+          },
+          value: 30
+        }
+      ]
+      const arr = ['本年', '上月', '本月']
+      let sum = 0
+      testData.forEach((item) => {
+        if (arr.indexOf(item.name) !== -1) {
+          sum = sum + item.value * 10
+        } else {
+          sum += item.value
+        }
+        console.log(item, sum, item.value)
+      })
+
+      const formatUtil = this.$echarts.format
+
+      function getLevelOption() {
+        return [
+          {
+            itemStyle: {
+              normal: {
+                borderWidth: 0,
+                gapWidth: 5
+              }
+            }
+          },
+          {
+            itemStyle: {
+              normal: {
+                gapWidth: 1
+              }
+            }
+          },
+          {
+            colorSaturation: [0.3, 0.5],
+            itemStyle: {
+              normal: {
+                gapWidth: 1,
+                borderColorSaturation: 0.6
+              }
+            }
+          }
+        ]
+      }
+      const option = {
+        backgroundColor: '#1e3e4a',
+        title: [
+          {
+            text: '能源费用',
+            left: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          }
+        ],
+        tooltip: {
+          formatter: function (info) {
+            //   console.log(info)
+            let value
+            value = info.value
+
+            if (arr.indexOf(info.name) !== -1) {
+              value = info.value * 10
+            }
+
+            const treePathInfo = info.treePathInfo
+            const treePath = []
+
+            for (let i = 1; i < treePathInfo.length; i++) {
+              treePath.push(treePathInfo[i].name)
+            }
+
+            return [
+              '<div class="tooltip-title">' + formatUtil.encodeHTML(treePath.join('/')) + '</div>',
+              '金额: ' + formatUtil.addCommas(value.toFixed(2)) + ' 元<br>',
+              '占比: ' + ((value / sum) * 100).toFixed(2) + ' %'
+            ].join('')
+          }
+        },
+
+        series: [
+          {
+            name: '能耗费用',
+            type: 'treemap',
+            roam: false,
+            label: {
+              show: true,
+              formatter: function (info) {
+                //   console.log(info)
+                let value
+                value = info.value
+
+                if (arr.indexOf(info.name) !== -1) {
+                  value = info.value * 10
+                }
+
+                const treePathInfo = info.treePathInfo
+                const treePath = []
+
+                for (let i = 1; i < treePathInfo.length; i++) {
+                  treePath.push(treePathInfo[i].name)
+                }
+
+                return ['{name|' + info.name + '}', '{value|金额:' + formatUtil.addCommas(value.toFixed(2)) + '元}'].join('\n\n')
+              },
+              rich: {
+                name: {
+                  fontSize: 20,
+                  color: '#fff',
+                  verticalAlign: 'bottom',
+                  align: 'center'
+                  // padding: 50
+                },
+                value: {
+                  fontSize: 16,
+                  color: '#fff',
+                  verticalAlign: 'bottom',
+                  align: 'center'
+                  // padding: 50
+                }
+              },
+              fontSize: 17
+            },
+
+            itemStyle: {
+              normal: {
+                borderColor: '#1e3e4a'
+              }
+            },
+            levels: getLevelOption(),
+
+            data: testData
+          }
+        ]
+      }
+      setInterval(() => {
+        if (testData[4].value > 80) {
+          testData[0].value = 1000
+          testData[2].value = 100
+          testData[4].value = 20
+        }
+        const i = Math.floor(Math.random() * 5)
+        // testData.forEach((item) => {
+        //   if (item.name !== '昨日' || item.name !== '上月') {
+        //     item.value += i
+        //   }
+        // })
+        testData[0].value += i / 10
+        testData[2].value += i / 10
+        testData[4].value += Math.random() * 5
+        CreateChart(this.$refs.cost, option)
+      }, 1000)
+      // CreateChart(this.$refs.cost, option)
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.leftBody {
-  /deep/.el-card__body {
-    height: 94%;
-  }
-}
-.clearfix {
-  display: flex;
-  justify-content: space-between;
-}
 .energy {
   position: relative;
   width: 100%;
   height: 100%;
 }
-// 数据展示框
-.tableBox {
-  /deep/.el-dialog__body {
-    padding-top: 10px !important;
-    height: 90%;
-  }
-  .el-card {
-    box-shadow: none !important;
-  }
-  /deep/.el-card__body {
-    height: 95%;
-    // padding-bottom: 0 !important;
-  }
+.leftBox {
+}
+.flex_t {
+  width: 100%;
+  height: 26% !important;
+}
+.flex_b {
+  width: 100%;
+  height: 72% !important;
 }
 .el-row {
-  height: 96%;
+  height: 100%;
   .el-col {
     height: 100%;
   }
@@ -765,57 +1125,16 @@ export default {
   width: 100%;
   height: 100%;
 }
-.el-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .chartBox {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
   height: 100%;
-  .el-card__body {
-    height: 100% !important;
-  }
-  .el-card {
-    height: 35%;
-    &:nth-of-type(1) {
-      height: 26%;
-    }
-    & > div {
-      width: 100%;
-      height: 30vh;
-    }
-  }
-}
-.el-pagination {
-  position: absolute;
-  bottom: 15px;
-}
-.el-table {
-  // overflow-y: auto;
-  // overflow-x: hidden;
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
-}
-.box-card {
-  /deep/.el-card__body {
-    height: 100%;
-    position: relative;
-    box-sizing: border-box;
-  }
-}
-.temHun {
-  /deep/.el-card__body {
-    display: flex !important;
-    flex-flow: row nowrap !important;
-  }
-
   & > div {
-    width: 50%;
+    height: 35%;
+  }
+  & > div:first-of-type {
+    height: 26%;
   }
 }
 </style>
