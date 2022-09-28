@@ -1197,7 +1197,7 @@ export default {
         ['#a181fc', '#e3d9fe']
       ]
       const option = {
-        backgroundColor: '#1e3e4a',
+        backgroundColor: '',
         title: [
           {
             text: '单位：次',

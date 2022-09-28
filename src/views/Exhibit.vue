@@ -16,7 +16,8 @@
         <span>晴 30℃</span>
       </div>
       <span class="text">中国人寿智能化平台</span>
-
+      <!-- 全屏 -->
+      <i class="fullScreen el-icon-full-screen" @click="fullScreen"></i>
       <!-- 用户管理 -->
       <i class="el-icon-user-solid user" @click="$router.push('/user')"></i>
       <!-- 权限 -->
@@ -178,6 +179,12 @@ export default {
   },
 
   methods: {
+    fullScreen() {
+      // 网页全屏
+      const el = document.documentElement
+      ;(el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen).call(el)
+      // return this.$message.info('按‘Esc’或‘F11’键退出全屏！')
+    },
     quit() {
       window.sessionStorage.removeItem('token')
       this.$router.push('/login')
@@ -1485,6 +1492,7 @@ export default {
   align-items: center;
   justify-content: center;
   color: var(--fc-theme);
+
   & > span {
     margin-top: -20px;
     font-size: 0.32em;
@@ -1537,6 +1545,9 @@ export default {
     position: absolute;
     margin-top: -0.1rem;
     font-size: 0.16rem;
+  }
+  .fullScreen {
+    right: 1.15rem;
   }
   .permission {
     right: 1.1rem;

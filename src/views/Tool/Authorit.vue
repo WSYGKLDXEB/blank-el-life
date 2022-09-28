@@ -9,15 +9,15 @@
     <el-row :gutter="16">
       <el-col :span="19">
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
+          <div slot="header" class="clearfix between">
             <div>
               <el-input clearable size="small" placeholder="请输入用户名" v-model="searchValue" class="input-with-select" @keyup.enter.native="search" @clear="inputClear">
                 <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
               </el-input>
             </div>
             <div>
-              <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
-              <el-button type="primary" size="mini" icon="el-icon-s-grid" @click="isFormDialog = true">权限列表</el-button>
+              <el-button style="vertical-align: super" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+              <el-button style="vertical-align: super" type="primary" size="mini" icon="el-icon-s-grid" @click="isFormDialog = true">权限列表</el-button>
             </div>
           </div>
           <!-- 表格 -->

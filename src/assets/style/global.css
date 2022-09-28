@@ -126,7 +126,11 @@ iframe {
 .el-tree {
   background-color: transparent;
 }
+.el-date-editor .el-range-input {
+  color: #6cecff;
+}
 .el-input .el-input__inner {
+  color: #6cecff;
   background-color: rgba(255, 255, 255, 0.05);
 }
 .el-range-editor {
@@ -161,6 +165,12 @@ iframe {
 }
 .ql-editor {
   min-height: 300px;
+}
+.el-dialog {
+  background: #01354f;
+}
+.el-dialog__title {
+  color: #6cecff;
 }
 .hidden {
   overflow-y: auto;

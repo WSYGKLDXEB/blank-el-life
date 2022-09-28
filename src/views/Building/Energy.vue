@@ -10,7 +10,7 @@
             <div class="card" ref="unit" style="height: 100%"></div>
           </el-col>
           <el-col :span="12">
-            <div class="card" style="height: 100%"></div>
+            <div class="card" ref="new" style="height: 100%"></div>
           </el-col>
         </el-row>
         <el-row :gutter="16" class="flex_b">
@@ -18,7 +18,7 @@
             <div class="card" ref="cost" style="height: 100%"></div>
           </el-col>
           <el-col :span="12">
-            <div class="card" style="height: 100%"></div>
+            <div class="card" ref="floor" style="height: 100%"></div>
           </el-col>
         </el-row>
       </el-col>
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import { CreateChart, color, grid } from '@/assets/js/blank'
+import { CreateChart, color, grid, colorArr } from '@/assets/js/blank'
 import chartUrl1 from '@/assets/image/custom-gauge-panel-1.png'
 import chartUrl2 from '@/assets/image/custom-gauge-panel-2.png'
 import tableData from '@/assets/js/tableData'
@@ -215,6 +215,8 @@ export default {
     this.temHunChart(this.$refs.hun, 88, 2, chartUrl2)
     this.unitChart()
     this.costChart()
+    this.floorChart()
+    this.newChart()
   },
 
   methods: {
@@ -687,7 +689,7 @@ export default {
       ]
 
       const option = {
-        backgroundColor: '#1e3e4a',
+        backgroundColor: '',
         title: [
           {
             text: '单位综合能耗',
@@ -985,7 +987,7 @@ export default {
         ]
       }
       const option = {
-        backgroundColor: '#1e3e4a',
+        backgroundColor: '',
         title: [
           {
             text: '能源费用',
@@ -1094,6 +1096,425 @@ export default {
         CreateChart(this.$refs.cost, option)
       }, 1000)
       // CreateChart(this.$refs.cost, option)
+    },
+    // 楼层用水
+    floorChart() {
+      const option = {
+        color: colorArr,
+        title: [
+          {
+            text: '单位：吨',
+            left: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          },
+          {
+            text: '楼层用水',
+            right: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          }
+        ],
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c}吨'
+        },
+        legend: {
+          data: ['1F', '2F', '3F', '4F', '5F', '6F', '7F'],
+          icon: 'circle',
+          top: '5%',
+          textStyle: {
+            color: '#b8f0fc',
+            borderWidth: 0
+          },
+          itemStyle: {
+            borderWidth: 0
+          }
+        },
+        grid: {
+          // right: '30%'
+        },
+        series: [
+          {
+            name: '楼层用水',
+            type: 'funnel',
+            left: '10%',
+            width: '75%',
+            bottom: '5%',
+            label: {
+              formatter: '{b}',
+              backgroundColor: 'transparent'
+            },
+            labelLine: {
+              show: false
+            },
+            itemStyle: {
+              opacity: 0.7
+              // borderColor: "#b8f0fc",
+            },
+            emphasis: {
+              label: {
+                position: 'inside',
+                formatter: '{b}: {c}吨'
+              }
+            },
+            data: [
+              { value: 140, name: '1F' },
+              { value: 100, name: '2F' },
+              { value: 20, name: '3F' },
+              { value: 60, name: '4F' },
+
+              { value: 80, name: '5F' },
+
+              { value: 120, name: '6F' },
+              { value: 40, name: '7F' }
+            ]
+          },
+          {
+            name: '卫生用水',
+            type: 'funnel',
+            left: '10%',
+            width: '75%',
+            bottom: '5%',
+            maxSize: '80%',
+            label: {
+              position: 'inside',
+              // formatter: '{c}%',
+              formatter: (name) => {
+                // console.log(name);
+                const a = option.series[0].data[name.dataIndex].value
+                const b = ((name.value / a).toFixed(3) * 100).toFixed(1)
+                // console.log(b);
+                return `${b}%`
+              },
+              color: '#fff'
+            },
+            itemStyle: {
+              opacity: 0.5,
+              // borderColor: "#fff",
+              borderWidth: 2
+            },
+            emphasis: {
+              label: {
+                position: 'inside',
+                formatter: '{b}卫生用水: {c}%'
+              }
+            },
+            data: [
+              { value: 60, name: '1F' },
+              { value: 30, name: '2F' },
+              { value: 3, name: '3F' },
+              { value: 15, name: '4F' },
+              { value: 20, name: '5F' },
+              { value: 45, name: '6F' },
+              { value: 10, name: '7F' }
+            ],
+            // Ensure outer shape will not be over inner shape when hover.
+            z: 100
+          }
+        ]
+      }
+      CreateChart(this.$refs.floor, option)
+    },
+    newChart() {
+      const xData = ['今日', '昨日']
+      const lastYearData = [3, 20]
+      const thisYearData = [11, 38]
+
+      const textColor = '#fff'
+      const lineColor = 'rgba(255,255,255,0.2)'
+      const colors = [
+        {
+          borderColor: 'rgba(0, 255, 191, .6)',
+          start: 'rgba(0, 255, 191, .6)',
+          end: 'rgba(0, 255, 191, .1)'
+        },
+        {
+          borderColor: 'rgba(0, 191, 255, .6)',
+          start: 'rgba(0, 191, 255, .1)',
+          end: 'rgba(0, 191, 255, .6)'
+        }
+      ]
+      let borderData = []
+      const scale = 2
+      borderData = xData.map((item) => {
+        return scale
+      })
+
+      const option = {
+        baseOption: {
+          timeline: {
+            show: false,
+            top: 0,
+            data: []
+          },
+          title: [
+            {
+              text: '单位：#',
+              left: '6px',
+              textStyle: {
+                color: '#9ec6d7',
+                fontSize: 10
+              }
+            },
+            {
+              text: '今日能源消耗',
+              right: '6px',
+              textStyle: {
+                color: '#9ec6d7',
+                fontSize: 10
+              }
+            }
+          ],
+          tooltip: {
+            trigger: 'axis',
+            // type:'shadow',
+            axisPointer: {
+              type: 'shadow'
+            },
+            backgroundColor: 'rgba(17,95,182,0.5)',
+            textStyle: {
+              color: '#fff'
+            },
+            formatter: '{a}<br/>{b} :\n\n{c} 吨'
+          },
+          legend: {
+            top: '5%',
+            right: 'center',
+            itemWidth: 20,
+            itemHeight: 5,
+            itemGap: 30,
+            icon: 'horizontal',
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 14
+            }
+          },
+          grid: [
+            // 左边
+            {
+              show: false,
+              left: '2%',
+              top: '15%',
+              bottom: '21%',
+              containLabel: true,
+              width: '37%'
+            },
+            // 中间
+            {
+              show: false,
+              left: '52%',
+              top: '15%',
+              bottom: '23%',
+              width: '0%'
+            },
+            // 右边
+            {
+              show: false,
+              right: '2%',
+              top: '15%',
+              bottom: '21%',
+              containLabel: true,
+              width: '37%'
+            }
+          ],
+          xAxis: [
+            {
+              type: 'value',
+              inverse: true,
+              axisLine: {
+                show: true,
+                lineStyle: {
+                  color: 'rgba(45, 67, 119, 0.8)'
+                }
+              },
+              axisTick: {
+                show: false
+              },
+              position: 'bottom',
+              axisLabel: {
+                show: true,
+                color: textColor
+              },
+              splitLine: {
+                show: true,
+                lineStyle: {
+                  color: '#2D4377',
+                  type: 'dashed'
+                }
+              }
+            },
+            {
+              gridIndex: 1,
+              show: false
+            },
+            {
+              gridIndex: 2,
+              axisLine: {
+                show: true,
+                lineStyle: {
+                  color: 'rgba(45, 67, 119, 0.8)'
+                }
+              },
+              axisTick: {
+                show: false
+              },
+              position: 'bottom',
+              axisLabel: {
+                show: true,
+                color: textColor
+              },
+              splitLine: {
+                show: true,
+                lineStyle: {
+                  color: '#2D4377',
+                  type: 'dashed'
+                }
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: 'category',
+              inverse: true,
+              position: 'right',
+              axisLine: {
+                show: true,
+                lineStyle: {
+                  color: lineColor
+                }
+              },
+
+              axisTick: {
+                show: false
+              },
+              axisLabel: {
+                show: false
+              },
+              data: xData
+            },
+            {
+              gridIndex: 1,
+              type: 'category',
+              inverse: true,
+              position: 'left',
+              axisLine: {
+                show: false
+              },
+              axisTick: {
+                show: false
+              },
+              axisLabel: {
+                show: true,
+                // padding:[10,0,0,0],
+                textStyle: {
+                  color: '#ffffff',
+                  fontSize: 13
+                },
+                align: 'center'
+              },
+              data: xData.map(function (value) {
+                return {
+                  value: value,
+                  textStyle: {
+                    align: 'center'
+                  }
+                }
+              })
+            },
+            {
+              gridIndex: 2,
+              type: 'category',
+              inverse: true,
+              position: 'left',
+              axisLine: {
+                show: true,
+                lineStyle: {
+                  color: lineColor
+                }
+              },
+              axisTick: {
+                show: false
+              },
+              axisLabel: {
+                show: false
+              },
+              data: xData
+            }
+          ],
+          series: []
+        },
+        options: []
+      }
+
+      // option.baseOption.timeline.data.push(timeLineData[0])
+      option.options.push({
+        backgroundColor: '',
+        series: [
+          {
+            name: '用电',
+            type: 'bar',
+            barWidth: 10,
+            stack: '1',
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                  {
+                    offset: 0,
+                    color: colors[0].start
+                  },
+                  {
+                    offset: 1,
+                    color: colors[0].end
+                  }
+                ])
+              }
+            },
+            label: {
+              normal: {
+                show: false
+              }
+            },
+            data: lastYearData,
+            animationEasing: 'elasticOut'
+          },
+          {
+            name: '用水',
+            type: 'bar',
+            stack: '2',
+            barWidth: 10,
+            xAxisIndex: 2,
+            yAxisIndex: 2,
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                  {
+                    offset: 0,
+                    color: colors[1].start
+                  },
+                  {
+                    offset: 1,
+                    color: colors[1].end
+                  }
+                ])
+              }
+            },
+            label: {
+              normal: {
+                show: false
+              }
+            },
+            data: thisYearData,
+            animationEasing: 'elasticOut'
+          }
+        ]
+      })
+
+      CreateChart(this.$refs.new, option)
     }
   }
 }
