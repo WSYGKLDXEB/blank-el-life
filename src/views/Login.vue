@@ -216,6 +216,9 @@ h1 {
   align-items: center;
   height: 32px;
 }
+.el-input {
+  color: #1a1a1a !important;
+}
 .el-form {
   // display: ;
   // position: absolute;
@@ -250,5 +253,9 @@ h1 {
   // padding: 16px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
   background-color: #fff;
+  border-color: #fff !important;
+  /deep/.el-input__inner {
+    color: #1a1a1a !important;
+  }
 }
 </style>
