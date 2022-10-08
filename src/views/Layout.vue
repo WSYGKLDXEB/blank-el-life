@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 export default {
   name: 'BlankElEcBimRealisticLayout',
 
@@ -64,9 +65,11 @@ export default {
       } else {
         window.sessionStorage.removeItem('token')
         this.$router.push('/login')
+        ipcRenderer.send('resize-app')
+        ipcRenderer.send('resizable-app')
         // 退出全屏
         // 兼容各个浏览器退出全屏方法
-        ;(document.exitFullscreen || document.msExitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen).call(document)
+        // ;(document.exitFullscreen || document.msExitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen).call(document)
       }
     }
   }
@@ -78,6 +81,7 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
+  background: url('../assets/image/bg1.png');
 }
 .el-container {
   height: 100%;

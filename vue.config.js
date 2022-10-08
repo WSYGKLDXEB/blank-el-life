@@ -3,11 +3,16 @@ module.exports = defineConfig({
   // AMap: 'AMap',
   publicPath: './',
   transpileDependencies: true,
+  pluginOptions: {
+    electronBuilder: {
+      nodeIntegration: true
+    }
+  },
   devServer: {
     host: 'localhost',
     //  port: 8080,//本地运行的端口
     // 配置自动启动浏览器
-    open: true,
+    // open: true,
     // 接口代理
     proxy: {
       '/cdn': {

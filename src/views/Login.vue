@@ -1,5 +1,12 @@
 <template>
   <div class="login">
+    <div class="header drag between">
+      <div class="title between">
+        <img src="../assets/logo.png" alt="" />
+        <span>中国人寿智能化集成平台</span>
+      </div>
+      <control-window></control-window>
+    </div>
     <el-card class="box-card">
       <el-form ref="loginForm" :model="loginData" :rules="rules" label-width="54px">
         <el-form-item label="用户" size="small " prop="user">
@@ -30,7 +37,10 @@
 </template>
 
 <script>
+import ControlWindow from '@/components/ControlWindow.vue'
+import { ipcRenderer } from 'electron'
 export default {
+  components: { ControlWindow },
   name: 'BlankElEcBimRealisticlogin',
 
   data() {
@@ -154,10 +164,12 @@ export default {
           if (this.loginData.user === 'blank' && this.loginData.paw === '666666') {
             sessionStorage.setItem('token', 'XXX-XXXX-XXXX')
             this.$router.push('/exhibit')
+            ipcRenderer.send('resize-app')
+            ipcRenderer.send('resizable-app')
             // 网页全屏
-            const el = document.documentElement
-            ;(el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen).call(el)
-            return this.$message.info('按‘Esc’或‘F11’键退出全屏！')
+            // const el = document.documentElement
+            // ;(el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen).call(el)
+            // return this.$message.info('按‘Esc’或‘F11’键退出全屏！')
           } else {
             this.$refs.loginForm.resetFields()
             return this.$message.error('用户或者密码错误！')
@@ -184,12 +196,40 @@ export default {
   // height: 100vh;
   // z-index: -1;
 }
+// 头部标签
+.header {
+  width: 100%;
+  height: 30px;
+  // background-color: rgba(25, 182, 172, 0.6);
+  background-color: #fff;
+  .title {
+    margin-left: 10px;
+    font-size: 16px;
+    img {
+      height: 20px;
+    }
+    span {
+      margin-left: 8px;
+      font-weight: 700;
+    }
+  }
+  /deep/.controlWindow {
+    width: 60px;
+    .el-icon-top-right {
+      display: none !important;
+    }
+  }
+}
 .login {
   position: relative;
   width: 100vw;
   height: 100%;
   background: url('../assets/image/bg.jpg');
   // overflow: hidden;
+  background-size: contain;
+  // border-radius: 10px;
+  overflow: hidden;
+  // box-shadow: 8px 8px 10px grey;
 }
 h1 {
   padding: 5px;

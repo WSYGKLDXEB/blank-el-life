@@ -1,7 +1,7 @@
 <template>
   <div class="exhibit">
     <!-- 头部 -->
-    <div class="header">
+    <div class="header drag">
       <!-- 时间日期 -->
       <div class="timeDate text">
         <h1>{{ time }}</h1>
@@ -17,13 +17,15 @@
       </div>
       <span class="text">中国人寿智能化平台</span>
       <!-- 全屏 -->
-      <i class="fullScreen el-icon-full-screen" @click="fullScreen"></i>
+      <i class="fullScreen el-icon-full-screen notDrag" @click="fullScreen"></i>
       <!-- 用户管理 -->
-      <i class="el-icon-user-solid user" @click="$router.push('/user')"></i>
+      <i class="el-icon-user-solid user notDrag" @click="$router.push('/user')"></i>
       <!-- 权限 -->
       <i v-show="false" class="permission iconfont icon-quanxian" @click="$router.push('/authorit')"></i>
       <!-- 退出登录 -->
-      <i class="iconfont icon-tuichubianji quit" @click="quit"></i>
+      <i class="iconfont icon-tuichubianji quit notDrag" @click="quit"></i>
+      <!-- 窗口控制 -->
+      <control-window></control-window>
     </div>
     <div class="body between">
       <div class="left hidden">
@@ -119,7 +121,10 @@
 
 <script>
 import { CurrentDate, CreateChart, grid, color, colorArr, textColor, hex2Rgba, PrefixInteger } from '@/assets/js/blank'
+import { ipcRenderer } from 'electron'
+import ControlWindow from '@/components/ControlWindow.vue'
 export default {
+  components: { ControlWindow },
   name: 'BlankElLifeExhibit',
 
   data() {
@@ -188,9 +193,11 @@ export default {
     quit() {
       window.sessionStorage.removeItem('token')
       this.$router.push('/login')
+      ipcRenderer.send('resize-app')
+      ipcRenderer.send('resizable-app')
       // 退出全屏
       // 兼容各个浏览器退出全屏方法
-      ;(document.exitFullscreen || document.msExitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen).call(document)
+      // ;(document.exitFullscreen || document.msExitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen).call(document)
     },
     // 上一个
     previous() {
@@ -1464,6 +1471,7 @@ export default {
 
 <style lang="less" scoped>
 .exhibit {
+  position: relative;
   width: 100vw;
   height: calc(100vw * 9 / 16);
   background: url('../assets/image/bg1.png');
@@ -1472,6 +1480,9 @@ export default {
   // -----------------------------------
   // --fc-theme: rgba(136, 215, 237, 0.8);
   --fc-theme: #bde2f3;
+}
+/deep/.controlWindow {
+  z-index: 9999;
 }
 // 悬浮效果
 .float {
