@@ -12,8 +12,6 @@
   font-family: electronicFont;
   src: url(../font/DS-DIGIT.TTF);
 }
-html,
-body,
 #app {
   user-select: none;
   -webkit-user-select: none;
@@ -29,10 +27,11 @@ html {
 .listBut {
   position: absolute;
   top: -0.54rem;
-  right: 1rem;
+  right: 2.6rem;
   padding: 0.07rem 0.15rem;
   font-size: 0.12rem;
   border-radius: 0.03rem;
+  -webkit-app-region: no-drag !important;
 }
 .tableBox .el-dialog .el-dialog__body {
   height: 87%;

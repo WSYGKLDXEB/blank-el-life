@@ -7,6 +7,10 @@
       </div>
       <control-window></control-window>
     </div>
+    <div class="bg-secondary"></div>
+    <!-- <img class="bg-theme" src="~@/assets/image/中国人寿.png" alt="" /> -->
+    <!-- <div class="bg-theme" /> -->
+    <div class="mask"></div>
     <el-card class="box-card">
       <el-form ref="loginForm" :model="loginData" :rules="rules" label-width="54px">
         <el-form-item label="用户" size="small " prop="user">
@@ -38,7 +42,9 @@
 
 <script>
 import ControlWindow from '@/components/ControlWindow.vue'
+// import fs from 'fs'
 import { ipcRenderer } from 'electron'
+import bg from '@/assets/image/中国人寿.png'
 export default {
   components: { ControlWindow },
   name: 'BlankElEcBimRealisticlogin',
@@ -72,11 +78,21 @@ export default {
     this.verifyChange()
   },
   mounted() {
+    ipcRenderer.on('identity', (e, obj) => {
+      console.log('身份', e, obj)
+    })
     const token = window.sessionStorage.getItem('token')
     if (token) {
       this.$router.push('/exhibit')
     }
+
     this.$refs.user.focus()
+    const login = document.querySelector('.login')
+    // const bgTheme = document.querySelector('.bg-theme')
+    login.style.background = `url(${bg}) no-repeat center bottom`
+    login.style.backgroundSize = '100% auto'
+    // bgTheme.style.background = `linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0)),url(${bg})`
+    // bgTheme.style.backgroundSize = '100% 100%'
   },
 
   methods: {
@@ -163,9 +179,13 @@ export default {
         if (this.loginData.verify.toLowerCase() === this.verify.toLowerCase()) {
           if (this.loginData.user === 'blank' && this.loginData.paw === '666666') {
             sessionStorage.setItem('token', 'XXX-XXXX-XXXX')
-            this.$router.push('/exhibit')
-            ipcRenderer.send('resize-app')
-            ipcRenderer.send('resizable-app')
+            // this.$router.push('/exhibit')
+            // ipcRenderer.send('resize-app')
+            // ipcRenderer.send('resizable-app')
+            const obj = {
+              token: 'XXX-XXXX-XXXX'
+            }
+            ipcRenderer.send('window-app', obj)
             // 网页全屏
             // const el = document.documentElement
             // ;(el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen).call(el)
@@ -196,6 +216,20 @@ export default {
   // height: 100vh;
   // z-index: -1;
 }
+.login {
+  position: relative;
+  width: 100vw;
+  height: 100%;
+  // background: url('../assets/image/bg.jpg') no-repeat;
+  // background: url('app:/./img/bg.055b97a3.jpg');
+  // overflow: hidden;
+  background-size: contain;
+  // border-radius: 10px;
+  overflow: hidden;
+  // box-shadow: 8px 8px 10px grey;
+  // backdrop-filter: blur(10px);
+  opacity: 0.8;
+}
 // 头部标签
 .header {
   width: 100%;
@@ -215,21 +249,52 @@ export default {
   }
   /deep/.controlWindow {
     width: 60px;
+    height: 30px;
+    line-height: 30px;
+    i {
+      height: 30px;
+      line-height: 30px;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1) !important;
+      }
+      &:last-of-type:hover {
+        background-color: rgba(251, 115, 115) !important;
+      }
+    }
     .el-icon-top-right {
       display: none !important;
     }
   }
 }
-.login {
-  position: relative;
-  width: 100vw;
+// 背景图片
+.bg-secondary {
+  position: absolute;
+  width: 100%;
   height: 100%;
-  background: url('../assets/image/bg.jpg');
-  // overflow: hidden;
-  background-size: contain;
-  // border-radius: 10px;
-  overflow: hidden;
-  // box-shadow: 8px 8px 10px grey;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+}
+.bg-theme {
+  // display: none;
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  height: calc(100% - 30px);
+  width: 6.6rem;
+  z-index: 4;
+  // opacity: 0.95;
+}
+.mask {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  width: 300px;
+  z-index: 4;
+  height: calc(100% - 30px);
+  // background-image: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  background-image: radial-gradient(rgba(255, 255, 255, 0) 15%, rgba(161, 161, 156, 0.1) 60%);
 }
 h1 {
   padding: 5px;
@@ -287,6 +352,7 @@ h1 {
   position: absolute;
   right: 5%;
   top: 50%;
+  z-index: 3;
   transform: translateY(-50%);
   width: 340px;
   // height: 340px;

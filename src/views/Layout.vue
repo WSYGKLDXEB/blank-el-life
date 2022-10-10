@@ -1,10 +1,10 @@
 <template>
   <div class="layout">
     <el-container>
-      <el-header>
+      <el-header class="drag">
         <div class="header between">
           <div class="back between">
-            <div class="return between" @click="$router.back()">
+            <div class="return between notDrag" @click="$router.back()">
               <i class="el-icon-back"></i>
               <span>返回</span>
             </div>
@@ -12,7 +12,7 @@
           </div>
           <div class="butGroup between">
             <!-- 用户 -->
-            <el-dropdown @command="handleCommand">
+            <el-dropdown @command="handleCommand" class="notDrag">
               <span class="el-dropdown-link"> 管理员<i class="el-icon-arrow-down el-icon--right"></i> </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="user">用户管理</el-dropdown-item>
@@ -21,9 +21,10 @@
               </el-dropdown-menu>
             </el-dropdown>
           </div>
+          <control-window></control-window>
         </div>
       </el-header>
-      <el-main>
+      <el-main class="">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -32,7 +33,10 @@
 
 <script>
 import { ipcRenderer } from 'electron'
+import ControlWindow from '@/components/ControlWindow.vue'
+import bg from '@/assets/image/bg1.png'
 export default {
+  components: { ControlWindow },
   name: 'BlankElEcBimRealisticLayout',
 
   data() {
@@ -53,6 +57,8 @@ export default {
     //   })
     // }, 1000)
     console.log(this.$router, this.$route)
+    const layout = document.querySelector('.layout')
+    layout.style.background = `url(${bg})`
   },
   computed: {},
   methods: {
@@ -64,9 +70,10 @@ export default {
         this.$router.push('/authorit')
       } else {
         window.sessionStorage.removeItem('token')
-        this.$router.push('/login')
-        ipcRenderer.send('resize-app')
-        ipcRenderer.send('resizable-app')
+        // this.$router.push('/login')
+        // ipcRenderer.send('resize-app')
+        // ipcRenderer.send('resizable-app')
+        ipcRenderer.send('login-app')
         // 退出全屏
         // 兼容各个浏览器退出全屏方法
         // ;(document.exitFullscreen || document.msExitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen).call(document)
@@ -81,7 +88,7 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
-  background: url('../assets/image/bg1.png');
+  // background: url('../assets/image/bg1.png');
 }
 .el-container {
   height: 100%;
@@ -128,10 +135,16 @@ export default {
     justify-content: flex-end;
     width: 40%;
     height: 100%;
+    margin-right: 120px;
   }
   /deep/.el-dropdown {
     cursor: pointer;
     color: #dfdfdf !important;
+  }
+  /deep/.controlWindow {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    right: 18px;
   }
 }
 

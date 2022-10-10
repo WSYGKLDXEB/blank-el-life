@@ -16,17 +16,16 @@
         <span>晴 30℃</span>
       </div>
       <span class="text">中国人寿智能化平台</span>
-      <!-- 全屏 -->
-      <i class="fullScreen el-icon-full-screen notDrag" @click="fullScreen"></i>
       <!-- 用户管理 -->
       <i class="el-icon-user-solid user notDrag" @click="$router.push('/user')"></i>
       <!-- 权限 -->
       <i v-show="false" class="permission iconfont icon-quanxian" @click="$router.push('/authorit')"></i>
       <!-- 退出登录 -->
       <i class="iconfont icon-tuichubianji quit notDrag" @click="quit"></i>
-      <!-- 窗口控制 -->
-      <control-window></control-window>
     </div>
+
+    <!-- 窗口控制 -->
+    <control-window class="notDrag"></control-window>
     <div class="body between">
       <div class="left hidden">
         <div class="title">电梯运行时间</div>
@@ -63,7 +62,7 @@
           <map-box darkNight v-show="true"></map-box>
         </div>
         <!-- 按钮组 -->
-        <div class="butGroup between">
+        <div class="butGroup between" id="butGroup">
           <span v-for="(item, i) in butGroup" :key="i" @click="$router.push(item.path)"
             ><i class="text">{{ item.label }}</i></span
           >
@@ -76,7 +75,7 @@
           <span class="el-icon-arrow-right arrow" @click.stop="next"></span>
           <div class="videoToggle">
             <div class="videoBox between hidden" ref="">
-              <video v-for="i in 6" :key="i" @click="$router.push('/video')" ref="curMonitor" :src="monitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
+              <video v-for="i in 6" :key="i" @click="$router.push('/video')" ref="curMonitor" src="~@/assets/video/cs.mp4" loop="loop" autoplay="autoplay" muted="muted"></video>
             </div>
           </div>
 
@@ -123,6 +122,9 @@
 import { CurrentDate, CreateChart, grid, color, colorArr, textColor, hex2Rgba, PrefixInteger } from '@/assets/js/blank'
 import { ipcRenderer } from 'electron'
 import ControlWindow from '@/components/ControlWindow.vue'
+import bg from '@/assets/image/bg1.png'
+import hd from '@/assets/image/header.png'
+import but from '@/assets/image/butGroup.png'
 export default {
   components: { ControlWindow },
   name: 'BlankElLifeExhibit',
@@ -181,20 +183,26 @@ export default {
       this.years = obj.years
       this.time = obj.time
     }, 1000)
+
+    const header = document.querySelector('.header')
+    const exhibit = document.querySelector('.exhibit')
+    const butGroup = document.querySelector('#butGroup>span')
+    exhibit.style.background = `url(${bg})`
+    header.style.background = `url(${hd}) 8px center`
+    header.style.backgroundSize = '100% 1rem'
+    butGroup.forEach((item) => {
+      item.style.background = `url(${but})`
+      item.style.backgroundSize = '1rem 0.3rem'
+    })
   },
 
   methods: {
-    fullScreen() {
-      // 网页全屏
-      const el = document.documentElement
-      ;(el.requestFullscreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen).call(el)
-      // return this.$message.info('按‘Esc’或‘F11’键退出全屏！')
-    },
     quit() {
       window.sessionStorage.removeItem('token')
-      this.$router.push('/login')
-      ipcRenderer.send('resize-app')
-      ipcRenderer.send('resizable-app')
+      // this.$router.push('/login')
+      // ipcRenderer.send('resize-app')
+      // ipcRenderer.send('resizable-app')
+      ipcRenderer.send('login-app')
       // 退出全屏
       // 兼容各个浏览器退出全屏方法
       // ;(document.exitFullscreen || document.msExitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen).call(document)
@@ -1474,7 +1482,7 @@ export default {
   position: relative;
   width: 100vw;
   height: calc(100vw * 9 / 16);
-  background: url('../assets/image/bg1.png');
+  // background: url('../assets/image/bg1.png');
   background-size: 100% 100%;
   // font-size: calc(100vw / 19.2);
   // -----------------------------------
@@ -1482,7 +1490,17 @@ export default {
   --fc-theme: #bde2f3;
 }
 /deep/.controlWindow {
-  z-index: 9999;
+  color: var(--fc-theme);
+  -webkit-app-region: no-drag !important;
+  height: 18px;
+  line-height: 18px;
+  i {
+    height: 18px;
+    line-height: 18px;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
 }
 // 悬浮效果
 .float {
@@ -1497,7 +1515,7 @@ export default {
   pointer-events: none;
   width: 100%;
   height: 1rem;
-  background: url('../assets/image/header.png') 8px center;
+  // background: url('../assets/image/header.png') 8px center;
   background-size: 100% 1rem;
   display: flex;
   align-items: center;
@@ -1556,9 +1574,6 @@ export default {
     position: absolute;
     margin-top: -0.1rem;
     font-size: 0.16rem;
-  }
-  .fullScreen {
-    right: 1.15rem;
   }
   .permission {
     right: 1.1rem;
@@ -1654,8 +1669,8 @@ export default {
         line-height: 0.3rem;
         text-align: center;
         width: 1rem;
-        background: url('../assets/image/butGroup.png');
-        background-size: 1rem 0.3rem;
+        // background: url('../assets/image/butGroup.png');
+        // background-size: 1rem 0.3rem;
         // background-image: -webkit-linear-gradient(270deg, #fff, #01deff) !important;
       }
       i {

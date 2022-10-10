@@ -1,7 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   // AMap: 'AMap',
-  publicPath: './',
+  // publicPath: './',
   transpileDependencies: true,
   pluginOptions: {
     electronBuilder: {
@@ -27,6 +27,13 @@ module.exports = defineConfig({
 
   // 配置不同环境下的打包入口
   chainWebpack: (config) => {
+    // 图片缩略限制
+    // config.module
+    //   .rule('images')
+    //   .use('url-loader')
+    //   .loader('url-loader')
+    //   .tap((options) => Object.assign(options, { limit: 5 * 1024 }))
+
     // console.log(process.env.NODE_ENV)
     // 发布模式
     config.when(process.env.NODE_ENV === 'production', (config) => {

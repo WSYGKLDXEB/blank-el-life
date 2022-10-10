@@ -5,8 +5,17 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 export default {
   name: 'app',
+  created() {
+    ipcRenderer.on('identity', (e, obj) => {
+      console.log('身份', e, obj)
+      for (const key in obj) {
+        sessionStorage.setItem(key, obj[key])
+      }
+    })
+  },
   mounted() {
     document.title = '中国人寿'
   }
