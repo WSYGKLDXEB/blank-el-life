@@ -13,7 +13,7 @@
           </div>
 
           <!-- 表格 -->
-          <el-table :default-sort="{ prop: 'level', order: 'ascending' }" stripe max-height="675" :data="rightsList" border style="width: 100%">
+          <el-table :default-sort="{ prop: 'level', order: 'ascending' }" stripe max-height="675" :data="rightsList" style="width: 100%">
             <!-- 展开项 -->
             <el-table-column type="index" label="#"> </el-table-column>
             <el-table-column prop="authName" label="权限名称"> </el-table-column>

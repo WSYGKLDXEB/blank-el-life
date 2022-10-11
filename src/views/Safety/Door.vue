@@ -1,25 +1,39 @@
 <template>
   <div class="door">
     <!-- 表格显示框按钮 -->
-    <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据表格</el-button>
-    <el-row :gutter="16">
-      <!-- 左侧列表 -->
-      <el-col :span="19">
-        <div class="card" ref="inOut" style="height: 100%"></div>
-      </el-col>
-      <!-- 右侧图表 -->
-      <el-col :span="5" class="chartBox">
-        <el-card>
-          <div ref="water" style="height: 100%"></div>
-        </el-card>
-        <el-card>
-          <div ref="type" style="height: 100%"></div>
-        </el-card>
-        <el-card>
-          <div ref="state" style="height: 100%"></div>
-        </el-card>
-      </el-col>
-    </el-row>
+    <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">通行记录</el-button>
+    <!--导航 -->
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="实时数据" name="timeData">
+        <el-row :gutter="16">
+          <!-- 左侧列表 -->
+          <el-col :span="19">
+            <div class="card" ref="inOut" style="height: 100%"></div>
+          </el-col>
+          <!-- 右侧图表 -->
+          <el-col :span="5" class="chartBox">
+            <el-card>
+              <div ref="water" style="height: 100%"></div>
+            </el-card>
+            <el-card>
+              <div ref="type" style="height: 100%"></div>
+            </el-card>
+            <el-card>
+              <div ref="state" style="height: 100%"></div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+      <el-tab-pane label="门禁管理" name="configure">
+        <el-row :gutter="16">
+          <!-- 左侧列表 -->
+          <el-col :span="19"> </el-col>
+          <el-col :span="5">
+            <tree-list isFilter></tree-list>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+    </el-tabs>
 
     <!-- 编辑弹出框 -->
     <el-dialog center :title="isEditState ? '编辑' : '添加'" :visible.sync="isDialog" :show-close="false" width="40%" @close="close">
@@ -73,7 +87,7 @@
         </div>
         <!-- 表格 -->
         <template v-if="tableData.length !== 0">
-          <el-table max-height="655" :data="tableData" border style="width: 100%">
+          <el-table max-height="655" :data="tableData" style="width: 100%">
             <el-table-column type="index" label="#"> </el-table-column>
             <el-table-column prop="date" label="日期" width="180"> </el-table-column>
             <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
@@ -174,7 +188,9 @@ export default {
       // 是否为编辑状态
       isEditState: true,
       // 选择器
-      searchValue: ''
+      searchValue: '',
+      // 当前所处页面
+      activeName: 'timeData'
     }
   },
 
@@ -1892,7 +1908,7 @@ export default {
 
 <style lang="less" scoped>
 .door {
-  position: relative;
+  // position: relative;
   width: 100%;
   height: 100%;
 }

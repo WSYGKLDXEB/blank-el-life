@@ -13,6 +13,7 @@ let win
 let login
 let contents
 let identity // 身份 => token
+const isFullScreen = false // 记录视频是否全屏
 async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
@@ -24,6 +25,8 @@ async function createWindow() {
     // backgroundColor: '#00000000', // 设置登录页圆角
     minWidth: 1200,
     minHeight: 675,
+    // maxWidth: 1200,
+    // maxHeight: 675,
     // fullscreen: true, 600// 全屏窗口 =>如果设置了width、heigh、x、y,系统会忽略这些属性，仍然是全屏显示
     webPreferences: {
       webSecurity: false, // 实现跨域
@@ -76,7 +79,10 @@ async function createWindow() {
   })
   // 调整窗口大小前触发
   win.on('will-resize', (e, newBounds) => {
-    // console.log(newBounds)
+    console.log('will-resize', newBounds)
+  })
+  win.on('resize', (e, newBounds) => {
+    console.log('resize', newBounds)
   })
   // -------------------------------------------------
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -90,7 +96,7 @@ async function createWindow() {
     // win.loadFile('./index.html', {
     //   hash: 'exhibit'
     // })
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
   }
 }
 
@@ -144,7 +150,7 @@ async function createLogin() {
 // 窗口自动居中显示
 function bounds(obj) {
   const bounds = win.getBounds()
-  console.log(bounds)
+  // console.log(bounds)
   const desktop = screen.getPrimaryDisplay()
   bounds.x = Math.floor((desktop.bounds.width - bounds.width) / 2)
   bounds.y = Math.floor((desktop.bounds.height - bounds.height) / 2)
@@ -189,11 +195,16 @@ ipcMain.on('close-app', () => {
 })
 // 窗口放大
 ipcMain.on('expand-app', () => {
-  // contents.send('isExpand', win.isNormal())
+  contents.send('isExpand', win.isNormal())
   if (win.isNormal()) {
     return win.maximize()
   }
   win.unmaximize()
+})
+// 窗口全屏
+ipcMain.on('fullScreen-app', () => {
+  contents.send('isFullScreen', win.isFullScreen())
+  win.setFullScreen(!win.isFullScreen())
 })
 // 窗口最小化
 ipcMain.on('min-app', () => {

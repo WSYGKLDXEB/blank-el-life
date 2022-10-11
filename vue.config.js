@@ -1,11 +1,12 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   // AMap: 'AMap',
-  // publicPath: './',
+  publicPath: './',
   transpileDependencies: true,
   pluginOptions: {
     electronBuilder: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      customFileProtocol: './'
     }
   },
   devServer: {

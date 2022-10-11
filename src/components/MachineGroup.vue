@@ -249,7 +249,8 @@ export default {
     }
   }
   .machine-item {
-    background-color: var(--bgc-default) !important;
+    // background-color: var(--bgc-default) !important;
+    // background-color: rgba(1, 53, 79);
     // box-shadow: none !important;
     border-width: 0 !important;
     margin-bottom: 0 !important;
@@ -271,7 +272,8 @@ export default {
   padding: 10px 14px 20px;
   box-sizing: border-box;
   margin-bottom: 15px;
-  background-color: var(--bgc-theme);
+  // background-color: var(--bgc-theme);
+  background-color: rgba(24, 71, 96);
   border-radius: 6px;
   border-style: solid;
   border-color: var(--color-theme);

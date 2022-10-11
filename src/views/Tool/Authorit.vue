@@ -21,7 +21,7 @@
             </div>
           </div>
           <!-- 表格 -->
-          <el-table stripe max-height="675" :data="tableData" border style="width: 100%">
+          <el-table stripe max-height="675" :data="tableData" style="width: 100%">
             <!-- 展开项 -->
             <el-table-column type="expand">
               <template slot-scope="scope">
@@ -96,7 +96,7 @@
     <el-dialog class="tableBox" center fullscreen title="数据查询" :visible.sync="isFormDialog" width="80%">
       <el-card>
         <!-- 表格 -->
-        <el-table :default-sort="{ prop: 'level', order: 'ascending' }" stripe max-height="740" :data="rightsList" border style="width: 100%">
+        <el-table height="100%" :default-sort="{ prop: 'level', order: 'ascending' }" stripe :data="rightsList" style="width: 100%">
           <!-- 展开项 -->
           <el-table-column type="index" label="#"> </el-table-column>
           <el-table-column prop="authName" label="权限名称"> </el-table-column>
@@ -109,19 +109,6 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- 分页 -->
-        <el-pagination
-          v-if="tableData.length !== 0"
-          background
-          :current-page="currentPage"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
-        >
-        </el-pagination>
-        <!-- 空状态 -->
-        <el-empty v-else description="选择条件查询！"></el-empty>
       </el-card>
     </el-dialog>
     <!-- 操作弹出框 -->

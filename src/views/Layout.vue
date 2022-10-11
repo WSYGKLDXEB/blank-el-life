@@ -59,6 +59,7 @@ export default {
     console.log(this.$router, this.$route)
     const layout = document.querySelector('.layout')
     layout.style.background = `url(${bg})`
+    layout.style.backgroundSize = '100% 100%'
   },
   computed: {},
   methods: {
@@ -70,9 +71,6 @@ export default {
         this.$router.push('/authorit')
       } else {
         window.sessionStorage.removeItem('token')
-        // this.$router.push('/login')
-        // ipcRenderer.send('resize-app')
-        // ipcRenderer.send('resizable-app')
         ipcRenderer.send('login-app')
         // 退出全屏
         // 兼容各个浏览器退出全屏方法
@@ -94,7 +92,7 @@ export default {
   height: 100%;
 }
 .el-main {
-  // height: calc(100vh - 0.5rem);
+  height: calc(100vh - 0.5rem) !important;
   padding: 14px !important;
   overflow: visible !important;
 }
@@ -145,6 +143,9 @@ export default {
     height: 0.5rem;
     line-height: 0.5rem;
     right: 18px;
+    i:nth-of-type(-n + 2):hover {
+      background-color: rgba(62, 101, 121) !important;
+    }
   }
 }
 

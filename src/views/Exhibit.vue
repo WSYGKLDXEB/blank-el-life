@@ -26,8 +26,8 @@
 
     <!-- 窗口控制 -->
     <control-window class="notDrag"></control-window>
-    <div class="body between">
-      <div class="left hidden">
+    <div class="body between hidden">
+      <div class="left">
         <div class="title">电梯运行时间</div>
         <div class="row_1 float" ref="elevator" @click="$router.push('/stairs')"></div>
         <div class="title">7日报警数量趋势</div>
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <div class="center hidden">
+      <div class="center">
         <!-- 自定义模块 -->
         <!-- 地图 -->
         <div class="title_c">地理位置</div>
@@ -75,7 +75,7 @@
           <span class="el-icon-arrow-right arrow" @click.stop="next"></span>
           <div class="videoToggle">
             <div class="videoBox between hidden" ref="">
-              <video v-for="i in 6" :key="i" @click="$router.push('/video')" ref="curMonitor" src="~@/assets/video/cs.mp4" loop="loop" autoplay="autoplay" muted="muted"></video>
+              <video v-for="i in 6" :key="i" @click="$router.push('/video')" ref="curMonitor" :src="monitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
             </div>
           </div>
 
@@ -84,7 +84,7 @@
           </div>
         </div>
       </div>
-      <div class="right hidden">
+      <div class="right">
         <!-- 设备 -->
         <div class="title">设备状态</div>
         <div class="row_1 float" @click="$router.push('/equipment')">
@@ -125,6 +125,7 @@ import ControlWindow from '@/components/ControlWindow.vue'
 import bg from '@/assets/image/bg1.png'
 import hd from '@/assets/image/header.png'
 import but from '@/assets/image/butGroup.png'
+import monitorUrl from '@/assets/video/cs.mp4'
 export default {
   components: { ControlWindow },
   name: 'BlankElLifeExhibit',
@@ -134,7 +135,7 @@ export default {
       parkData: [],
       // 滚动条
       nowScroll: 0,
-      monitorUrl: require('@/assets/video/cs.mp4'),
+      monitorUrl,
       activities: [
         {
           content: [],
@@ -186,8 +187,10 @@ export default {
 
     const header = document.querySelector('.header')
     const exhibit = document.querySelector('.exhibit')
-    const butGroup = document.querySelector('#butGroup>span')
+    const butGroup = document.querySelectorAll('#butGroup>span')
+    console.log(butGroup)
     exhibit.style.background = `url(${bg})`
+    exhibit.style.backgroundSize = '100% 100%'
     header.style.background = `url(${hd}) 8px center`
     header.style.backgroundSize = '100% 1rem'
     butGroup.forEach((item) => {
@@ -1481,7 +1484,8 @@ export default {
 .exhibit {
   position: relative;
   width: 100vw;
-  height: calc(100vw * 9 / 16);
+  height: 100vh;
+  // height: calc(100vw * 9 / 16);
   // background: url('../assets/image/bg1.png');
   background-size: 100% 100%;
   // font-size: calc(100vw / 19.2);
@@ -1523,7 +1527,7 @@ export default {
   color: var(--fc-theme);
 
   & > span {
-    margin-top: -20px;
+    margin-top: -0.2rem;
     font-size: 0.32em;
     font-weight: 700;
     background-image: -webkit-linear-gradient(270deg, #fff, #01deff) !important;
@@ -1587,9 +1591,9 @@ export default {
 }
 
 .body {
-  padding: 0 0.15rem;
-  margin-top: 0.1rem;
-  height: calc(100% - 1.3rem);
+  padding: 0.1rem 0.15rem 0;
+  // margin-top: 0.1rem;
+  height: calc(100vh - 1.1rem);
   width: 100%;
   box-sizing: border-box;
   color: var(--fc-theme);
@@ -1656,12 +1660,13 @@ export default {
     width: 55%;
     .customize {
       margin-top: 0.05rem;
-      // height: 6.15rem;
-      height: calc((100% - 0.8rem) * 0.78);
+      height: 6.7859rem;
+      // height: calc((100% - 0.8rem) * 0.78);
     }
     .butGroup {
       width: 100%;
-      height: calc((100% - 0.8rem) * 0.08);
+      // height: calc((100% - 0.8rem) * 0.08);
+      height: 0.6959rem;
       font-size: 0.16rem;
       span {
         cursor: pointer;
@@ -1681,8 +1686,8 @@ export default {
       position: relative;
       padding-left: 0.35rem;
       margin-top: 0.05rem;
-      // height: calc(100vh - 6.2rem);
-      height: calc((100% - 0.8rem) * 0.14);
+      height: 1.218rem;
+      // height: calc((100% - 0.8rem) * 0.14);
       & > div {
         box-sizing: border-box;
         // border: 1px dashed salmon;
@@ -1939,23 +1944,23 @@ export default {
   margin-top: 0.05rem;
   cursor: pointer;
   width: 100%;
-  // height: 1.65rem;
-  height: calc((100% - 1.2rem) * 0.25);
+  height: 2.075rem;
+  // height: calc((100% - 1.2rem) * 0.25);
   // transition: all 0.1s;
   box-sizing: border-box;
 }
 .row_2 {
   margin-top: 0.05rem;
   width: 100%;
-  // height: 2.15rem;
-  height: calc((100% - 1.2rem) * 0.3);
+  height: 2.49rem;
+  // height: calc((100% - 1.2rem) * 0.3);
   box-sizing: border-box;
 }
 .row_3 {
   margin-top: 0.05rem;
   width: 100%;
-  // height: 4.15rem;
-  height: calc((100% - 1.2rem) * 0.45);
+  height: 3.735rem;
+  // height: calc((100% - 1.2rem) * 0.45);
   box-sizing: border-box;
 }
 @keyframes breathe {

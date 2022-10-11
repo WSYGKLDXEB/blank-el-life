@@ -129,7 +129,7 @@
             </div>
             <!-- 表格 -->
             <template v-if="tableData.length !== 0">
-              <el-table stripe max-height="455" :data="tableData" border style="width: 100%">
+              <el-table stripe max-height="455" :data="tableData" style="width: 100%">
                 <el-table-column type="index" label="#"> </el-table-column>
                 <el-table-column prop="date" label="日期" width="180"> </el-table-column>
                 <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
@@ -185,23 +185,17 @@
 <script>
 import { CreateChart, CurrentDate } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
+import monitorUrl from '@/assets/video/cs.mp4'
 export default {
   name: 'BlankElEcBimRealisticVideo',
 
   data() {
     return {
-      videoArr: [
-        require('@/assets/video/cs.mp4'),
-        require('@/assets/video/cs.mp4'),
-        require('@/assets/video/cs.mp4'),
-        require('@/assets/video/cs.mp4'),
-        require('@/assets/video/cs.mp4'),
-        require('@/assets/video/cs.mp4')
-      ],
+      videoArr: [monitorUrl, monitorUrl, monitorUrl, monitorUrl, monitorUrl, monitorUrl],
       // 历史记录监控播放地址
       hisMonitorUrl: null,
       // 监控初始视频
-      curMonitorUrl: require('@/assets/video/cs.mp4'),
+      curMonitorUrl: monitorUrl,
       // 预览窗口偏移
       offsetLeft: -30,
       // 预览小视频宽度
@@ -925,7 +919,7 @@ export default {
 
 <style lang="less" scoped>
 .video {
-  position: relative;
+  // position: relative;
   width: 100%;
   height: 100%;
 }
@@ -970,13 +964,13 @@ export default {
     z-index: 98;
     width: 46px;
     left: 0;
-    background-color: #1e3e4a;
+    background-color: #01354f;
   }
   span:nth-of-type(2) {
     z-index: 98;
     width: 46px;
     right: 0;
-    background-color: #1e3e4a;
+    background-color: #01354f;
   }
   span:nth-of-type(3) {
     z-index: 99;
@@ -1081,6 +1075,7 @@ export default {
     display: flex;
     flex-flow: column;
     justify-content: center;
+    color: #bbb;
     .op_time {
       position: relative;
       width: 100%;
@@ -1088,7 +1083,8 @@ export default {
       font-size: 0.2rem;
       margin-bottom: 20px;
       box-sizing: border-box;
-      border: 1px dashed rgba(64, 158, 255, 0.8);
+      // border: 1px dashed rgba(64, 158, 255, 0.8);
+      border: 1px dashed rgba(62, 101, 121, 0.8);
       background: rgba(64, 158, 255, 0.1);
       border-radius: 6px;
       transition: all 0.3s;
@@ -1105,16 +1101,19 @@ export default {
         left: 10px;
         transition: all 0.3s;
 
-        background: rgba(185, 210, 240, 1);
+        // background: rgba(185, 210, 240, 1);
+        background-color: rgba(40, 87, 112);
         border-radius: 6px;
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
         & > div {
-          color: rgba(64, 158, 255, 0.8);
+          // color: rgba(64, 158, 255, 0.8);
+          color: #bbb;
           margin-left: 6px;
           font-size: 12px;
         }
         h1 {
-          color: rgba(64, 158, 255, 0.6);
+          // color: rgba(64, 158, 255, 0.6);
+          color: #aaa;
           transition: all 0.3s;
         }
         p {
@@ -1127,12 +1126,13 @@ export default {
       display: flex;
       justify-content: flex-end;
       padding-bottom: 15px;
-      font-size: 16px;
+      font-size: 0.16rem;
       width: 100%;
       height: 34%;
       margin-bottom: 20px;
       box-sizing: border-box;
-      border: 1px dashed rgba(64, 158, 255, 0.8);
+      // border: 1px dashed rgba(64, 158, 255, 0.8);
+      border: 1px dashed rgba(62, 101, 121, 0.8);
       background: rgba(64, 158, 255, 0.1);
       border-radius: 6px;
       transition: all 0.3s;
@@ -1145,7 +1145,8 @@ export default {
         bottom: 10px;
         left: 10px;
         transition: all 0.3s;
-        background: rgba(185, 210, 240, 1);
+        // background: rgba(185, 210, 240, 1);
+        background-color: rgba(40, 87, 112);
         border-radius: 6px;
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
       }
@@ -1158,29 +1159,11 @@ export default {
       flex-flow: column;
       justify-content: space-between;
       align-items: flex-end;
-      border: 1px dashed rgba(64, 158, 255, 0.8);
+      // border: 1px dashed rgba(64, 158, 255, 0.8);
+      border: 1px dashed rgba(62, 101, 121, 0.8);
       background: rgba(64, 158, 255, 0.1);
       border-radius: 6px;
       transition: all 0.3s;
-      // &:hover {
-      //   border: 1px dashed rgba(64, 158, 255, 0.8);
-      //   background: rgba(64, 158, 255, 0.1);
-      //   .body_box {
-      //     background: rgba(185, 210, 240, 1);
-      //     border-radius: 6px;
-      //     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-      //     transform: translate(10px, -10px);
-      //   }
-      //   .direction {
-      //     background-color: rgba(150, 185, 220, 0.8);
-      //     span {
-      //       background-color: rgba(150, 185, 220, 1);
-      //     }
-      //   }
-      //   .focal {
-      //     background-color: rgba(150, 185, 220, 1);
-      //   }
-      // }
       .body_box {
         padding: 30px 10px 10px;
         box-sizing: border-box;
@@ -1194,7 +1177,8 @@ export default {
         justify-content: space-between;
         align-items: flex-end;
         transition: all 0.3s;
-        background: rgba(185, 210, 240, 1);
+        // background: rgba(185, 210, 240, 1);
+        background-color: rgba(40, 87, 112);
         border-radius: 6px;
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
         p {
@@ -1213,22 +1197,9 @@ export default {
         height: 86px;
         z-index: 98;
         border-radius: 50%;
-        background-color: rgba(150, 185, 220, 0.8);
+        // background-color: rgba(150, 185, 220, 0.8);
+        background-color: rgba(14, 63, 88, 0.4);
         box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-        // background-color: rgba(228, 231, 237, 1);
-        // &::after {
-        //   content: '';
-        //   position: absolute;
-        //   top: 50%;
-        //   left: 50%;
-        //   transform: translate(-50%, -50%);
-        //   z-index: -1;
-        //   width: 120%;
-        //   height: 120%;
-        //   border-radius: 50%;
-        //   background: rgba(255, 255, 255, 0.25);
-        //   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3) !important;
-        // }
         span {
           cursor: pointer;
           position: absolute;
@@ -1237,10 +1208,11 @@ export default {
           z-index: 99;
           line-height: 20px;
           text-align: center;
-          color: #fff;
+          color: #aaa;
           font-size: 20px;
           box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-          background-color: rgba(150, 185, 220, 1);
+          // background-color: rgba(150, 185, 220, 1);
+          background-color: rgba(14, 63, 88, 0.4);
           // background-color: rgba(0, 0, 0, 0.1);
         }
         span:nth-of-type(1) {
@@ -1285,7 +1257,8 @@ export default {
         border-radius: 6px;
         box-sizing: border-box;
         box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
-        background-color: rgba(150, 185, 220, 1);
+        // background-color: rgba(150, 185, 220, 1);
+        background-color: rgba(14, 63, 88, 0.4);
         .el-slider {
           // position: absolute;
           // top: 50%;
@@ -1298,6 +1271,7 @@ export default {
         /deep/.el-slider__button {
           width: 14px;
           height: 14px;
+          border-color: rgba(1, 53, 79) !important;
         }
       }
     }

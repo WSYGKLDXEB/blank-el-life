@@ -1,10 +1,5 @@
 <template>
   <div class="equipment">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>楼宇智控</el-breadcrumb-item>
-      <el-breadcrumb-item>设备平面</el-breadcrumb-item>
-    </el-breadcrumb>
     <!-- 设备列表显示按钮 -->
     <el-button class="listBut" size="mini" type="primary" @click="isShowList = !isShowList">{{ isShowList ? '场景操控' : '操控面板' }}</el-button>
     <el-row :gutter="16">
@@ -213,12 +208,12 @@ export default {
 
 <style lang="less" scoped>
 .equipment {
-  position: relative;
+  // position: relative;
   width: 100%;
   height: 100%;
 }
 .el-row {
-  height: 96%;
+  height: 100%;
   .el-col {
     height: 100%;
   }

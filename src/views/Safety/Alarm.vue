@@ -44,7 +44,7 @@
         </div>
         <!-- 表格 -->
         <template v-if="tableData.length !== 0">
-          <el-table max-height="655" :data="tableData" border style="width: 100%">
+          <el-table max-height="655" :data="tableData" style="width: 100%">
             <el-table-column type="index" label="#"> </el-table-column>
             <el-table-column prop="date" label="日期" width="180"> </el-table-column>
             <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
@@ -933,59 +933,59 @@ export default {
         控制中心: [116.435, 39.925]
       }
       const l1 = {
-        主卧: [116.409, 39.928]
+        报告厅: [116.409, 39.928]
       }
       const l2 = {
-        书房控制: [116.428, 39.939]
+        办公室控制: [116.428, 39.939]
       }
 
       const l3 = {
         卫生间控制: [116.448, 39.939]
       }
       const l4 = {
-        客厅控制: [116.426, 39.918]
+        大厅控制: [116.426, 39.918]
       }
       const l5 = {
-        次卧控制: [116.448, 39.92]
+        控制室控制: [116.448, 39.92]
       }
       const l6 = {
         楼梯控制: [116.443, 39.911]
       }
       const l7 = {
-        厨房控制: [116.448, 39.905]
+        资料室控制: [116.448, 39.905]
       }
       const zhuwo = {
-        主卧控制: [116.409, 39.928]
+        报告厅控制: [116.409, 39.928]
       }
 
       // geoCoordMap把所有可能出现的传感器加到数组里面
       const geoCoordMap = {
-        客厅1: [116.41, 39.9036],
-        客厅2: [116.43, 39.918],
-        主卧1: [116.409, 39.921],
-        主卧2: [116.409, 39.935],
-        书房: [116.432, 39.939],
+        大厅1: [116.41, 39.9036],
+        大厅2: [116.43, 39.918],
+        报告厅1: [116.409, 39.921],
+        报告厅2: [116.409, 39.935],
+        办公室: [116.432, 39.939],
         卫生间: [116.4516, 39.939],
-        客厅3: [116.4516, 39.9306],
-        次卧: [116.4516, 39.92],
+        大厅3: [116.4516, 39.9306],
+        控制室: [116.4516, 39.92],
         楼梯: [116.447, 39.911],
-        厨房: [116.4516, 39.905]
+        资料室: [116.4516, 39.905]
       }
       const geoCoordMap001 = {
-        客厅1: [116.41, 39.9036],
-        客厅2: [116.43, 39.918],
-        主卧1: [116.409, 39.921],
-        主卧2: [116.409, 39.935]
+        大厅1: [116.41, 39.9036],
+        大厅2: [116.43, 39.918],
+        报告厅1: [116.409, 39.921],
+        报告厅2: [116.409, 39.935]
       }
       const geoCoordMap002 = {
-        书房: [116.432, 39.939],
+        办公室: [116.432, 39.939],
         卫生间: [116.4516, 39.939],
-        客厅3: [116.4516, 39.9306]
+        大厅3: [116.4516, 39.9306]
       }
       const geoCoordMap003 = {
-        次卧: [116.4516, 39.92],
+        控制室: [116.4516, 39.92],
         楼梯: [116.447, 39.911],
-        厨房: [116.4516, 39.905]
+        资料室: [116.4516, 39.905]
       }
       const geoCoordMap004 = {
         基站1: [116.415, 39.915],
@@ -994,16 +994,16 @@ export default {
       }
       // 温度
       const d1 = {
-        客厅1: 20,
-        客厅2: 25,
-        主卧1: 17,
-        主卧2: 19,
-        书房: 13,
+        大厅1: 20,
+        大厅2: 25,
+        报告厅1: 17,
+        报告厅2: 19,
+        办公室: 13,
         卫生间: 22,
-        客厅3: 11,
-        次卧: 9,
+        大厅3: 11,
+        控制室: 9,
         楼梯: 29,
-        厨房: 38,
+        资料室: 38,
         基站1: 40,
         基站2: 45,
         基站3: 37
@@ -1011,82 +1011,82 @@ export default {
 
       // 湿度
       const d2 = {
-        客厅1: 40,
-        客厅2: 45,
-        主卧1: 37,
-        主卧2: 39,
-        书房: 23,
+        大厅1: 40,
+        大厅2: 45,
+        报告厅1: 37,
+        报告厅2: 39,
+        办公室: 23,
         卫生间: 80,
-        客厅3: 56,
-        次卧: 39,
+        大厅3: 56,
+        控制室: 39,
         楼梯: 29,
-        厨房: 68
+        资料室: 68
       }
       // 振动
       const d3 = {
-        // "客厅1": 4,
-        客厅2: 5,
-        // '主卧1': 3,
-        主卧2: 3,
-        书房: 2,
+        // "大厅1": 4,
+        大厅2: 5,
+        // '报告厅1': 3,
+        报告厅2: 3,
+        办公室: 2,
         卫生间: 0,
-        客厅3: 0,
-        次卧: 3,
+        大厅3: 0,
+        控制室: 3,
         楼梯: 2,
-        厨房: 0
+        资料室: 0
       }
       // 烟雾
       const d4 = {
-        客厅1: 40,
-        客厅2: 45,
-        主卧1: 37,
-        主卧2: 39,
-        书房: 53,
+        大厅1: 40,
+        大厅2: 45,
+        报告厅1: 37,
+        报告厅2: 39,
+        办公室: 53,
         卫生间: 60,
-        客厅3: 56,
-        次卧: 39,
+        大厅3: 56,
+        控制室: 39,
         楼梯: 29,
-        厨房: 68
+        资料室: 68
       }
       // 光线
       const d5 = {
-        客厅1: 40,
-        客厅2: 45,
-        主卧1: 37,
-        主卧2: 39,
-        书房: 23,
+        大厅1: 40,
+        大厅2: 45,
+        报告厅1: 37,
+        报告厅2: 39,
+        办公室: 23,
         卫生间: 80,
-        客厅3: 56,
-        次卧: 39,
+        大厅3: 56,
+        控制室: 39,
         楼梯: 29,
-        厨房: 68
+        资料室: 68
       }
       //
       // var d6 = {
-      //   "客厅1": 40,
-      //     "客厅2": 45,
-      //     '主卧1': 37,
-      //     "主卧2": 39,
-      //     '书房': 23,
+      //   "大厅1": 40,
+      //     "大厅2": 45,
+      //     '报告厅1': 37,
+      //     "报告厅2": 39,
+      //     '办公室': 23,
       //     "卫生间": 80,
-      //     "客厅3": 56,
-      //     '次卧': 39,
+      //     "大厅3": 56,
+      //     '控制室': 39,
       //     "楼梯": 29,
-      //     "厨房": 68,
+      //     "资料室": 68,
 
       // };
       //
       // var d7 = {
-      //     "客厅1": 40,
-      //     "客厅2": 45,
-      //     '主卧1': 37,
-      //     "主卧2": 39,
-      //     '书房': 23,
+      //     "大厅1": 40,
+      //     "大厅2": 45,
+      //     '报告厅1': 37,
+      //     "报告厅2": 39,
+      //     '办公室': 23,
       //     "卫生间": 80,
-      //     "客厅3": 56,
-      //     '次卧': 39,
+      //     "大厅3": 56,
+      //     '控制室': 39,
       //     "楼梯": 29,
-      //     "厨房": 68,
+      //     "资料室": 68,
       // };
 
       const database = [
@@ -1109,13 +1109,13 @@ export default {
       ]
       const da1 = [
         {
-          name: '主卧',
+          name: '报告厅',
           value: 0
         }
       ]
       const da2 = [
         {
-          name: '书房控制',
+          name: '办公室控制',
           value: 0
         }
       ]
@@ -1127,13 +1127,13 @@ export default {
       ]
       const da4 = [
         {
-          name: '客厅控制',
+          name: '大厅控制',
           value: 0
         }
       ]
       const da5 = [
         {
-          name: '次卧控制',
+          name: '控制室控制',
           value: 0
         }
       ]
@@ -1145,7 +1145,7 @@ export default {
       ]
       const da7 = [
         {
-          name: '厨房控制',
+          name: '资料室控制',
           value: 0
         }
       ]
@@ -1269,25 +1269,25 @@ export default {
         datamax[i] = 0
         datamin[i] = 1000
         for (let j = 0; j < mapData[i].length; j++) {
-          if (mapData[i][j].name === '主卧1') {
+          if (mapData[i][j].name === '报告厅1') {
             tian[i][0] = mapData[i][j].value
-          } else if (mapData[i][j].name === '主卧2') {
+          } else if (mapData[i][j].name === '报告厅2') {
             tian[i][1] = mapData[i][j].value
-          } else if (mapData[i][j].name === '书房') {
+          } else if (mapData[i][j].name === '办公室') {
             tian[i][2] = mapData[i][j].value
           } else if (mapData[i][j].name === '卫生间') {
             tian[i][3] = mapData[i][j].value
-          } else if (mapData[i][j].name === '客厅1') {
+          } else if (mapData[i][j].name === '大厅1') {
             tian[i][4] = mapData[i][j].value
-          } else if (mapData[i][j].name === '客厅2') {
+          } else if (mapData[i][j].name === '大厅2') {
             tian[i][5] = mapData[i][j].value
-          } else if (mapData[i][j].name === '客厅3') {
+          } else if (mapData[i][j].name === '大厅3') {
             tian[i][6] = mapData[i][j].value
-          } else if (mapData[i][j].name === '次卧') {
+          } else if (mapData[i][j].name === '控制室') {
             tian[i][7] = mapData[i][j].value
           } else if (mapData[i][j].name === '楼梯') {
             tian[i][8] = mapData[i][j].value
-          } else if (mapData[i][j].name === '厨房') {
+          } else if (mapData[i][j].name === '资料室') {
             tian[i][9] = mapData[i][j].value
           }
 
@@ -1354,7 +1354,7 @@ export default {
             .slice(0, 6)
         )
       ]
-      // 主卧控制开关legend
+      // 报告厅控制开关legend
       const c1 = function (da1) {
         const res = []
         for (let i = 0; i < da1.length; i++) {
@@ -1379,7 +1379,7 @@ export default {
             .slice(0, 6)
         )
       ]
-      // 书房控制开关legend
+      // 办公室控制开关legend
       const c2 = function (da2) {
         const res = []
         for (let i = 0; i < da2.length; i++) {
@@ -1430,7 +1430,7 @@ export default {
             .slice(0, 6)
         )
       ]
-      // 客厅控制开关legend
+      // 大厅控制开关legend
       const c4 = function (da4) {
         const res = []
         for (let i = 0; i < da4.length; i++) {
@@ -1455,7 +1455,7 @@ export default {
             .slice(0, 6)
         )
       ]
-      // 次卧控制开关legend
+      // 控制室控制开关legend
       const c5 = function (da5) {
         const res = []
         for (let i = 0; i < da5.length; i++) {
@@ -1505,7 +1505,7 @@ export default {
             .slice(0, 6)
         )
       ]
-      // 厨房控制开关legend
+      // 资料室控制开关legend
       const c7 = function (da7) {
         const res = []
         for (let i = 0; i < da7.length; i++) {
@@ -1703,35 +1703,35 @@ export default {
 
               data: [
                 {
-                  name: '主卧'
+                  name: '报告厅'
                 },
                 {
-                  name: '书房控制'
+                  name: '办公室控制'
                 },
                 {
                   name: '卫生间控制'
                 },
                 {
-                  name: '客厅控制'
+                  name: '大厅控制'
                 },
                 {
-                  name: '次卧控制'
+                  name: '控制室控制'
                 },
 
                 {
                   name: '楼梯控制'
                 },
                 {
-                  name: '厨房控制'
+                  name: '资料室控制'
                 }
               ],
               selected: {
-                主卧: false,
-                书房控制: false,
-                客厅控制: false,
-                次卧控制: false,
+                报告厅: false,
+                办公室控制: false,
+                大厅控制: false,
+                控制室控制: false,
                 楼梯控制: false,
-                厨房控制: false,
+                资料室控制: false,
                 卫生间控制: false
                 // '': false
               },
@@ -2139,7 +2139,7 @@ export default {
               zlevel: 1
             },
             {
-              name: '主卧',
+              name: '报告厅',
               type: 'effectScatter',
               coordinateSystem: 'geo',
               data: c1(
@@ -2184,7 +2184,7 @@ export default {
               zlevel: 1
             },
             {
-              name: '书房控制',
+              name: '办公室控制',
               type: 'effectScatter',
               coordinateSystem: 'geo',
               data: c2(
@@ -2274,7 +2274,7 @@ export default {
               zlevel: 1
             },
             {
-              name: '客厅控制',
+              name: '大厅控制',
               type: 'effectScatter',
               coordinateSystem: 'geo',
               data: c4(
@@ -2319,7 +2319,7 @@ export default {
               zlevel: 1
             },
             {
-              name: '次卧控制',
+              name: '控制室控制',
               type: 'effectScatter',
               coordinateSystem: 'geo',
               data: c5(
@@ -2409,7 +2409,7 @@ export default {
               zlevel: 1
             },
             {
-              name: '厨房控制',
+              name: '资料室控制',
               type: 'effectScatter',
               coordinateSystem: 'geo',
               data: c7(
@@ -2797,7 +2797,7 @@ export default {
 
 <style lang="less" scoped>
 .fire {
-  position: relative;
+  // position: relative;
   width: 100%;
   height: 100%;
 }

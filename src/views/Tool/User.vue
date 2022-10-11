@@ -19,7 +19,7 @@
             <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
           </div>
           <!-- 表格 -->
-          <el-table stripe max-height="655" :data="userList" border style="width: 100%">
+          <el-table stripe max-height="655" :data="userList" style="width: 100%">
             <el-table-column type="index" label="#"> </el-table-column>
             <el-table-column prop="username" label="用户" width="180"> </el-table-column>
             <el-table-column prop="email" label="邮箱" width="180"> </el-table-column>

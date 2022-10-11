@@ -45,7 +45,9 @@ import {
   ColorPicker,
   TimeSelect,
   Timeline,
-  TimelineItem
+  TimelineItem,
+  Tabs,
+  TabPane
 } from 'element-ui'
 
 Vue.use(Button)
@@ -90,6 +92,8 @@ Vue.use(ColorPicker)
 Vue.use(TimeSelect)
 Vue.use(Timeline)
 Vue.use(TimelineItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(tooltip)
 // Vue.use(Message)
 

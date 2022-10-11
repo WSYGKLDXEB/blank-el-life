@@ -2,7 +2,7 @@
   <!-- 窗口操作按钮 -->
   <div class="controlWindow between notDrag">
     <i class="el-icon-minus" @click="toMin"></i>
-    <i class="el-icon-top-right" @click="toExpand"></i>
+    <i :class="isFullScreen ? 'el-icon-bottom-left' : 'el-icon-top-right'" @click="toExpand"></i>
     <i class="el-icon-close" @click="toClose"></i>
   </div>
 </template>
@@ -14,17 +14,23 @@ export default {
   name: 'BlankElLifeControlWindow',
 
   data() {
-    return {}
+    return {
+      isFullScreen: false
+    }
   },
 
-  mounted() {},
+  mounted() {
+    ipcRenderer.on('isFullScreen', (e, bel) => {
+      this.isFullScreen = !bel
+    })
+  },
 
   methods: {
     toMin() {
       ipcRenderer.send('min-app')
     },
     toExpand() {
-      ipcRenderer.send('expand-app')
+      ipcRenderer.send('fullScreen-app')
     },
     toClose() {
       ipcRenderer.send('close-app')
@@ -39,7 +45,7 @@ export default {
   top: 0;
   right: 0;
   font-size: 16px;
-  z-index: 9999;
+  z-index: 99;
   width: 100px;
   height: 30px;
   line-height: 30px;
