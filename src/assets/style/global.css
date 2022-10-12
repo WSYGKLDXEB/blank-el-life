@@ -91,10 +91,10 @@ iframe {
   background: transparent;
   border-color: transparent;
 }
-.el-tabs__nav {
+.nav.el-tabs .el-tabs__nav {
   margin-left: 8px;
 }
-.el-tabs__active-bar {
+.nav.el-tabs .el-tabs__active-bar {
   bottom: 4px;
   padding: 0 4px;
   margin-left: -8px;
@@ -103,23 +103,54 @@ iframe {
   border-radius: 0.15rem;
   background: rgba(1, 53, 79) !important;
 }
-.el-tabs__nav {
+.nav.el-tabs .el-tabs__nav {
   height: 0.4rem !important;
 }
-.el-tabs__item {
+.nav.el-tabs .el-tabs__item {
   vertical-align: top;
   height: 0.4rem !important;
   line-height: 0.4rem !important;
   z-index: 2;
 }
-.el-tabs__item.is-active {
+.nav.el-tabs .el-tabs__item.is-active {
   color: #ddd !important;
 }
-.el-tabs__nav-wrap::after {
+.nav.el-tabs .el-tabs__nav-wrap::after {
   display: none;
 }
-.el-tabs__content {
+.nav.el-tabs .el-tabs__content {
   height: calc(100% - 15px - 0.4rem);
+}
+.card.el-tabs .el-tabs__nav {
+  margin-left: 0 !important;
+}
+.card.el-tabs .el-tabs__active-bar {
+  width: 2px !important;
+  padding: 0 !important;
+  left: auto !important;
+  right: 0 !important;
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255) !important;
+}
+.card.el-tabs .el-tabs__nav {
+  height: 0.4rem !important;
+}
+.card.el-tabs .el-tabs__item {
+  vertical-align: top;
+  height: 0.4rem !important;
+  line-height: 0.4rem !important;
+  z-index: 2;
+  color: aliceblue !important;
+}
+.card.el-tabs .el-tabs__item.is-active {
+  color: #6cecff !important;
+}
+.card.el-tabs .el-tabs__nav-wrap::after {
+  display: block !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+.card.el-tabs .el-tabs__content {
+  height: 100% !important;
 }
 .el-tab-pane,
 .el-tabs {
@@ -269,10 +300,31 @@ iframe {
   color: aliceblue;
   text-align: center;
   line-height: 0.3rem;
+  margin-left: -10%;
   height: 0.3rem;
   padding-bottom: 0.16rem;
   margin-bottom: 0.14rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.card .body {
+  width: 100%;
+  height: calc(100% - 0.6rem);
+}
+.textHidden {
+  display: -webkit-box;
+  /* 将对象作为弹性伸缩盒子模型显示 */
+  -webkit-box-orient: vertical;
+  /* 设置伸缩盒对象的子元素的排列方式为垂直的 */
+  -webkit-line-clamp: 3;
+  /* 限制在一个块元素显示的文本的行数 */
+  overflow: hidden;
+}
+.textHidden-single {
+  overflow: hidden;
+  white-space: nowrap;
+  /* 文本不会换行 */
+  text-overflow: ellipsis;
+  /* 显示省略符号来代表被修剪的文本 */
 }
 .drag {
   -webkit-app-region: drag;

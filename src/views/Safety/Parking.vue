@@ -2,26 +2,55 @@
   <div class="parking">
     <!-- 表格显示框按钮 -->
     <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据表格</el-button>
-    <el-row :gutter="16">
-      <!-- 左侧列表 -->
-      <el-col :span="19" class="between column">
-        <div class="flex_lt card" ref="income"></div>
-        <!-- 出入记录 -->
-        <div class="card flex_lb" ref="record"></div>
-      </el-col>
-      <!-- 右侧图表 -->
-      <el-col :span="5" class="chartBox between column">
-        <div class="box card">
-          <div v-for="item in iconArr" :key="item.number">
-            <img :src="item.url" alt="" srcset="" />
-            <span>{{ item.title }}</span>
-            <p class="text">{{ item.number }}</p>
-          </div>
-        </div>
-        <div class="card" ref="payWay"></div>
-        <div class="card" ref="model"></div>
-      </el-col>
-    </el-row>
+    <el-tabs class="nav" v-model="activeName">
+      <el-tab-pane label="实时数据" name="timeData">
+        <el-row :gutter="16">
+          <!-- 左侧列表 -->
+          <el-col :span="19" class="between column">
+            <div class="flex_lt card" ref="income"></div>
+            <!-- 出入记录 -->
+            <div class="card flex_lb" ref="record"></div>
+          </el-col>
+          <!-- 右侧图表 -->
+          <el-col :span="5" class="chartBox between column">
+            <div class="box card">
+              <div v-for="item in iconArr" :key="item.number">
+                <img :src="item.url" alt="" srcset="" />
+                <span>{{ item.title }}</span>
+                <p class="text">{{ item.number }}</p>
+              </div>
+            </div>
+            <div class="card" ref="payWay"></div>
+            <div class="card" ref="model"></div>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+      <el-tab-pane label="配置管理" name="second">
+        <el-row :gutter="16">
+          <!-- 左侧列表 -->
+          <el-col :span="19">
+            <el-tabs class="card" tab-position="left">
+              <el-tab-pane label="出入监控" class="monitoring">
+                <el-row :gutter="16" class="r1">
+                  <el-col :span="19"> </el-col>
+                  <el-col :span="5" class=""> </el-col>
+                </el-row>
+                <el-row :gutter="16" class="r2">
+                  <el-col :span="19"> </el-col>
+                  <el-col :span="5"> </el-col>
+                </el-row>
+              </el-tab-pane>
+              <el-tab-pane label="基础配置">基础配置</el-tab-pane>
+              <el-tab-pane label="报警配置">报警配置</el-tab-pane>
+              <el-tab-pane label="系统配置">系统配置</el-tab-pane>
+            </el-tabs>
+          </el-col>
+          <el-col :span="5">
+            <tree-list isFilter></tree-list>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+    </el-tabs>
 
     <!-- 表格展示框 -->
     <el-dialog class="tableBox" center fullscreen title="数据查询" :visible.sync="isFormDialog" width="80%">
@@ -37,7 +66,10 @@
             <el-input style="width: 200px; margin: 0 10px" size="small" placeholder="请输入内容" v-model="inputValue" class="input-with-select" @keyup.enter.native="search"> </el-input>
             <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
           </div>
-          <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+          <div v-if="tableData.length !== 0">
+            <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="showAddDialog">导出</el-button>
+          </div>
         </div>
         <!-- 表格 -->
         <template v-if="tableData.length !== 0">
@@ -158,7 +190,9 @@ export default {
       // 当前选中项ID,
       tableId: 0,
       // 是否为编辑状态
-      isEditState: true
+      isEditState: true,
+      // 当前所处页面
+      activeName: 'timeData'
     }
   },
 

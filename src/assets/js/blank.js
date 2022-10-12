@@ -188,6 +188,33 @@ export function numberRun(DOM, initNum = 0, targetNum = 1000, speed = 10) {
   numberGlobal()
 }
 
+// 内容滚动
+export const autoRoll = (dom, speed = 80) => {
+  let nowScroll = dom.scrollTop
+  // console.log(dom.scrollTop, dom.clientHeight, dom.scrollHeight)
+  let timer = setInterval(function () {
+    nowScroll += 1 // 当前代表元素的滚动条位置的变量   开始减
+    if (dom.scrollTop + dom.clientHeight >= dom.scrollHeight) {
+      nowScroll = 0
+    }
+    dom.scrollTo(0, nowScroll)
+    // console.log(dom.scrollTop, dom.clientHeight, dom.scrollHeight)
+  }, speed)
+  // 事件
+  dom.onmouseover = () => {
+    clearInterval(timer)
+  }
+  dom.onmouseout = () => {
+    timer = setInterval(function () {
+      nowScroll += 1 // 当前代表元素的滚动条位置的变量   开始减
+      if (dom.scrollTop + dom.clientHeight >= dom.scrollHeight) {
+        nowScroll = 0
+      }
+      dom.scrollTo(0, nowScroll)
+      // console.log(dom.scrollTop, dom.clientHeight, dom.scrollHeight)
+    }, 100)
+  }
+}
 // 向子页面发送消息
 export const sendSonInfo = (father, info) => father.contentWindow.postMessage(info, '*')
 

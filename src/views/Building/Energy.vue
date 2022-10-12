@@ -1522,7 +1522,7 @@ export default {
 
 <style lang="less" scoped>
 .energy {
-  position: relative;
+  // position: relative;
   width: 100%;
   height: 100%;
 }

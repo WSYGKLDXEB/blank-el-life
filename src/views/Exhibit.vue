@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import { CurrentDate, CreateChart, grid, color, colorArr, textColor, hex2Rgba, PrefixInteger } from '@/assets/js/blank'
+import { CurrentDate, CreateChart, grid, color, colorArr, textColor, hex2Rgba, PrefixInteger, autoRoll } from '@/assets/js/blank'
 import { ipcRenderer } from 'electron'
 import ControlWindow from '@/components/ControlWindow.vue'
 import bg from '@/assets/image/bg1.png'
@@ -218,33 +218,6 @@ export default {
     next() {
       console.log('sf')
     },
-    // 自动滚动
-    autoRoll(dom) {
-      let nowScroll = dom.scrollTop
-      console.log(dom.scrollTop, dom.clientHeight, dom.scrollHeight)
-      let timer = setInterval(function () {
-        nowScroll += 1 // 当前代表元素的滚动条位置的变量   开始减
-        if (dom.scrollTop + dom.clientHeight >= dom.scrollHeight) {
-          nowScroll = 0
-        }
-        dom.scrollTo(0, nowScroll)
-        // console.log(dom.scrollTop, dom.clientHeight, dom.scrollHeight)
-      }, 80)
-      // 事件
-      dom.onmouseover = () => {
-        clearInterval(timer)
-      }
-      dom.onmouseout = () => {
-        timer = setInterval(function () {
-          nowScroll += 1 // 当前代表元素的滚动条位置的变量   开始减
-          if (dom.scrollTop + dom.clientHeight >= dom.scrollHeight) {
-            nowScroll = 0
-          }
-          dom.scrollTo(0, nowScroll)
-          // console.log(dom.scrollTop, dom.clientHeight, dom.scrollHeight)
-        }, 100)
-      }
-    },
     getParkData() {
       const types = ['车型一', '车型二', '车型三', '车型四', '车型五']
       for (let i = 0; i < 30; i++) {
@@ -256,7 +229,7 @@ export default {
         }
         this.parkData.push(obj)
       }
-      this.autoRoll(this.$refs.tableList)
+      autoRoll(this.$refs.tableList)
     },
     getInfo() {
       const arr = ['进入', '出去']

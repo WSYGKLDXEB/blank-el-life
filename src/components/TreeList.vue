@@ -333,8 +333,18 @@ export default {
 // .el-tree {
 //   margin-left: 14px;
 // }
+
+/deep/.el-tree-node.is-focusable:hover {
+  // background-color: rgba(40, 87, 112) !important;
+}
+/deep/.el-tree-node:focus > .el-tree-node__content {
+  background-color: rgba(40, 87, 112) !important;
+}
 /deep/.el-tree-node__content {
   height: 22px !important;
+  &:hover {
+    background-color: rgba(40, 87, 112, 0.6) !important;
+  }
 }
 // 溢出隐藏
 // .el-tree-node>.el-tree-node__children{

@@ -3,31 +3,123 @@
     <!-- 表格显示框按钮 -->
     <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">通行记录</el-button>
     <!--导航 -->
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" class="nav">
       <el-tab-pane label="实时数据" name="timeData">
         <el-row :gutter="16">
           <!-- 左侧列表 -->
-          <el-col :span="19">
+          <el-col :span="18">
             <div class="card" ref="inOut" style="height: 100%"></div>
           </el-col>
           <!-- 右侧图表 -->
-          <el-col :span="5" class="chartBox">
-            <el-card>
-              <div ref="water" style="height: 100%"></div>
-            </el-card>
-            <el-card>
+          <el-col :span="6" class="chartBox">
+            <div class="card" ref="state"></div>
+            <div class="card">
+              <div class="title">
+                <span>出入记录</span>
+              </div>
+              <div class="body access hidden" ref="access">
+                <div class="accessItem between" v-for="(item, i) in accessRecord" :key="i">
+                  <img src="~@/assets/image/chartImg.png" alt="" />
+                  <div class="between">
+                    <div class="info between column">
+                      <span>XXXX</span>
+                      <p>XXXXXXXXXXXXXXXXXXX</p>
+                    </div>
+                    <div class="time">10:15</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <el-card>
               <div ref="type" style="height: 100%"></div>
             </el-card>
             <el-card>
               <div ref="state" style="height: 100%"></div>
-            </el-card>
+            </el-card> -->
           </el-col>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane label="门禁管理" name="configure">
+      <el-tab-pane label="配置管理" name="second">
         <el-row :gutter="16">
           <!-- 左侧列表 -->
-          <el-col :span="19"> </el-col>
+          <el-col :span="19">
+            <el-tabs class="card" tab-position="left">
+              <el-tab-pane label="门禁监控" class="monitoring">
+                <el-row :gutter="16" class="r1">
+                  <el-col :span="19">
+                    <video ref="curMonitor" controls src="@/assets/video/cs.mp4" loop="loop" autoplay="autoplay" muted="muted"></video>
+                  </el-col>
+                  <el-col :span="5" class="operate">
+                    <div class="op_time">
+                      <div class="time_box">
+                        <h1>{{ time }}</h1>
+                        <div>
+                          <span>{{ week }}</span>
+                          <p>{{ years }}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="op_header">
+                      <div class="header_box">
+                        <h4>设备：<span>门禁</span></h4>
+                        <p>摄像头信息，摄像头信息，摄像头信息</p>
+                      </div>
+                    </div>
+                    <div class="op_body">
+                      <div class="body_box">
+                        <div class="direction">
+                          <span class="el-icon-caret-left"></span>
+                          <span class="el-icon-caret-top"></span>
+                          <span class="el-icon-caret-right"></span>
+                          <span class="el-icon-caret-bottom"></span>
+                        </div>
+                        <div class="focal">
+                          <el-slider v-model="focalValue"> </el-slider>
+                        </div>
+                      </div>
+                    </div>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="16" class="r2">
+                  <el-col :span="19">
+                    <span class="titles">人脸抓拍</span>
+                    <div class="imgBox between">
+                      <img v-for="i in 10" :key="i" src="@/assets/image/chartImg.png" alt="" />
+                    </div>
+                    <div class="peopleInfo">
+                      <div class="between">
+                        <span>姓名：XXX</span>
+                        <span>工号：XXXX-XXXX</span>
+                        <span>部门：XXXX-XXXX</span>
+                      </div>
+                      <div class="between">
+                        <span>门禁：XXX</span>
+                        <span>时间：XXXX-XXXX</span>
+                      </div>
+                    </div>
+                  </el-col>
+                  <el-col :span="5">
+                    <span class="titles">出入记录</span>
+                    <div class="access hidden" ref="access1">
+                      <div class="accessItem between" v-for="i in 20" :key="i">
+                        <img src="~@/assets/image/chartImg.png" alt="" />
+                        <div class="between">
+                          <div class="info between column textHidden-single">
+                            <span>XXXX</span>
+                            <p>XXXXXXXXXXXXXXXXXXX</p>
+                          </div>
+                          <div class="time">10:15</div>
+                        </div>
+                      </div>
+                    </div>
+                  </el-col>
+                </el-row>
+              </el-tab-pane>
+              <el-tab-pane label="基础配置">基础配置</el-tab-pane>
+              <el-tab-pane label="报警配置">报警配置</el-tab-pane>
+              <el-tab-pane label="系统配置">系统配置</el-tab-pane>
+            </el-tabs>
+          </el-col>
           <el-col :span="5">
             <tree-list isFilter></tree-list>
           </el-col>
@@ -123,7 +215,7 @@
 </template>
 
 <script>
-import { CreateChart, grid, color, colorArr, textColor } from '@/assets/js/blank'
+import { CreateChart, CurrentDate, grid, color, colorArr, textColor, autoRoll } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
 export default {
   name: 'BlankElLifeDoor',
@@ -190,15 +282,32 @@ export default {
       // 选择器
       searchValue: '',
       // 当前所处页面
-      activeName: 'timeData'
+      activeName: 'timeData',
+      // 出入记录
+      accessRecord: new Array(20),
+      time: '',
+      week: '',
+      years: '',
+      timeInterVal: null,
+      // 焦距
+      focalValue: 0
     }
   },
 
   mounted() {
-    this.waterChart()
-    this.typeChart()
+    autoRoll(this.$refs.access, 60)
+    autoRoll(this.$refs.access1, 50)
+    // this.waterChart()
+    // this.typeChart()
     this.stateChart()
     this.inOutChart()
+    this.timeInterVal = setInterval(() => {
+      const obj = CurrentDate()
+      // console.log(obj)
+      this.week = obj.week
+      this.years = obj.years
+      this.time = obj.time
+    }, 1000)
   },
 
   methods: {
@@ -260,6 +369,578 @@ export default {
     },
     close() {
       // this.$refs.formRef.resetFields()
+    },
+    // 门禁运行状态
+    stateChart() {
+      const myData = ['办公区', '设备区', '仓库区', '通行区']
+      // 全彩屏，双基色屏，简易屏，条形屏
+      const offLine = [
+        [20, 40, 60, 60],
+        [10, 30, 50, 20],
+        [50, 20, 40, 10],
+        [20, 10, 30, 40]
+      ]
+
+      const onLine = [
+        [10, 20, 20, 40],
+        [20, 10, 40, 30],
+        [30, 30, 30, 20],
+        [40, 40, 40, 10]
+      ]
+
+      const offLineSum = [100, 100, 180, 130]
+      const onLineSum = [100, 100, 130, 100]
+
+      // backgroundColor: '#11356D',
+      const option = {
+        backgroundColor: '',
+        title: [
+          {
+            text: '单位：个',
+            left: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          },
+          {
+            text: '设备运行状态',
+            right: '6px',
+            textStyle: {
+              color: '#9ec6d7',
+              fontSize: 10
+            }
+          }
+        ],
+        legend: [
+          {
+            // 图例
+            top: 0,
+            left: 'center', // 图例距离左侧距离(此处水平居中)
+            textStyle: {
+              // 图例文本样式
+              color: '#fff'
+            },
+            itemGap: 100,
+
+            selectedMode: false, // 图例点击失效
+            data: ['脱机状态', '联机状态']
+          },
+          {
+            // 图例
+            bottom: 0,
+            left: 'center', // 图例距离左侧距离(此处水平居中)
+            textStyle: {
+              // 图例文本样式
+              color: '#fff'
+            },
+            selectedMode: false, // 图例点击失效
+            // data: ['全彩屏', '双基色屏', '简易屏', '条形屏']
+            data: ['电磁锁', '电插锁', '基站锁', '电控锁']
+          }
+        ],
+        tooltip: {
+          // 提示框
+          show: true,
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器配置项。
+            type: 'shadow' // 'line' 直线指示器;'shadow' 阴影指示器.
+          },
+          // formatter: '{b}<br/>脱机: {c}' // 提示框所提示的文本内容
+          formatter: function (params) {
+            const fullScreenColor = '<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#F59A3F;"></span>' // 全彩屏颜色
+            const doubleScreenColor = '<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#F2C751;"></span>' // 双基色屏颜色
+            const simpleScreenColor = '<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#296FFB;"></span>' // 简易屏颜色
+            const lineScreenColor = '<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:#4AA5EA;"></span>' // 条形屏颜色
+            const fullScreen = params[0] // 全彩屏序列
+            const doubleScreen = params[1] // 双基色屏序列
+            const simpleScreen = params[2] // 简易屏屏序列
+            const lineScreen = params[3] // 条形屏屏序列
+            const bg = params[4] // 背景区分联机与脱机
+            const status = bg.seriesName === '联机状态' ? '<span style="display:inline-block;color:#2087FE;">联机</span>' : '<span style="display:inline-block;color:#DC3239;">脱机</span>'
+            return (
+              `${fullScreen.name}(${status})</br>` +
+              `${fullScreenColor}${fullScreen.seriesName}：${fullScreen.value}</br>` +
+              `${doubleScreenColor}${doubleScreen.seriesName}：${doubleScreen.value}</br>` +
+              `${simpleScreenColor}${simpleScreen.seriesName}：${simpleScreen.value}</br>` +
+              `${lineScreenColor}${lineScreen.seriesName}：${lineScreen.value}</br>`
+            )
+          }
+        },
+        grid: [
+          {
+            // 左边
+            show: false,
+            left: 0,
+            // right: 0,
+            top: 10,
+            bottom: 16,
+            containLabel: true,
+            width: '43%'
+          },
+          {
+            // 中间
+            show: false,
+            left: '55%',
+            top: 32,
+            bottom: 16,
+            width: '14%'
+          },
+          {
+            // 右边
+            show: false,
+            right: '2%',
+            top: 10,
+            bottom: 16,
+            containLabel: true,
+            width: '43%'
+          }
+        ],
+        // X轴线配置
+        xAxis: [
+          {
+            // 左侧区域
+            gridIndex: 0, // x 轴所在的 grid 的索引，默认位于第一个 grid。[ default: 0 ]
+            type: 'value', // 轴线类型: 数值轴
+            position: 'top', // 轴线位置(此处位于顶部)
+            inverse: true, // 是否是反向坐标轴.[ default: false ]
+            axisLine: {
+              show: false // 轴线不显示
+            },
+            axisTick: {
+              show: false // 轴线刻度不显示
+            },
+            axisLabel: {
+              // 轴线刻度标签
+              show: true, // 显示刻度标签
+              textStyle: {
+                // 标签样式
+                color: '#153D7D64',
+                fontSize: 12
+              }
+            },
+            splitLine: {
+              // 垂直于X轴的分隔线
+              show: true, // 显示分隔线
+              lineStyle: {
+                // 分隔线样式
+                color: '#153D7D64',
+                width: 1,
+                type: 'solid'
+              }
+            }
+            // 强制设置坐标轴分割间隔
+            // interval: 50,
+            // min: 0, // 最小值
+            // max: 200 // 最大值
+          },
+          {
+            // 中间区域
+            gridIndex: 1,
+            show: false // 中间部分不显示X轴
+          },
+          {
+            // 右侧区域
+            gridIndex: 2,
+            type: 'value',
+            position: 'top',
+            inverse: false, // 是否是反向坐标轴.[ default: false ]
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#153D7D64',
+                fontSize: 12
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: '#153D7D64',
+                width: 1,
+                type: 'solid'
+              }
+            }
+            // 强制设置坐标轴分割间隔
+            // interval: 50,
+            // min: 0, // 最小值
+            // max: 200 // 最大值
+          }
+        ],
+        // Y轴线配置
+        yAxis: [
+          {
+            // 左侧区域
+            gridIndex: 0, // y 轴所在的 grid 的索引，默认位于第一个 grid。[ default: 0 ]
+            type: 'category', // 轴线类型: 类目轴
+            // 类目轴中 boundaryGap 可以配置为 true 和 false。默认为 true，这时候刻度只是作为分隔线，标签和数据点都会在两个刻度之间的带(band)中间。
+            boundaryGap: true, // 坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样。
+            inverse: true, // 是否是反向坐标轴.[ default: false ]
+            position: 'right', // y轴的位置。'left' or 'right'
+            axisLine: {
+              show: false // y轴线不显示
+            },
+            axisTick: {
+              show: false, // y轴线刻度不显示
+              lineStyle: {
+                // 刻度线样式
+                color: '#11356D'
+              }
+            },
+            axisLabel: {
+              show: false // 刻度标签不显示
+            },
+            data: myData // Y轴(这里是类目轴)的类目数据
+          },
+          {
+            gridIndex: 1, // 中间区域
+            type: 'category',
+            boundaryGap: true,
+            inverse: true,
+            position: 'left', // y轴的位置。'left' or 'right'
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              show: true, // 显示中间部分的Y轴刻度标签(中间的文字)
+              textStyle: {
+                // 标签样式
+                color: '#cccccc',
+                fontSize: 12
+              }
+            },
+            data: myData
+          },
+          {
+            // 右侧区域
+            gridIndex: 2,
+            type: 'category',
+            boundaryGap: true,
+            inverse: true,
+            position: 'left',
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false,
+              lineStyle: {
+                // 刻度线样式
+                color: '#153D7D'
+              }
+            },
+            axisLabel: {
+              show: false
+            },
+            data: myData
+          }
+        ],
+        series: [
+          {
+            name: '电磁锁', // 系列名称
+            type: 'bar',
+            // barGap: 5, // 柱间距离
+            barWidth: 15, // 柱子宽度
+            xAxisIndex: 0, // 对应在X轴的grid索引
+            yAxisIndex: 0, // 对应在Y轴的grid索引
+            stack: '1', // 相同就是堆叠
+            // barGap:'-100%', //重叠
+            label: {
+              show: true,
+              position: 'top',
+              color: '#F59A3F',
+              fontSize: 10
+            },
+            itemStyle: {
+              // 柱条样式。
+              color: '#F59A3F'
+              // borderWidth:1,
+              // borderColor:'transparent'
+            },
+            emphasis: {
+              // 鼠标指向高亮
+              show: true,
+              label: {
+                color: '#F59A3F96' // 高亮状态下柱条颜色
+              },
+              itemStyle: {
+                color: '#F59A3F96' // 高亮状态下柱条颜色
+              }
+            },
+            data: offLine[0] // 系列中的数据内容数组
+          },
+          {
+            name: '电插锁', // 系列名称
+            type: 'bar',
+            barWidth: 15, // 柱子宽度
+            xAxisIndex: 0, // 对应在X轴的grid索引
+            yAxisIndex: 0, // 对应在Y轴的grid索引
+            stack: '1', // 相同就是堆叠
+            label: {
+              show: true,
+              position: 'top',
+              color: '#F2C751',
+              fontSize: 10
+            },
+            itemStyle: {
+              // 柱条样式。
+              color: '#F2C751'
+              // borderWidth:1,
+              // borderColor:'transparent'
+            },
+            emphasis: {
+              // 高亮
+              show: true,
+              label: {
+                color: '#F2C75196' // 高亮状态下柱条颜色
+              },
+              itemStyle: {
+                color: '#F2C75196' // 高亮状态下柱条颜色
+              }
+            },
+            data: offLine[1] // 系列中的数据内容数组
+          },
+          {
+            name: '基站锁', // 系列名称
+            type: 'bar',
+            barWidth: 15, // 柱子宽度
+            xAxisIndex: 0, // 对应在X轴的grid索引
+            yAxisIndex: 0, // 对应在Y轴的grid索引
+            stack: '1', // 相同就是堆叠
+            label: {
+              show: true,
+              position: 'top',
+              color: '#296FFB',
+              fontSize: 10
+            },
+            itemStyle: {
+              // 柱条样式。
+              color: '#296FFB'
+              // borderWidth:1,
+              // borderColor:'transparent'
+            },
+            emphasis: {
+              // 高亮
+              show: true,
+              label: {
+                color: '#296FFB96' // 高亮状态下柱条颜色
+              },
+              itemStyle: {
+                color: '#296FFB96' // 高亮状态下柱条颜色
+              }
+            },
+            data: offLine[2] // 系列中的数据内容数组
+          },
+          {
+            name: '电控锁', // 系列名称
+            type: 'bar',
+            barWidth: 15, // 柱子宽度
+            xAxisIndex: 0, // 对应在X轴的grid索引
+            yAxisIndex: 0, // 对应在Y轴的grid索引
+            stack: '1', // 相同就是堆叠
+            label: {
+              show: true,
+              position: 'top',
+              color: '#4AA5EA',
+              fontSize: 10
+            },
+            itemStyle: {
+              // 柱条样式。
+              color: '#4AA5EA'
+              // borderWidth:1,
+              // borderColor:'transparent'
+            },
+            emphasis: {
+              // 高亮
+              show: true,
+              label: {
+                color: '#4AA5EA96' // 高亮状态下柱条颜色
+              },
+              itemStyle: {
+                color: '#4AA5EA96' // 高亮状态下柱条颜色
+              }
+            },
+            data: offLine[3] // 系列中的数据内容数组
+          },
+          // 脱机背景
+          {
+            name: '脱机状态', // 系列名称
+            type: 'bar',
+            // barGap: 5, // 柱间距离
+            barWidth: 21, // 柱子宽度
+            xAxisIndex: 0, // 对应在X轴的grid索引
+            yAxisIndex: 0, // 对应在Y轴的grid索引
+            // stack: '1', // 相同就是堆叠
+            barGap: '-120%', // 重叠
+            itemStyle: {
+              // 柱条样式。
+              // color: '#DC3239',
+              color: 'transparent',
+              borderWidth: 1,
+              borderColor: '#DC3239',
+              shadowColor: '#DC3239',
+              shadowBlur: 20
+            },
+            emphasis: {
+              scale: false
+            },
+            data: offLineSum // 系列中的数据内容数组
+          },
+
+          {
+            name: '电磁锁', // 系列名称
+            type: 'bar',
+            barWidth: 15, // 柱子宽度
+            xAxisIndex: 2, // 对应在X轴的grid索引
+            yAxisIndex: 2, // 对应在Y轴的grid索引
+            stack: '2', // 相同就是堆叠
+            label: {
+              show: true,
+              position: 'top',
+              color: '#F59A3F',
+              fontSize: 10
+            },
+            itemStyle: {
+              // 柱条样式。
+              color: '#F59A3F'
+              // borderWidth:1,
+              // borderColor:'transparent'
+            },
+            emphasis: {
+              // 鼠标指向高亮
+              show: true,
+              label: {
+                color: '#F59A3F96' // 高亮状态下柱条颜色
+              },
+              itemStyle: {
+                color: '#F59A3F96' // 高亮状态下柱条颜色
+              }
+            },
+            data: onLine[0] // 系列中的数据内容数组
+          },
+          {
+            name: '电插锁', // 系列名称
+            type: 'bar',
+            barWidth: 15, // 柱子宽度
+            xAxisIndex: 2, // 对应在X轴的grid索引
+            yAxisIndex: 2, // 对应在Y轴的grid索引
+            stack: '2', // 相同就是堆叠
+            label: {
+              show: true,
+              position: 'top',
+              color: '#F2C751',
+              fontSize: 10
+            },
+            itemStyle: {
+              // 柱条样式。
+              color: '#F2C751'
+              // borderWidth:1,
+              // borderColor:'transparent'
+            },
+            emphasis: {
+              // 高亮
+              show: true,
+              label: {
+                color: '#F2C75196' // 高亮状态下柱条颜色
+              },
+              itemStyle: {
+                color: '#F2C75196' // 高亮状态下柱条颜色
+              }
+            },
+            data: onLine[1] // 系列中的数据内容数组
+          },
+          {
+            name: '基站锁', // 系列名称
+            type: 'bar',
+            barWidth: 15, // 柱子宽度
+            xAxisIndex: 2, // 对应在X轴的grid索引
+            yAxisIndex: 2, // 对应在Y轴的grid索引
+            stack: '2', // 相同就是堆叠
+            label: {
+              show: true,
+              position: 'top',
+              color: '#296FFB',
+              fontSize: 10
+            },
+            itemStyle: {
+              // 柱条样式。
+              color: '#296FFB'
+              // borderWidth:1,
+              // borderColor:'transparent'
+            },
+            emphasis: {
+              // 高亮
+              show: true,
+              label: {
+                color: '#296FFB96' // 高亮状态下柱条颜色
+              },
+              itemStyle: {
+                color: '#296FFB96' // 高亮状态下柱条颜色
+              }
+            },
+            data: onLine[2] // 系列中的数据内容数组
+          },
+          {
+            name: '电控锁', // 系列名称
+            type: 'bar',
+            barWidth: 15, // 柱子宽度
+            xAxisIndex: 2, // 对应在X轴的grid索引
+            yAxisIndex: 2, // 对应在Y轴的grid索引
+            stack: '2', // 相同就是堆叠
+            label: {
+              show: true,
+              position: 'top',
+              color: '#4AA5EA',
+              fontSize: 10
+            },
+            itemStyle: {
+              // 柱条样式。
+              color: '#4AA5EA'
+              // borderWidth:1,
+              // borderColor:'transparent'
+            },
+            emphasis: {
+              // 高亮
+              show: true,
+              label: {
+                color: '#4AA5EA96' // 高亮状态下柱条颜色
+              },
+              itemStyle: {
+                color: '#4AA5EA96' // 高亮状态下柱条颜色
+              }
+            },
+            data: onLine[3] // 系列中的数据内容数组
+          },
+          // 联机背景
+          {
+            name: '联机状态', // 系列名称
+            type: 'bar',
+            // barGap: 5, // 柱间距离
+            barWidth: 21, // 柱子宽度
+            xAxisIndex: 2, // 对应在X轴的grid索引
+            yAxisIndex: 2, // 对应在Y轴的grid索引
+            // stack: '2', // 相同就是堆叠
+            barGap: '-120%', // 重叠
+            itemStyle: {
+              // 柱条样式。
+              // color: '#2087FE',
+              color: 'transparent',
+              borderWidth: 1,
+              borderColor: '#2087FE'
+            },
+            data: onLineSum // 系列中的数据内容数组
+          }
+        ]
+      }
+      CreateChart(this.$refs.state, option)
     },
     waterChart() {
       const value = 0.53
@@ -1048,7 +1729,7 @@ export default {
 
       CreateChart(this.$refs.type, option)
     },
-    stateChart() {
+    stateChart1() {
       const data = []
       const dataCount = 10
       const startTime = +new Date()
@@ -1917,23 +2598,306 @@ export default {
     height: 93%;
   }
 }
+// 门禁管理
+// 门禁监控
+.monitoring {
+  .titles {
+    margin: 0.15rem 0;
+    font-size: 0.2rem;
+    color: #6cecff;
+    display: block;
+    height: 0.2rem;
+    line-height: 0.2rem;
+    font-weight: 600;
+  }
+  video {
+    width: 100%;
+    border-radius: 6px;
+  }
+  img {
+    height: 1.2rem;
+    width: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      transform: translateY(1px) scale(1.01);
+    }
+  }
+  .imgBox {
+    // width: 8.45rem;
+    // width: 100%;
+    height: 1.3rem;
+    overflow-y: hidden;
+    padding-bottom: 0.1rem;
+  }
+  .access {
+    height: calc(100% - 0.5rem);
+  }
+  .r1 {
+    height: 6rem;
+  }
+  .r2 {
+    box-sizing: border-box;
+    // margin-top: 2%;
+    height: calc(100% - 6rem);
+    .peopleInfo {
+      // height: calc(100% - 2rem);
+      margin-top: 0.5rem;
+      font-size: 0.16rem;
+      color: aliceblue;
+    }
+  }
+}
+// 右侧操作
+.operate {
+  padding-left: 40px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  color: #bbb;
+  .op_time {
+    position: relative;
+    width: 95%;
+    height: 15%;
+    font-size: 0.2rem;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    // border: 1px dashed rgba(64, 158, 255, 0.8);
+    border: 1px dashed rgba(62, 101, 121, 0.8);
+    background: rgba(64, 158, 255, 0.1);
+    border-radius: 6px;
+    transition: all 0.3s;
+    .time_box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      transition: all 0.3s;
+
+      // background: rgba(185, 210, 240, 1);
+      background-color: rgba(40, 87, 112);
+      border-radius: 6px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+      & > div {
+        // color: rgba(64, 158, 255, 0.8);
+        color: #bbb;
+        margin-left: 6px;
+        font-size: 12px;
+      }
+      h1 {
+        // color: rgba(64, 158, 255, 0.6);
+        color: #aaa;
+        transition: all 0.3s;
+      }
+      p {
+        margin: 0;
+      }
+    }
+  }
+  .op_header {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 15px;
+    font-size: 0.16rem;
+    width: 95%;
+    height: 34%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    // border: 1px dashed rgba(64, 158, 255, 0.8);
+    border: 1px dashed rgba(62, 101, 121, 0.8);
+    background: rgba(64, 158, 255, 0.1);
+    border-radius: 6px;
+    transition: all 0.3s;
+    .header_box {
+      padding: 30px 10px 10px;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      transition: all 0.3s;
+      // background: rgba(185, 210, 240, 1);
+      background-color: rgba(40, 87, 112);
+      border-radius: 6px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    }
+  }
+  .op_body {
+    position: relative;
+    width: 95%;
+    height: 34%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    // border: 1px dashed rgba(64, 158, 255, 0.8);
+    border: 1px dashed rgba(62, 101, 121, 0.8);
+    background: rgba(64, 158, 255, 0.1);
+    border-radius: 6px;
+    transition: all 0.3s;
+    .body_box {
+      padding: 30px 10px 10px;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      transition: all 0.3s;
+      // background: rgba(185, 210, 240, 1);
+      background-color: rgba(40, 87, 112);
+      border-radius: 6px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+      p {
+        width: 100%;
+        text-align: left;
+        // background-image: -webkit-linear-gradient(270deg, #fff, rgba(185, 210, 240, 1));
+        // -webkit-background-clip: text;
+        // -webkit-text-fill-color: transparent;
+      }
+    }
+    .direction {
+      position: relative;
+      right: 50%;
+      transform: translateX(50%);
+      width: 86px;
+      height: 86px;
+      z-index: 98;
+      border-radius: 50%;
+      // background-color: rgba(150, 185, 220, 0.8);
+      background-color: rgba(14, 63, 88, 0.4);
+      box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+      span {
+        cursor: pointer;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        z-index: 99;
+        line-height: 20px;
+        text-align: center;
+        color: #aaa;
+        font-size: 20px;
+        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+        // background-color: rgba(150, 185, 220, 1);
+        background-color: rgba(14, 63, 88, 0.4);
+        // background-color: rgba(0, 0, 0, 0.1);
+      }
+      span:nth-of-type(1) {
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        &:active {
+          transform: translateY(-50%) translateX(-1px);
+        }
+      }
+      span:nth-of-type(2) {
+        left: 50%;
+        top: 8px;
+        transform: translateX(-50%);
+        &:active {
+          transform: translateX(-50%) translateY(-1px);
+        }
+      }
+      span:nth-of-type(3) {
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        &:active {
+          transform: translateY(-50%) translateX(1px);
+        }
+      }
+      span:nth-of-type(4) {
+        left: 50%;
+        bottom: 8px;
+        transform: translateX(-50%);
+        &:active {
+          transform: translateX(-50%) translateY(1px);
+        }
+      }
+    }
+    .focal {
+      position: relative;
+      padding-left: 15px;
+      padding-right: 10px;
+      width: 100%;
+      height: 30px;
+      border-radius: 6px;
+      box-sizing: border-box;
+      box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.3);
+      // background-color: rgba(150, 185, 220, 1);
+      background-color: rgba(14, 63, 88, 0.4);
+      .el-slider {
+        // position: absolute;
+        // top: 50%;
+        // left: 0;
+        // transform: translateY(-50%);
+      }
+      /deep/.el-slider__runway {
+        margin: 12px 0;
+      }
+      /deep/.el-slider__button {
+        width: 14px;
+        height: 14px;
+        border-color: rgba(1, 53, 79) !important;
+      }
+    }
+  }
+  /deep/.el-slider__button-wrapper .el-tooltip,
+  .el-slider__button-wrapper::after {
+    margin-top: 8px;
+    vertical-align: top !important;
+  }
+}
 // 右侧图表
 .chartBox {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
   height: 100%;
-  /deep/.el-card__body {
-    height: 100%;
+  & > div:nth-of-type(1) {
+    height: 28%;
   }
-  .el-card {
-    height: 34%;
-    &:nth-of-type(1) {
-      height: 28%;
-    }
-    & > div {
-      width: 100%;
-      height: 100%;
+  & > div:nth-of-type(2) {
+    height: 70%;
+  }
+}
+// 出入记录
+.accessItem {
+  height: 0.5rem;
+  width: 100%;
+  padding-bottom: 0.1rem;
+  margin-bottom: 0.1rem;
+  border-bottom: 1px solid rgba(30, 77, 102);
+  img {
+    height: 0.4rem;
+    width: 0.4rem;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  }
+  & > div {
+    height: 100%;
+    width: calc(95% - 0.4rem);
+    font-size: 0.16rem;
+    color: aliceblue;
+  }
+  .info {
+    width: 80%;
+    height: 100%;
+    align-items: flex-start !important;
+    p {
+      margin: 0 !important;
     }
   }
 }

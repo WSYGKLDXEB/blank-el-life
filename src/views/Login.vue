@@ -232,6 +232,8 @@ export default {
 }
 // 头部标签
 .header {
+  position: relative;
+  z-index: 9;
   width: 100%;
   height: 30px;
   // background-color: rgba(25, 182, 172, 0.6);

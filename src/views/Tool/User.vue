@@ -1,67 +1,66 @@
 <template>
   <div class="user">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>系统管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-    </el-breadcrumb>
+    <el-tabs v-model="activeName" class="nav">
+      <el-tab-pane label="用户管理" name="user">
+        <el-row :gutter="16">
+          <!-- 左侧数据 -->
+          <el-col :span="19">
+            <el-card class="box-card">
+              <div slot="header" class="clearfix">
+                <div>
+                  <el-input clearable size="small" placeholder="请输入用户名" v-model="searchValue" class="input-with-select" @keyup.enter.native="search" @clear="inputClear">
+                    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                  </el-input>
+                </div>
+                <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+              </div>
+              <!-- 表格 -->
+              <el-table stripe max-height="655" :data="userList" style="width: 100%">
+                <el-table-column type="index" label="#"> </el-table-column>
+                <el-table-column prop="username" label="用户" width="180"> </el-table-column>
+                <el-table-column prop="email" label="邮箱" width="180"> </el-table-column>
+                <el-table-column prop="mobile" label="电话"> </el-table-column>
+                <el-table-column prop="role_name" label="权限"> </el-table-column>
+                <el-table-column prop="mg_state" label="状态">
+                  <template slot-scope="scope">
+                    <el-switch v-model="scope.row.mg_state" active-color="#409eff" inactive-color="#dcdfe6"> </el-switch>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+                      <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope)"></el-button>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                      <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope)"></el-button>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="权限分配" placement="top">
+                      <el-button type="warning" size="mini" icon="el-icon-s-tools" @click="showAssignDialog(scope)"></el-button>
+                    </el-tooltip>
+                  </template>
+                </el-table-column>
+              </el-table>
 
-    <el-row :gutter="16">
-      <!-- 左侧数据 -->
-      <el-col :span="19">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <div>
-              <el-input clearable size="small" placeholder="请输入用户名" v-model="searchValue" class="input-with-select" @keyup.enter.native="search" @clear="inputClear">
-                <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
-              </el-input>
-            </div>
-            <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
-          </div>
-          <!-- 表格 -->
-          <el-table stripe max-height="655" :data="userList" style="width: 100%">
-            <el-table-column type="index" label="#"> </el-table-column>
-            <el-table-column prop="username" label="用户" width="180"> </el-table-column>
-            <el-table-column prop="email" label="邮箱" width="180"> </el-table-column>
-            <el-table-column prop="mobile" label="电话"> </el-table-column>
-            <el-table-column prop="role_name" label="权限"> </el-table-column>
-            <el-table-column prop="mg_state" label="状态">
-              <template slot-scope="scope">
-                <el-switch v-model="scope.row.mg_state" active-color="#409eff" inactive-color="#dcdfe6"> </el-switch>
-              </template>
-            </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-                  <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDialog(scope)"></el-button>
-                </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                  <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope)"></el-button>
-                </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="权限分配" placement="top">
-                  <el-button type="warning" size="mini" icon="el-icon-s-tools" @click="showAssignDialog(scope)"></el-button>
-                </el-tooltip>
-              </template>
-            </el-table-column>
-          </el-table>
-
-          <!-- 分页 -->
-          <el-pagination background :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400"> </el-pagination>
-        </el-card>
-      </el-col>
-      <!-- 右侧图表 -->
-      <el-col :span="5" class="chartBox">
-        <el-card>
-          <div ref="type" style="height: 100%"></div>
-        </el-card>
-        <el-card>
-          <div ref="number" style="height: 100%"></div>
-        </el-card>
-        <el-card>
-          <div ref="active" style="height: 100%"></div>
-        </el-card>
-      </el-col>
-    </el-row>
+              <!-- 分页 -->
+              <el-pagination background :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400"> </el-pagination>
+            </el-card>
+          </el-col>
+          <!-- 右侧图表 -->
+          <el-col :span="5" class="chartBox">
+            <el-card>
+              <div ref="type" style="height: 100%"></div>
+            </el-card>
+            <el-card>
+              <div ref="number" style="height: 100%"></div>
+            </el-card>
+            <el-card>
+              <div ref="active" style="height: 100%"></div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+      <el-tab-pane label="实时考勤" name="signIn">配置管理</el-tab-pane>
+    </el-tabs>
 
     <!-- 操作弹出框 -->
     <el-dialog center :title="isEditState ? '修改用户信息' : '添加用户'" :visible.sync="isDialog" :show-close="false" width="40%" @close="close">
@@ -180,7 +179,8 @@ export default {
       // 是否为编辑状态
       isEditState: true,
       userPerm,
-      selValue: ''
+      selValue: '',
+      activeName: 'user'
     }
   },
 
@@ -763,7 +763,7 @@ export default {
   align-items: center;
 }
 .el-row {
-  height: 96%;
+  height: 100%;
   .el-col {
     height: 100%;
   }
