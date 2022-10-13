@@ -91,6 +91,9 @@ iframe {
   background: transparent;
   border-color: transparent;
 }
+.el-descriptions {
+  color: aliceblue !important;
+}
 .nav.el-tabs .el-tabs__nav {
   margin-left: 8px;
 }

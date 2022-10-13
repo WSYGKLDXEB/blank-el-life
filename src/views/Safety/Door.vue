@@ -115,9 +115,112 @@
                   </el-col>
                 </el-row>
               </el-tab-pane>
-              <el-tab-pane label="基础配置">基础配置</el-tab-pane>
-              <el-tab-pane label="报警配置">报警配置</el-tab-pane>
-              <el-tab-pane label="系统配置">系统配置</el-tab-pane>
+              <el-tab-pane label="基础配置" class="basics">
+                <el-form :model="basicsForm" status-icon ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                  <el-form-item label="设备名称" prop="pass">
+                    <el-input size="mini" v-model="basicsForm.name" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="设备编码" prop="checkPass">
+                    <el-input size="mini" v-model="basicsForm.code" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="设备语言" prop="age">
+                    <el-select v-model="basicsForm.language" placeholder="请选择" size="mini">
+                      <el-option label="简体中文" value="zn"></el-option>
+                      <el-option label="繁体中文" value="tc"></el-option>
+                      <el-option label="英文" value="en"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="产品型号" prop="age">XXXX-XXX-XXX</el-form-item>
+                  <el-form-item label="序列号" prop="age">XXXXXXXXXXXXXXX</el-form-item>
+                  <el-form-item label="软件版本" prop="age">XXXXXXXXXXXXXXX</el-form-item>
+                  <el-form-item label="运行时间" prop="age">XXXX:XX:XX</el-form-item>
+                  <el-form-item>
+                    <el-button type="primary">保存</el-button>
+                  </el-form-item>
+                </el-form>
+              </el-tab-pane>
+              <el-tab-pane label="报警配置" class="alarm">
+                <el-card class="box-card" style="background: rgba(255, 255, 255, 0)">
+                  <div slot="header" class="clearfix">
+                    <div>
+                      <el-input clearable size="small" placeholder="输入信息查询" v-model="searchValue" class="input-with-select" @keyup.enter.native="search" @clear="inputClear">
+                        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                      </el-input>
+                    </div>
+                    <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddAlarmDialog">添加</el-button>
+                  </div>
+                  <!-- 表格 -->
+                  <el-table stripe max-height="655" :data="alarmConfig" style="width: 100%">
+                    <el-table-column type="index" label="#"> </el-table-column>
+                    <el-table-column prop="name" label="名称" width="120"> </el-table-column>
+                    <el-table-column prop="timeTemplate" label="时间模板" width="120"> </el-table-column>
+                    <el-table-column prop="voice" label="声音">
+                      <template slot-scope="scope">
+                        <el-switch v-model="scope.row.voice" active-color="#409eff" inactive-color="#dcdfe6"> </el-switch>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="state" label="状态">
+                      <template slot-scope="scope">
+                        <el-switch v-model="scope.row.state" active-color="#409eff" inactive-color="#dcdfe6"> </el-switch>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="content" label="内容"> </el-table-column>
+                    <el-table-column prop="describe" label="描述"> </el-table-column>
+                    <el-table-column label="操作" width="180">
+                      <template slot-scope="scope">
+                        <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+                          <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditAlarmDialog(scope)"></el-button>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                          <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope, 'alarmConfig')"></el-button>
+                        </el-tooltip>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                  <!-- 分页 -->
+                  <el-pagination background :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+                  </el-pagination>
+                </el-card>
+              </el-tab-pane>
+              <el-tab-pane label="门卡管理">
+                <el-card class="box-card" style="background: rgba(255, 255, 255, 0)">
+                  <div slot="header" class="clearfix">
+                    <div>
+                      <el-input clearable size="small" placeholder="输入信息查询" v-model="searchValue" class="input-with-select" @keyup.enter.native="search" @clear="inputClear">
+                        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                      </el-input>
+                    </div>
+                    <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddAlarmDialog">添加</el-button>
+                  </div>
+                  <!-- 表格 -->
+                  <el-table stripe max-height="655" :data="doorCard" style="width: 100%">
+                    <el-table-column type="index" label="#"> </el-table-column>
+                    <el-table-column prop="name" label="姓名"> </el-table-column>
+                    <el-table-column prop="position" label="职位"> </el-table-column>
+                    <el-table-column prop="tel" label="电话"> </el-table-column>
+                    <el-table-column prop="email" label="邮箱"> </el-table-column>
+                    <el-table-column prop="state" label="状态">
+                      <template>
+                        <el-tag size="mini">激活</el-tag>
+                      </template>
+                    </el-table-column>
+                    <el-table-column label="操作" width="180">
+                      <template slot-scope="scope">
+                        <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+                          <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditAlarmDialog(scope)"></el-button>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                          <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope, 'alarmConfig')"></el-button>
+                        </el-tooltip>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                  <!-- 分页 -->
+                  <el-pagination background :current-page="currentPage" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+                  </el-pagination>
+                </el-card>
+              </el-tab-pane>
+              <!-- <el-tab-pane label="权限管理">权限管理</el-tab-pane> -->
             </el-tabs>
           </el-col>
           <el-col :span="5">
@@ -127,6 +230,35 @@
       </el-tab-pane>
     </el-tabs>
 
+    <!-- 报警配置弹出框 -->
+    <el-dialog center :title="isEditState ? '编辑' : '添加'" :visible.sync="isAlarmDialog" :show-close="false" width="40%" @close="close">
+      <el-form ref="alarmForm" label-position="right" label-width="80px" :model="alarmForm">
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="alarmForm.name" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="时间模板" prop="timeTemplate">
+          <el-input v-model="alarmForm.timeTemplate" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="内容" prop="content">
+          <el-input v-model="alarmForm.content" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="描述" prop="describe">
+          <el-input v-model="alarmForm.describe" clearable></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="isAlarmDialog = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            () => {
+              isEditState ? editAlarm() : addAlarm()
+            }
+          "
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
     <!-- 编辑弹出框 -->
     <el-dialog center :title="isEditState ? '编辑' : '添加'" :visible.sync="isDialog" :show-close="false" width="40%" @close="close">
       <el-form ref="formRef" label-position="right" label-width="80px" :model="formData" :rules="formRules">
@@ -175,11 +307,14 @@
             <el-input style="width: 200px; margin: 0 10px" size="small" placeholder="请输入内容" v-model="searchValue" class="input-with-select" @keyup.enter.native="search"> </el-input>
             <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
           </div>
-          <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+          <div v-if="tableData.length !== 0">
+            <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="exportToExcel">导出</el-button>
+          </div>
         </div>
         <!-- 表格 -->
         <template v-if="tableData.length !== 0">
-          <el-table max-height="655" :data="tableData" style="width: 100%">
+          <el-table id="table" max-height="655" :data="tableData" style="width: 100%">
             <el-table-column type="index" label="#"> </el-table-column>
             <el-table-column prop="date" label="日期" width="180"> </el-table-column>
             <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
@@ -215,6 +350,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line camelcase
+import { export_el_table_to_excel } from '@/plugins/Export2Excel'
 import { CreateChart, CurrentDate, grid, color, colorArr, textColor, autoRoll } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
 export default {
@@ -268,6 +405,7 @@ export default {
       currentPage: 1,
       // 弹出框弹出与否
       isDialog: false,
+      isAlarmDialog: false,
       // 数据表格弹出与否
       isFormDialog: false,
       formData: {
@@ -290,7 +428,25 @@ export default {
       years: '',
       timeInterVal: null,
       // 焦距
-      focalValue: 0
+      focalValue: 0,
+      // 报警配置
+      alarmConfig: [],
+      alarmForm: {
+        name: '', // 名称
+        timeTemplate: '', // 时间模板
+        voice: false, // 是否开启声音警报
+        state: false, // 是否启用
+        content: '', // 内容
+        describe: '' // 描述
+      },
+      // 基础配置
+      basicsForm: {
+        name: 'XXXXXX',
+        code: 'x',
+        language: 'zn'
+      },
+      // 门卡管理
+      doorCard: []
     }
   },
 
@@ -301,6 +457,8 @@ export default {
     // this.typeChart()
     this.stateChart()
     this.inOutChart()
+    this.getAlarmConfig()
+    this.getDoorCard()
     this.timeInterVal = setInterval(() => {
       const obj = CurrentDate()
       // console.log(obj)
@@ -311,6 +469,17 @@ export default {
   },
 
   methods: {
+    exportToExcel() {
+      // 提供一个简单的测试数据，测试时注意要把上面数据注释掉
+      const header = ['姓名', '年龄']
+      const data = [
+        ['tom', 12],
+        ['jerry', 13]
+      ]
+      // export_json_to_excel(header, data, '测试内容')
+      // export_table_to_excel('#table')
+      export_el_table_to_excel('#table', '通行记录', true)
+    },
     // 查询
     search() {
       if (!this.datePickerValue && !this.searchValue) {
@@ -354,7 +523,7 @@ export default {
       })
     },
     // 删除
-    async del(item) {
+    async del(item, obj = 'tableData') {
       const isDel = await this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -363,13 +532,79 @@ export default {
       // console.log(isDel)
       // console.log(item)
       if (isDel === 'confirm') {
-        this.tableData.splice(item.$index, 1)
+        this[obj].splice(item.$index, 1)
         return this.$message.success('删除成功！')
       }
     },
     close() {
       // this.$refs.formRef.resetFields()
     },
+    // -----------------------门卡管理-------------------------
+    getDoorCard() {
+      const obj = {
+        name: 'XXXX', // 姓名
+        position: 'XXXX', // 职位
+        tel: 123456789, // 电话
+        email: '123456@qq.com', // 邮箱
+        state: 1 // 是否启用 1:激活 2:冻结 3:注销
+      }
+      for (let i = 0; i < 10; i++) {
+        this.doorCard.push(obj)
+      }
+    },
+    // -----------------------报警配置-------------------------
+    getAlarmConfig() {
+      const obj = {
+        name: 'XXXX-XXXX', // 名称
+        timeTemplate: 'XXXXXXX', // 时间模板
+        voice: false, // 是否开启声音警报
+        state: true, // 是否启用
+        content: '内容', // 内容
+        describe: '描述' // 描述
+      }
+      for (let i = 0; i < 10; i++) {
+        this.alarmConfig.push(obj)
+      }
+    },
+    showAddAlarmDialog() {
+      this.isEditState = false
+      this.alarmForm = {
+        name: '', // 名称
+        timeTemplate: '', // 时间模板
+        // voice: false, // 是否开启声音警报
+        // state: true, // 是否启用
+        content: '', // 内容
+        describe: '' // 描述
+      }
+      this.isAlarmDialog = true
+    },
+    addAlarm() {
+      this.$refs.alarmForm.validate((valid) => {
+        if (!valid) return this.$message.error('输入框不能为空!')
+        this.alarmConfig.push(this.alarmForm)
+        this.isAlarmDialog = false
+        this.$message.success('添加成功！')
+      })
+    },
+    // 显示对话框
+    showEditAlarmDialog(item) {
+      this.isEditState = true
+      this.tableId = item.$index
+      this.isAlarmDialog = true
+      this.alarmForm = JSON.parse(JSON.stringify(item.row))
+      this.$refs.alarmForm.resetFields()
+    },
+    // 编辑
+    editAlarm() {
+      this.$refs.alarmForm.validate((valid) => {
+        if (!valid) return this.$message.error('输入框不能为空!')
+        this.alarmConfig[this.tableId] = this.alarmForm
+        console.log(this.alarmConfig)
+        this.isAlarmDialog = false
+        this.$message.success('编辑成功！')
+      })
+    },
+    // ---------------------------------------------------
     // 门禁运行状态
     stateChart() {
       const myData = ['办公区', '设备区', '仓库区', '通行区']
@@ -2599,6 +2834,29 @@ export default {
   }
 }
 // 门禁管理
+// 基础配置
+.basics {
+  box-sizing: border-box;
+  padding: 10px 20px;
+  color: aliceblue;
+  /deep/.el-form-item__label {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+  /deep/.el-input {
+    width: 200px;
+  }
+}
+// 报警配置
+.alarm {
+  /deep/.el-card .el-card__body {
+    height: 95% !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
 // 门禁监控
 .monitoring {
   .titles {

@@ -303,7 +303,7 @@ h1 {
   margin: 0;
   cursor: pointer;
   text-align: center;
-  background: url(https://img1.baidu.com/it/u=3333204891,3647541244&fm=253&fmt=auto&app=138&f=JPEG?w=641&h=300);
+  background: url('../assets/image/verification.jpg');
   background-size: cover;
   width: 122px;
   font-size: 32px;

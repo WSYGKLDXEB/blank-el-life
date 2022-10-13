@@ -68,12 +68,12 @@
           </div>
           <div v-if="tableData.length !== 0">
             <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
-            <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="showAddDialog">导出</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="exportToExcel">导出</el-button>
           </div>
         </div>
         <!-- 表格 -->
         <template v-if="tableData.length !== 0">
-          <el-table stripe max-height="655" :data="tableData" style="width: 100%">
+          <el-table id="table" stripe max-height="655" :data="tableData" style="width: 100%">
             <el-table-column type="index" label="#"> </el-table-column>
             <el-table-column prop="date" label="日期" width="180"> </el-table-column>
             <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
@@ -136,6 +136,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line camelcase
+import { export_json_to_excel, export_table_to_excel, export_el_table_to_excel } from '@/plugins/Export2Excel'
 import { CreateChart, color, grid, colorArr, textColor } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
 export default {
@@ -204,6 +206,17 @@ export default {
   },
 
   methods: {
+    exportToExcel() {
+      // 提供一个简单的测试数据，测试时注意要把上面数据注释掉
+      const header = ['姓名', '年龄']
+      const data = [
+        ['tom', 12],
+        ['jerry', 13]
+      ]
+      // export_json_to_excel(header, data, '测试内容')
+      // export_table_to_excel('#table')
+      export_el_table_to_excel('#table', '测试内容')
+    },
     // 查询
     search() {
       if (!this.selValue || !this.inputValue) {

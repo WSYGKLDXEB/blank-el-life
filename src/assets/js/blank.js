@@ -152,6 +152,7 @@ export const CurrentDate = () => {
   }
   return {
     time: `${h}:${PrefixInteger(m, 2)}:${PrefixInteger(s, 2)}`,
+    time1: `${h}-${PrefixInteger(m, 2)}-${PrefixInteger(s, 2)}`,
     years: `${yy}-${PrefixInteger(mm, 2)}-${PrefixInteger(dd, 2)}`,
     week,
     h,

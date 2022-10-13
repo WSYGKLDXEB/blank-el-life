@@ -1,7 +1,10 @@
 /* eslint-disable */
-require('script-loader!file-saver')
-require('script-loader!@/vendor/Blob')
-require('script-loader!xlsx/dist/xlsx.core.min')
+// require('script-loader!file-saver')
+// require('script-loader!@/vendor/Blob')
+// require('script-loader!xlsx/dist/xlsx.core.min')
+import { saveAs } from 'file-saver'
+import * as XLSX from 'xlsx'
+import { CurrentDate } from '@/assets/js/blank'
 function generateArray(table) {
   var out = []
   var rows = table.querySelectorAll('tr')
@@ -19,12 +22,7 @@ function generateArray(table) {
 
       //Skip ranges
       ranges.forEach(function (range) {
-        if (
-          R >= range.s.r &&
-          R <= range.e.r &&
-          outRow.length >= range.s.c &&
-          outRow.length <= range.e.c
-        ) {
+        if (R >= range.s.r && R <= range.e.r && outRow.length >= range.s.c && outRow.length <= range.e.c) {
           for (var i = 0; i <= range.e.c - range.s.c; ++i) outRow.push(null)
         }
       })
@@ -96,6 +94,24 @@ function s2ab(s) {
   return buf
 }
 
+// 用于element ui => <el-table>标签导出表格
+// XLSX.uitls.table_to_book( 放入的是table 的DOM 节点 ) ，sheetjs.xlsx 即为导出表格的名字，可修改！
+export function export_el_table_to_excel(id, defaultTitle, date = false) {
+  const wb = XLSX.utils.table_to_book(document.querySelector(id))
+  const wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+  let title = defaultTitle || '列表'
+  if (date) {
+    const { years, time1 } = CurrentDate()
+    title += years + '_' + time1
+  }
+  // console.log('导出xlsx', wb, wbout)
+  try {
+    saveAs(new Blob([wbout], { type: 'application/octet-stream' }), title + '.xlsx')
+  } catch (e) {
+    if (typeof console !== 'undefined') console.log(e, wbout)
+  }
+  return wbout
+}
 export function export_table_to_excel(id) {
   var theTable = document.getElementById(id)
   console.log('a')
@@ -124,10 +140,7 @@ export function export_table_to_excel(id) {
     type: 'binary'
   })
 
-  saveAs(
-    new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
-    'test.xlsx'
-  )
+  saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), 'test.xlsx')
 }
 
 function formatJson(jsonData) {
@@ -153,8 +166,54 @@ export function export_json_to_excel(th, jsonData, defaultTitle) {
     type: 'binary'
   })
   var title = defaultTitle || '列表'
-  saveAs(
-    new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
-    title + '.xlsx'
-  )
+  saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), title + '.xlsx')
+}
+
+// 进行一键导出多sheet页的表格。
+export function export2ExcelMultiSheet(th, jsonData, defaultTitle) {
+  var data = jsonData
+  //添加标题
+  // debugger
+  for (var i = 0; i < th.length; i++) {
+    data[i].unshift([th[i]])
+  }
+  //这里是定义sheet的名称 有几个sheet就加几个
+  var ws_name = ['Sheet1', 'Sheet2']
+
+  var wb = new Workbook(),
+    ws = []
+  //数据转换
+  for (var j = 0; j < th.length; j++) {
+    ws.push(sheet_from_array_of_arrays(data[j]))
+  }
+
+  /* add worksheet to workbook */
+  //生成多个sheet
+  for (var k = 0; k < th.length; k++) {
+    wb.SheetNames.push(ws_name[k])
+    wb.Sheets[ws_name[k]] = ws[k]
+  }
+
+  var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' })
+  var title = defaultTitle || '列表'
+  saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), title + '.xlsx')
+}
+
+// // 通过数据枚举的方法，把表头和data定义好，下面这些方法可以把表头的英文名数据转换为中文名
+export function th_en_to_cn(th, defaultTitle) {
+  // const th = {
+  //   日期: 'time',
+  //   手机号: 'mobile',
+  //   姓名: 'username'
+  // }
+  const header = Object.keys(th)
+  const data = res.rows.map((user) => {
+    const userArr = []
+    for (const key in th) {
+      const newKey = th[key]
+      userArr.push(user[newKey])
+    }
+    return userArr
+  })
+  export_json_to_excel(header, data, defaultTitle)
 }
