@@ -2,76 +2,130 @@
   <div class="video">
     <!-- 设备列表显示按钮 -->
     <el-button class="listBut" size="mini" type="primary" @click="isFormDialog = true">数据列表</el-button>
-    <!-- 头部轮播 -->
-    <el-row class="header" :gutter="16">
-      <el-col :span="19">
-        <el-card>
-          <div class="previewBox" ref="previewBox">
-            <!-- 用于遮挡右侧溢出 -->
-            <span v-show="isShow"></span>
-            <span></span>
-            <!-- 左右切换按钮 -->
-            <span class="el-icon-arrow-left" @click="previous" v-show="isPrevious"></span>
-            <span class="el-icon-arrow-right" @click="next" v-show="isNext"></span>
+    <el-tabs class="nav" v-model="activeName">
+      <el-tab-pane label="实时监控" name="realTime">
+        <!-- 头部轮播 -->
+        <el-row class="header" :gutter="16">
+          <el-col :span="19">
+            <el-card>
+              <div class="previewBox" ref="previewBox">
+                <!-- 用于遮挡右侧溢出 -->
+                <span v-show="isShow"></span>
+                <span></span>
+                <!-- 左右切换按钮 -->
+                <span class="el-icon-arrow-left" @click="previous" v-show="isPrevious"></span>
+                <span class="el-icon-arrow-right" @click="next" v-show="isNext"></span>
 
-            <div ref="videoBox" :style="{ left: offsetLeft + 'px' }">
-              <video ref="video" class="previewItem" v-for="(item, i) in videoArr" :key="i" data-v-12efe0b2="" :src="item" loop="loop" autoplay="autoplay" muted="muted" @click="enlarge(item)"></video>
+                <div ref="videoBox" :style="{ left: offsetLeft + 'px' }">
+                  <video
+                    ref="video"
+                    class="previewItem"
+                    v-for="(item, i) in videoArr"
+                    :key="i"
+                    data-v-12efe0b2=""
+                    :src="item"
+                    loop="loop"
+                    autoplay="autoplay"
+                    muted="muted"
+                    @click="enlarge(item)"
+                  ></video>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <!-- 图表 -->
+          <el-col :span="5">
+            <el-card class="state">
+              <div ref="state" style="height: 100%"></div>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row class="monitorBox" :gutter="16">
+          <el-col :span="19">
+            <div class="card">
+              <el-row>
+                <!-- 当前观看视频 -->
+                <el-col :span="19" class="watchWindow">
+                  <video ref="curMonitor" controls :src="curMonitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
+                </el-col>
+                <el-col :span="5" class="operate">
+                  <div class="op_time">
+                    <div class="time_box">
+                      <h1>{{ time }}</h1>
+                      <div>
+                        <span>{{ week }}</span>
+                        <p>{{ years }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="op_header">
+                    <div class="header_box">
+                      <h4>设备：<span>电梯出入口</span></h4>
+                      <p>摄像头信息，摄像头信息，摄像头信息</p>
+                    </div>
+                  </div>
+                  <div class="op_body">
+                    <div class="body_box">
+                      <div class="direction">
+                        <span class="el-icon-caret-left"></span>
+                        <span class="el-icon-caret-top"></span>
+                        <span class="el-icon-caret-right"></span>
+                        <span class="el-icon-caret-bottom"></span>
+                      </div>
+                      <div class="focal">
+                        <el-slider v-model="focalValue"> </el-slider>
+                      </div>
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
             </div>
-          </div>
-        </el-card>
-      </el-col>
-      <!-- 图表 -->
-      <el-col :span="5">
-        <el-card class="state">
-          <div ref="state" style="height: 100%"></div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row class="monitorBox" :gutter="16">
-      <el-col :span="19">
-        <div class="card">
-          <el-row>
-            <!-- 当前观看视频 -->
-            <el-col :span="19" class="watchWindow">
-              <video ref="curMonitor" controls :src="curMonitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
-            </el-col>
-            <el-col :span="5" class="operate">
-              <div class="op_time">
-                <div class="time_box">
-                  <h1>{{ time }}</h1>
-                  <div>
-                    <span>{{ week }}</span>
-                    <p>{{ years }}</p>
-                  </div>
-                </div>
-              </div>
-              <div class="op_header">
-                <div class="header_box">
-                  <h4>设备：<span>电梯出入口</span></h4>
-                  <p>摄像头信息，摄像头信息，摄像头信息</p>
-                </div>
-              </div>
-              <div class="op_body">
-                <div class="body_box">
-                  <div class="direction">
-                    <span class="el-icon-caret-left"></span>
-                    <span class="el-icon-caret-top"></span>
-                    <span class="el-icon-caret-right"></span>
-                    <span class="el-icon-caret-bottom"></span>
-                  </div>
-                  <div class="focal">
-                    <el-slider v-model="focalValue"> </el-slider>
-                  </div>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </el-col>
-      <el-col :span="5">
-        <tree-list isFilter></tree-list>
-      </el-col>
-    </el-row>
+          </el-col>
+          <el-col :span="5">
+            <tree-list isFilter></tree-list>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+      <el-tab-pane label="配置管理" name="second">
+        <el-row :gutter="16">
+          <!-- 左侧列表 -->
+          <el-col :span="19">
+            <el-tabs class="card" tab-position="left">
+              <el-tab-pane label="基础配置" class="basics">
+                <el-form :model="basicsForm" status-icon ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                  <el-form-item label="设备名称" prop="pass">
+                    <el-input size="mini" v-model="basicsForm.name" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="设备编码" prop="checkPass">
+                    <el-input size="mini" v-model="basicsForm.code" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="设备语言" prop="age">
+                    <el-select v-model="basicsForm.language" placeholder="请选择" size="mini">
+                      <el-option label="简体中文" value="zn"></el-option>
+                      <el-option label="繁体中文" value="tc"></el-option>
+                      <el-option label="英文" value="en"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="产品型号" prop="age">XXXX-XXX-XXX</el-form-item>
+                  <el-form-item label="序列号" prop="age">XXXXXXXXXXXXXXX</el-form-item>
+                  <el-form-item label="软件版本" prop="age">XXXXXXXXXXXXXXX</el-form-item>
+                  <el-form-item label="运行时间" prop="age">XXXX:XX:XX</el-form-item>
+                  <el-form-item>
+                    <el-button type="primary">保存</el-button>
+                  </el-form-item>
+                </el-form>
+              </el-tab-pane>
+              <el-tab-pane label="XX管理"></el-tab-pane>
+              <el-tab-pane label="XX管理"></el-tab-pane>
+              <el-tab-pane label="XX管理"></el-tab-pane>
+            </el-tabs>
+          </el-col>
+          <el-col :span="5">
+            <tree-list isFilter></tree-list>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+    </el-tabs>
 
     <!-- 操作弹出框 -->
     <el-dialog center :title="isEditState ? '编辑' : '添加'" :visible.sync="isDialog" :show-close="false" width="40%" @close="close">
@@ -123,13 +177,14 @@
                 </el-date-picker>
                 <el-button type="primary" size="mini" icon="el-icon-search" @click="search">查询</el-button>
               </div>
-              <div>
-                <el-button v-if="tableData.length !== 0" type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+              <div v-if="tableData.length !== 0">
+                <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
+                <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="exportToExcel('#table', '设备列表')">导出</el-button>
               </div>
             </div>
             <!-- 表格 -->
             <template v-if="tableData.length !== 0">
-              <el-table stripe max-height="455" :data="tableData" style="width: 100%">
+              <el-table id="table" stripe max-height="455" :data="tableData" style="width: 100%">
                 <el-table-column type="index" label="#"> </el-table-column>
                 <el-table-column prop="date" label="日期" width="180"> </el-table-column>
                 <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
@@ -183,6 +238,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line camelcase
+import { export_el_table_to_excel } from '@/plugins/Export2Excel'
 import { CreateChart, CurrentDate } from '@/assets/js/blank'
 import tableData from '@/assets/js/tableData'
 import monitorUrl from '@/assets/video/cs.mp4'
@@ -352,7 +409,14 @@ export default {
       time: '',
       week: '',
       years: '',
-      timeInterVal: null
+      timeInterVal: null,
+      activeName: 'realTime',
+      // 基础配置
+      basicsForm: {
+        name: 'XXXXXX',
+        code: 'x',
+        language: 'zn'
+      }
     }
   },
 
@@ -372,6 +436,17 @@ export default {
   },
 
   methods: {
+    exportToExcel(id, title) {
+      // 提供一个简单的测试数据，测试时注意要把上面数据注释掉
+      const header = ['姓名', '年龄']
+      const data = [
+        ['tom', 12],
+        ['jerry', 13]
+      ]
+      // export_json_to_excel(header, data, '测试内容')
+      // export_table_to_excel('#table')
+      export_el_table_to_excel(id, title, true)
+    },
     init() {
       const f = document.querySelectorAll('#iconBut>i')
       const s = document.querySelectorAll('#box>div')
@@ -929,6 +1004,19 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
+  }
+}
+// 配置管理
+// 基础配置
+.basics {
+  box-sizing: border-box;
+  padding: 10px 20px;
+  color: aliceblue;
+  /deep/.el-form-item__label {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+  /deep/.el-input {
+    width: 200px;
   }
 }
 // 预览

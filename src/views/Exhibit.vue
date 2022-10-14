@@ -73,9 +73,9 @@
           <!-- 左右切换按钮 -->
           <span class="el-icon-arrow-left arrow" @click.stop="previous"></span>
           <span class="el-icon-arrow-right arrow" @click.stop="next"></span>
-          <div class="videoToggle">
-            <div class="videoBox between hidden" ref="">
-              <video v-for="i in 6" :key="i" @click="$router.push('/video')" ref="curMonitor" :src="monitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
+          <div class="videoToggle hidden">
+            <div class="videoBox between" ref="videoBox">
+              <video ref="video" v-for="i in 6" :key="i" @click="$router.push('/video')" :src="monitorUrl" loop="loop" autoplay="autoplay" muted="muted"></video>
             </div>
           </div>
 
@@ -163,7 +163,8 @@ export default {
       ],
       time: '',
       week: '',
-      years: ''
+      years: '',
+      videoIndex: 0
     }
   },
 
@@ -212,11 +213,22 @@ export default {
     },
     // 上一个
     previous() {
-      console.log('s')
+      if (this.videoIndex === 0) return
+      const box = this.$refs.videoBox
+      const video = this.$refs.video[0]
+      this.videoIndex--
+      box.style.transform = ` translateX(-${video.scrollWidth * this.videoIndex + 5}px)`
     },
     // 下一个
     next() {
-      console.log('sf')
+      if (this.videoIndex === 2) {
+        return
+      }
+
+      const box = this.$refs.videoBox
+      const video = this.$refs.video[0]
+      this.videoIndex++
+      box.style.transform = ` translateX(-${video.scrollWidth * this.videoIndex + 5}px)`
     },
     getParkData() {
       const types = ['车型一', '车型二', '车型三', '车型四', '车型五']
@@ -1699,6 +1711,7 @@ export default {
 
         .videoBox {
           height: 100%;
+          transition: all 0.3s;
         }
         video {
           // padding: 0.05rem;

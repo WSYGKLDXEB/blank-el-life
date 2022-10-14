@@ -1,11 +1,5 @@
 <template>
   <div class="authorit">
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>系统管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-    </el-breadcrumb>
-
     <el-row :gutter="16">
       <el-col :span="19">
         <el-card class="box-card">
@@ -848,7 +842,7 @@ td {
   height: 100%;
 }
 .el-row {
-  height: 96%;
+  height: 100%;
   .el-col {
     height: 100%;
   }

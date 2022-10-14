@@ -30,19 +30,33 @@
           <!-- 左侧列表 -->
           <el-col :span="19">
             <el-tabs class="card" tab-position="left">
-              <el-tab-pane label="出入监控" class="monitoring">
-                <el-row :gutter="16" class="r1">
-                  <el-col :span="19"> </el-col>
-                  <el-col :span="5" class=""> </el-col>
-                </el-row>
-                <el-row :gutter="16" class="r2">
-                  <el-col :span="19"> </el-col>
-                  <el-col :span="5"> </el-col>
-                </el-row>
+              <el-tab-pane label="基础配置" class="basics">
+                <el-form :model="basicsForm" status-icon ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                  <el-form-item label="设备名称" prop="pass">
+                    <el-input size="mini" v-model="basicsForm.name" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="设备编码" prop="checkPass">
+                    <el-input size="mini" v-model="basicsForm.code" autocomplete="off"></el-input>
+                  </el-form-item>
+                  <el-form-item label="设备语言" prop="age">
+                    <el-select v-model="basicsForm.language" placeholder="请选择" size="mini">
+                      <el-option label="简体中文" value="zn"></el-option>
+                      <el-option label="繁体中文" value="tc"></el-option>
+                      <el-option label="英文" value="en"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="产品型号" prop="age">XXXX-XXX-XXX</el-form-item>
+                  <el-form-item label="序列号" prop="age">XXXXXXXXXXXXXXX</el-form-item>
+                  <el-form-item label="软件版本" prop="age">XXXXXXXXXXXXXXX</el-form-item>
+                  <el-form-item label="运行时间" prop="age">XXXX:XX:XX</el-form-item>
+                  <el-form-item>
+                    <el-button type="primary">保存</el-button>
+                  </el-form-item>
+                </el-form>
               </el-tab-pane>
-              <el-tab-pane label="基础配置">基础配置</el-tab-pane>
-              <el-tab-pane label="报警配置">报警配置</el-tab-pane>
-              <el-tab-pane label="系统配置">系统配置</el-tab-pane>
+              <el-tab-pane label="XX管理"></el-tab-pane>
+              <el-tab-pane label="XX管理"></el-tab-pane>
+              <el-tab-pane label="XX管理"></el-tab-pane>
             </el-tabs>
           </el-col>
           <el-col :span="5">
@@ -194,7 +208,13 @@ export default {
       // 是否为编辑状态
       isEditState: true,
       // 当前所处页面
-      activeName: 'timeData'
+      activeName: 'timeData',
+      // 基础配置
+      basicsForm: {
+        name: 'XXXXXX',
+        code: 'x',
+        language: 'zn'
+      }
     }
   },
 
@@ -1099,6 +1119,19 @@ export default {
   // position: relative;
   width: 100%;
   height: 100%;
+}
+// 配置管理
+// 基础配置
+.basics {
+  box-sizing: border-box;
+  padding: 10px 20px;
+  color: aliceblue;
+  /deep/.el-form-item__label {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+  /deep/.el-input {
+    width: 200px;
+  }
 }
 .leftBox {
   /deep/.el-card__body {

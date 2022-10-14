@@ -147,10 +147,13 @@
                         <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                       </el-input>
                     </div>
-                    <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddAlarmDialog">添加</el-button>
+                    <div class="between">
+                      <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddAlarmDialog">添加</el-button>
+                      <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="exportToExcel('#alarmTable', '报警预案')">导出</el-button>
+                    </div>
                   </div>
                   <!-- 表格 -->
-                  <el-table stripe max-height="655" :data="alarmConfig" style="width: 100%">
+                  <el-table id="alarmTable" stripe max-height="655" :data="alarmConfig" style="width: 100%">
                     <el-table-column type="index" label="#"> </el-table-column>
                     <el-table-column prop="name" label="名称" width="120"> </el-table-column>
                     <el-table-column prop="timeTemplate" label="时间模板" width="120"> </el-table-column>
@@ -190,10 +193,13 @@
                         <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                       </el-input>
                     </div>
-                    <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddAlarmDialog">添加</el-button>
+                    <div class="between">
+                      <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDoorDialog">添加</el-button>
+                      <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="exportToExcel('#doorTable', '门卡列表')">导出</el-button>
+                    </div>
                   </div>
                   <!-- 表格 -->
-                  <el-table stripe max-height="655" :data="doorCard" style="width: 100%">
+                  <el-table id="doorTable" stripe max-height="655" :data="doorCard" style="width: 100%">
                     <el-table-column type="index" label="#"> </el-table-column>
                     <el-table-column prop="name" label="姓名"> </el-table-column>
                     <el-table-column prop="position" label="职位"> </el-table-column>
@@ -207,10 +213,10 @@
                     <el-table-column label="操作" width="180">
                       <template slot-scope="scope">
                         <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-                          <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditAlarmDialog(scope)"></el-button>
+                          <el-button type="primary" size="mini" icon="el-icon-edit" @click="showEditDoorDialog(scope)"></el-button>
                         </el-tooltip>
                         <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                          <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope, 'alarmConfig')"></el-button>
+                          <el-button type="danger" size="mini" icon="el-icon-delete-solid" @click="del(scope, 'doorCard')"></el-button>
                         </el-tooltip>
                       </template>
                     </el-table-column>
@@ -253,6 +259,35 @@
           @click="
             () => {
               isEditState ? editAlarm() : addAlarm()
+            }
+          "
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+    <!-- 门卡管理 -->
+    <el-dialog center :title="isEditState ? '编辑' : '添加'" :visible.sync="isDoorDialog" :show-close="false" width="40%" @close="close">
+      <el-form ref="doorForm" label-position="right" label-width="80px" :model="doorForm">
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="doorForm.name" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="职务" prop="timeTemplate">
+          <el-input v-model="doorForm.position" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="电话" prop="content">
+          <el-input v-model="doorForm.tel" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="describe">
+          <el-input v-model="doorForm.email" clearable></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="isDoorDialog = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            () => {
+              isEditState ? editDoor() : addDoor()
             }
           "
           >确 定</el-button
@@ -309,7 +344,7 @@
           </div>
           <div v-if="tableData.length !== 0">
             <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
-            <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="exportToExcel">导出</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-data-analysis" @click="exportToExcel('#table', '通行记录')">导出</el-button>
           </div>
         </div>
         <!-- 表格 -->
@@ -406,6 +441,7 @@ export default {
       // 弹出框弹出与否
       isDialog: false,
       isAlarmDialog: false,
+      isDoorDialog: false,
       // 数据表格弹出与否
       isFormDialog: false,
       formData: {
@@ -446,7 +482,14 @@ export default {
         language: 'zn'
       },
       // 门卡管理
-      doorCard: []
+      doorCard: [],
+      doorForm: {
+        name: '', // 姓名
+        position: '', // 职位
+        tel: null, // 电话
+        email: '', // 邮箱
+        state: 1 // 是否启用 1:激活 2:冻结 3:注销
+      }
     }
   },
 
@@ -469,7 +512,7 @@ export default {
   },
 
   methods: {
-    exportToExcel() {
+    exportToExcel(id, title) {
       // 提供一个简单的测试数据，测试时注意要把上面数据注释掉
       const header = ['姓名', '年龄']
       const data = [
@@ -478,7 +521,7 @@ export default {
       ]
       // export_json_to_excel(header, data, '测试内容')
       // export_table_to_excel('#table')
-      export_el_table_to_excel('#table', '通行记录', true)
+      export_el_table_to_excel(id, title, true)
     },
     // 查询
     search() {
@@ -551,6 +594,43 @@ export default {
       for (let i = 0; i < 10; i++) {
         this.doorCard.push(obj)
       }
+    },
+    showAddDoorDialog() {
+      this.isEditState = false
+      this.doorForm = {
+        name: '', // 姓名
+        position: '', // 职位
+        tel: 0, // 电话
+        email: '', // 邮箱
+        state: 1 // 是否启用 1:激活 2:冻结 3:注销
+      }
+      this.isDoorDialog = true
+    },
+    addDoor() {
+      this.$refs.doorForm.validate((valid) => {
+        if (!valid) return this.$message.error('输入框不能为空!')
+        this.doorCard.push(this.doorForm)
+        this.isDoorDialog = false
+        this.$message.success('添加成功！')
+      })
+    },
+    // 显示对话框
+    showEditDoorDialog(item) {
+      this.isEditState = true
+      this.tableId = item.$index
+      this.isDoorDialog = true
+      this.doorForm = JSON.parse(JSON.stringify(item.row))
+      this.$refs.doorForm.resetFields()
+    },
+    // 编辑
+    editDoor() {
+      this.$refs.doorForm.validate((valid) => {
+        if (!valid) return this.$message.error('输入框不能为空!')
+        this.doorCard[this.tableId] = this.doorForm
+        // console.log(this.alarmConfig)
+        this.isDoorDialog = false
+        this.$message.success('编辑成功！')
+      })
     },
     // -----------------------报警配置-------------------------
     getAlarmConfig() {
